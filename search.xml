@@ -1,65 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>李文亮医生，再见</title>
-      <link href="/2020/02/07/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F%E5%86%8D%E8%A7%81/"/>
-      <url>/2020/02/07/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F%E5%86%8D%E8%A7%81/</url>
-      
-        <content type="html"><![CDATA[<h2 id="我走了-带着一张训诫书！"><a href="#我走了-带着一张训诫书！" class="headerlink" title="我走了,带着一张训诫书！"></a>我走了,带着一张训诫书！</h2><p>  <img src="LWL.jpg" alt="李文亮医生"><br>  天还没亮，我走了</p><p>  我走的时候，渡口很黑，无人相送，只有几朵雪花落在我的眼底。我一思念，它们便从我的眼眶滑落。</p><p>  黑夜真黑，黑的让我想不起万家灯火。我一生追求光，我自诩很明亮，但我拼尽全力，却什么都没点亮</p><p>  谢谢你们，昨夜冒着风雪来看我的人！谢谢你们整夜不眠，像守望亲人一样把我守望！可是脆弱人间，没有奇迹。</p><p>  我原本平凡而渺小，有一天我被上帝选中，托我将他的旨意转告苍生。</p><p>  我小心翼翼的说了，于是，有人劝我不要惊扰太平，他们说：你没看见满城繁华开得正艳吗！</p><p>  为了让全世界相信现世安稳，我只好守口如瓶，还用鲜红的指印保证 – 我说的话都是童话，带花冠的致命皇后从来不曾下凡作乱。</p><p>  就这样，天下继续熙熙攘攘，谁也不知道，巨大的悲伤即将把城门紧锁。</p><p>  后来，上帝大怒，山河失色，我也病了。再后来，我的家人都病了。我们就像千万片雪花一样，你一片，我一片，各自凋零。</p><p>  我曾以为，只待春江水暖，我和家人便能再度重相逢。到那时，我们就坐在鹅黄的油菜花田，把花儿一朵一朵的数，把日子一分一秒地过。</p><p>  等啊等啊，我只等来了昨夜小雪，上帝摸摸我的头，爱怜地说：乖，跟我走吧，人间不值得！</p><p>  我一听就泪如雨下，虽然人间苦寒，上帝温暖。但我怕过了奈何桥，偶尔回望吾乡，再也望不见一家老小。</p><p>  其实，我的风骨早就被拍死在一张保证书上。我继续阳光朗照地活着，歌颂生命，赞美松柏，那是因为我对这土地爱得深沉。而今，我的肉身也死了。</p><p>  在我成为一粒尘埃之前，我又静静地怀想了一遍故乡的黑土白云。多想回到小时候啊，风是尽情飞舞的，雪是洁白无瑕的。</p><p>  活着真好，可我死了。我再也无法抚摸亲人的脸庞，再也无法带孩子去看东湖春晓，再也无法陪父母去看武大的樱花，再也无法把风筝放到白云深处。</p><p>  我曾依稀梦见我尚未出世的孩子，他一出生就眼含热泪，在人潮人海中把我寻找。对不起，孩子！我知道你只想要一个平凡的父亲，而我却做了一个平民英雄。</p><p>  天快亮了，我要走了。带着一张保证书，那是我此生唯一的行囊。</p><p>  谢谢世间所有懂我怜我爱我的人，我知道你们都在黎明等候，等我越过山丘！可是，我太累了。</p><p>  此生，我不想重于泰山，也不怕轻于鸿毛。我唯一的心愿，就是希望冰雪消融之后，众生依然热爱大地，依然相信祖国。</p><p>  等到春雷滚滚，如果有人还想纪念我，请给我立一个小小的墓碑吧！不必伟岸，只须证明我曾来过这个世界，有名有姓，无知无畏。</p><p>  那么，我的墓志铭只需一句话：他为苍生说过话</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>设计模式</title>
-      <link href="/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-      <url>/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-      
-        <content type="html"><![CDATA[<ol><li><p>模版方法 Template</p><ul><li>动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求</li><li>定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林）</li><li>处理思路: 利用虚函数的多态性</li></ul></li><li><p>策略模式 Strategy</p><ul><li>动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担</li><li>定义：定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。策略模式使得算法可独立于使用它的客户程序而变化</li><li>处理方法： 利用多态性</li></ul></li><li><p>观察者模式 Observer/Event</p><ul><li>动机：软件构建过程中，我们需要为某些对象建立一种“通知依赖关系”，一个对象发生状态改变，所有依赖对象都将得到通知</li><li>定义：定义对象间一种一对多的依赖关系，以便一个对象的状态改变时，所有依赖于它的对象都得到通知和更新</li></ul></li><li><p>装饰模式 Decorator</p><ul><li>动机: 过度的使用继承来拓展对象的功能，由于继承为类型引入的静态特质，使得这种拓展方式缺乏灵活性，并且随着子类的增多，各种子类的组合会导致更多的子类膨胀</li><li>定义： 动态给一个对象增加额外的职责</li></ul></li><li><p>桥模式 Brige</p></li></ol>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> technology </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>test</title>
-      <link href="/2020/01/19/test/"/>
-      <url>/2020/01/19/test/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2020/01/19/hello-world/"/>
-      <url>/2020/01/19/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+<search>
+  <entry>
+    <title>李文亮医生，再见</title>
+    <url>/2020/02/07/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F%E5%86%8D%E8%A7%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="我走了-带着一张训诫书！"><a href="#我走了-带着一张训诫书！" class="headerlink" title="我走了,带着一张训诫书！"></a>我走了,带着一张训诫书！</h2><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=491833132&auto=1&height=66"></iframe>
+
+<p>  <img src="LWL.jpg" alt="李文亮医生"><br>  天还没亮，我走了</p>
+<p>  我走的时候，渡口很黑，无人相送，只有几朵雪花落在我的眼底。我一思念，它们便从我的眼眶滑落。</p>
+<p>  黑夜真黑，黑的让我想不起万家灯火。我一生追求光，我自诩很明亮，但我拼尽全力，却什么都没点亮</p>
+<p>  谢谢你们，昨夜冒着风雪来看我的人！谢谢你们整夜不眠，像守望亲人一样把我守望！可是脆弱人间，没有奇迹。</p>
+<p>  我原本平凡而渺小，有一天我被上帝选中，托我将他的旨意转告苍生。</p>
+<p>  我小心翼翼的说了，于是，有人劝我不要惊扰太平，他们说：你没看见满城繁华开得正艳吗！</p>
+<p>  为了让全世界相信现世安稳，我只好守口如瓶，还用鲜红的指印保证 – 我说的话都是童话，带花冠的致命皇后从来不曾下凡作乱。</p>
+<p>  就这样，天下继续熙熙攘攘，谁也不知道，巨大的悲伤即将把城门紧锁。</p>
+<p>  后来，上帝大怒，山河失色，我也病了。再后来，我的家人都病了。我们就像千万片雪花一样，你一片，我一片，各自凋零。</p>
+<p>  我曾以为，只待春江水暖，我和家人便能再度重相逢。到那时，我们就坐在鹅黄的油菜花田，把花儿一朵一朵的数，把日子一分一秒地过。</p>
+<p>  等啊等啊，我只等来了昨夜小雪，上帝摸摸我的头，爱怜地说：乖，跟我走吧，人间不值得！</p>
+<p>  我一听就泪如雨下，虽然人间苦寒，上帝温暖。但我怕过了奈何桥，偶尔回望吾乡，再也望不见一家老小。</p>
+<p>  其实，我的风骨早就被拍死在一张保证书上。我继续阳光朗照地活着，歌颂生命，赞美松柏，那是因为我对这土地爱得深沉。而今，我的肉身也死了。</p>
+<p>  在我成为一粒尘埃之前，我又静静地怀想了一遍故乡的黑土白云。多想回到小时候啊，风是尽情飞舞的，雪是洁白无瑕的。</p>
+<p>  活着真好，可我死了。我再也无法抚摸亲人的脸庞，再也无法带孩子去看东湖春晓，再也无法陪父母去看武大的樱花，再也无法把风筝放到白云深处。</p>
+<p>  我曾依稀梦见我尚未出世的孩子，他一出生就眼含热泪，在人潮人海中把我寻找。对不起，孩子！我知道你只想要一个平凡的父亲，而我却做了一个平民英雄。</p>
+<p>  天快亮了，我要走了。带着一张保证书，那是我此生唯一的行囊。</p>
+<p>  谢谢世间所有懂我怜我爱我的人，我知道你们都在黎明等候，等我越过山丘！可是，我太累了。</p>
+<p>  此生，我不想重于泰山，也不怕轻于鸿毛。我唯一的心愿，就是希望冰雪消融之后，众生依然热爱大地，依然相信祖国。</p>
+<p>  等到春雷滚滚，如果有人还想纪念我，请给我立一个小小的墓碑吧！不必伟岸，只须证明我曾来过这个世界，有名有姓，无知无畏。</p>
+<p>  那么，我的墓志铭只需一句话：他为苍生说过话</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>设计模式</title>
+    <url>/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<ol>
+<li><p>模版方法 Template</p>
+<ul>
+<li>动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求</li>
+<li>定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林）</li>
+<li>处理思路: 利用虚函数的多态性</li>
+</ul>
+</li>
+<li><p>策略模式 Strategy</p>
+<ul>
+<li>动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担</li>
+<li>定义：定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。策略模式使得算法可独立于使用它的客户程序而变化</li>
+<li>处理方法： 利用多态性</li>
+</ul>
+</li>
+<li><p>观察者模式 Observer/Event</p>
+<ul>
+<li>动机：软件构建过程中，我们需要为某些对象建立一种“通知依赖关系”，一个对象发生状态改变，所有依赖对象都将得到通知</li>
+<li>定义：定义对象间一种一对多的依赖关系，以便一个对象的状态改变时，所有依赖于它的对象都得到通知和更新</li>
+</ul>
+</li>
+<li><p>装饰模式 Decorator</p>
+<ul>
+<li>动机: 过度的使用继承来拓展对象的功能，由于继承为类型引入的静态特质，使得这种拓展方式缺乏灵活性，并且随着子类的增多，各种子类的组合会导致更多的子类膨胀</li>
+<li>定义： 动态给一个对象增加额外的职责</li>
+</ul>
+</li>
+<li><p>桥模式 Brige</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>technology</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2020/01/19/test/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/01/19/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
 </search>
