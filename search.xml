@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>疫情下的元宵节</title>
+    <url>/2020/02/09/%E7%96%AB%E6%83%85%E4%B8%8B%E7%9A%84%E5%85%83%E5%AE%B5%E8%8A%82/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p> 2020年正月十五-元宵节</p>
+<p> 今年春节非比寻常，在武汉瘟疫肆虐的情况下，每个人都被限制在了室内。出门都是口罩护身。往日的走街串巷，拜亲戚，聚会的习俗都被瘟疫压制了。</p>
+<p> 这是2020年正月16的疫情数据。<br> <img src="epidemic_data.jpeg" alt="患病人数"><br> <img src="epidemic_data_map.jpeg" alt="各省统计"><br> 总确诊人数将近4万了，很恐怖的数据了。<br> 湖北，广东，浙江都已经变黑了，河南今天也变黑了。</p>
+<p> <img src="we.jpeg" alt="我们"><br> 在这样的疫情下，我和他在一起过的元宵节，带着口罩背对着正月十五的月亮，在一起就很开心</p>
+]]></content>
+  </entry>
+  <entry>
     <title>二维码登陆原理</title>
     <url>/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="基本实现原理"><a href="#基本实现原理" class="headerlink" title="基本实现原理"></a>基本实现原理</h2><ol>
