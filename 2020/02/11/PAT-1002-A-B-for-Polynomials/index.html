@@ -101,13 +101,15 @@
 
 
 
+<meta name="description" content="题目1002 A+B for Polynomials思路将系数相同的项累加，累加后若该项为0则删除误区 项为0的不输出 按照系数大小逆向输出   源码#include &lt;iostream&gt; #include &lt;stdio.h&gt; #include &lt;map&gt; using namespace std; int main() {   map&lt;int, doubl">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test">
-<meta property="og:url" content="http://yoursite.com/2020/01/19/test/index.html">
+<meta property="og:title" content="PAT-1002_A+B_for_Polynomials">
+<meta property="og:url" content="http://yoursite.com/2020/02/11/PAT-1002-A-B-for-Polynomials/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="题目1002 A+B for Polynomials思路将系数相同的项累加，累加后若该项为0则删除误区 项为0的不输出 按照系数大小逆向输出   源码#include &lt;iostream&gt; #include &lt;stdio.h&gt; #include &lt;map&gt; using namespace std; int main() {   map&lt;int, doubl">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-19T07:22:04.000Z">
-<meta property="article:modified_time" content="2020-01-19T07:22:04.507Z">
+<meta property="article:published_time" content="2020-02-11T01:48:02.000Z">
+<meta property="article:modified_time" content="2020-02-11T02:50:51.791Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -138,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/01/19/test/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/02/11/PAT-1002-A-B-for-Polynomials/"/>
 
 
 
 
 
-  <title>test | Hexo</title>
+  <title>PAT-1002_A+B_for_Polynomials | Hexo</title>
   
 
 
@@ -331,7 +333,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/19/test/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/11/PAT-1002-A-B-for-Polynomials/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -348,7 +350,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">test</h1>
+          <h1 class="post-title" itemprop="name headline">PAT-1002_A+B_for_Polynomials</h1>
         
 
         <div class="post-meta">
@@ -360,8 +362,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-19T15:22:04+08:00">
-                2020-01-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-11T09:48:02+08:00">
+                2020-02-11
               </time>
             
 
@@ -392,7 +394,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  0
+                  171
                 </span>
               
 
@@ -429,7 +431,51 @@
       
 
       
-        
+        <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h2 id="1002-A-B-for-Polynomials"><a href="#1002-A-B-for-Polynomials" class="headerlink" title="1002 A+B for Polynomials"></a><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805526272000000" target="_blank" rel="noopener">1002 A+B for Polynomials</a></h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><h2 id="将系数相同的项累加，累加后若该项为0则删除"><a href="#将系数相同的项累加，累加后若该项为0则删除" class="headerlink" title="将系数相同的项累加，累加后若该项为0则删除"></a>将系数相同的项累加，累加后若该项为0则删除</h2><h4 id="误区"><a href="#误区" class="headerlink" title="误区"></a>误区</h4><ol>
+<li>项为0的不输出</li>
+<li>按照系数大小逆向输出</li>
+</ol>
+<hr>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;map&gt;
+using namespace std;
+int main()
+{
+  map&lt;int, double&gt; poly;
+  for(int poly_i = 0; poly_i &lt; 2; poly_i++)
+  {
+      int N;
+      cin &gt;&gt; N;
+
+      for(int i = 0; i &lt; N; i++)
+      {
+          int Ni;
+          double aN;
+          cin&gt;&gt; Ni &gt;&gt; aN;
+          if(poly.find(Ni) != poly.end())
+          {
+              poly[Ni] += aN;
+          }
+          else
+          {
+              poly[Ni] = aN;
+          }
+          if(poly[Ni] == 0)
+          {
+              poly.erase(Ni); // 删除项为0
+          }
+
+      }
+  }
+  cout&lt;&lt; poly.size();
+  map&lt;int, double&gt;::reverse_iterator rit;
+  for(rit = poly.rbegin(); rit != poly.rend(); rit++)
+  {
+      printf(&quot; %d %.1f&quot;, rit-&gt;first, rit-&gt;second); //保留1位小数
+  }
+  return 0;
+}</code></pre>
       
     </div>
     
@@ -453,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/01/19/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2020/02/10/tf-keras%E5%92%8Ckeras/" rel="next" title="tf-keras和keras">
+                <i class="fa fa-chevron-left"></i> tf-keras和keras
               </a>
             
           </div>
@@ -463,8 +509,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="prev" title="设计模式">
-                设计模式 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/11/docker-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="prev" title="docker-基本操作">
+                docker-基本操作 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -517,8 +563,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -571,6 +626,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1002-A-B-for-Polynomials"><span class="nav-number"></span> <span class="nav-text">1002 A+B for Polynomials</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将系数相同的项累加，累加后若该项为0则删除"><span class="nav-number"></span> <span class="nav-text">将系数相同的项累加，累加后若该项为0则删除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#误区"><span class="nav-number">1.</span> <span class="nav-text">误区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码"><span class="nav-number">2.</span> <span class="nav-text">源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
