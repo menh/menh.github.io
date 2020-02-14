@@ -1,6 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>PAT-1004_Counting_Leaves</title>
+    <url>/2020/02/14/PAT-1004-Counting-Leaves/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>就是求解树结构的每一层的叶子节点的树木，使用宽度搜索</p>
+<hr>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;map&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+map&lt;string,int&gt; mapNodeLevel; //记录节点所在层数
+int iMaxLevel = 0; //记录最大层数
+int szNoLeafNode[100]; //记录每层没有孩子的节点数
+int main()
+{
+    int N = 0, M;
+    cin&gt;&gt; N &gt;&gt; M;
+    map&lt;string, vector&lt;string&gt; &gt; mapTree;
+    for(int i = 0; i &lt; M; i++)
+    {
+        string strRoot;
+        cin&gt;&gt; strRoot;
+        int iK;
+        cin &gt;&gt; iK;
+        vector&lt;string&gt; vecChild;
+        for(int j = 0; j &lt; iK; j++)
+        {
+            string strChild;
+            cin&gt;&gt; strChild;
+            vecChild.push_back(strChild);
+        }
+        mapTree[strRoot] = vecChild;
+    }
+    queue&lt;string&gt; queNode;
+    queNode.push(&quot;01&quot;);
+    mapNodeLevel[&quot;01&quot;] = 0;
+    while(queNode.empty() != true)
+    {
+        string strFrontNode = queNode.front();
+        queNode.pop();
+        if(mapTree[strFrontNode].size() == 0)
+        {
+            szNoLeafNode[mapNodeLevel[strFrontNode]] ++;
+        }
+        iMaxLevel = max(iMaxLevel, mapNodeLevel[strFrontNode]);
+        for(int i = 0; i &lt; mapTree[strFrontNode].size(); i++)
+        {
+            mapNodeLevel[mapTree[strFrontNode][i]] = mapNodeLevel[strFrontNode] + 1;
+            queNode.push(mapTree[strFrontNode][i]);
+        }
+    }
+    printf(&quot;%d&quot;, szNoLeafNode[0]);
+    for(int i = 1; i &lt;= iMaxLevel; i++)
+    {
+        printf(&quot; %d&quot;, szNoLeafNode[i]);
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>PAT-1003_Emergency</title>
+    <url>/2020/02/13/PAT-1003-Emergency/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805523835109376" target="_blank" rel="noopener">1003 Emergency</a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>此题就是求解最短路径，只是在求解的过程中需要记录有几个最短路径，以及在所有最短路径中权重最大的值。<br>求解最短路径使用的是Dijkstra算法，在这道题中，需要做一下变化记录下最短路径数，和最大权重</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;map&gt;
+using namespace std;
+int main()
+{
+    int N, M, C1, C2;
+    cin&gt;&gt;N &gt;&gt;M &gt;&gt;C1 &gt;&gt; C2;
+    int hands[N]; // 城市助手数量
+    int roads[N][N]; // 两座城市的路费
+    int visited[N]; //该城市是否已经访问
+    int shortRoads[N]; //最短路径长度
+    int shortRoadsNum[N]; //最短路径数量
+    int maxHands[N]; //到该城市最多的人数
+    for(int i = 0; i &lt; N; i++)
+    {
+        cin&gt;&gt;hands[i];
+        visited[i] = 0; //初始化所有城市未访问
+        shortRoads[i] = -1; //初始化所有城市最短路径都不存在
+        shortRoadsNum[i] = 0; // 初始化所有的城市最短路径数量为0
+        maxHands[i] = 0;
+        for(int j = 0;j &lt; N; j++)
+        {
+            roads[i][j] = -1; //初始化两座城市不可达
+        }
+    }
+    for(int i = 0; i &lt; M; i++)
+    {
+        int c1, c2, L;
+        cin &gt;&gt; c1 &gt;&gt; c2 &gt;&gt; L;
+        roads[c1][c2] = L;
+        roads[c2][c1] = L;
+    }
+    shortRoads[C1] = 0;
+    shortRoadsNum[C1] = 1;
+    maxHands[C1] = hands[C1];
+    for(int i = 0; i &lt; N; i++)
+    {
+        int nowMinRoadCity = -1;
+        int nowMinRoad = -1;
+        for(int j = 0; j &lt; N; j++) //寻找当前距离最小的节点
+        {
+            if(visited[j] == 0 &amp;&amp; shortRoads[j] != -1)//目前不可达的城市不考虑
+            {
+                if(nowMinRoad == -1 || nowMinRoad &gt; shortRoads[j])
+                {
+                    nowMinRoad = shortRoads[j];
+                    nowMinRoadCity = j;
+                }
+            }
+        }
+        if(nowMinRoad == -1) //如果没找到未访问过的城市的最小路径则结束
+        {
+            break;
+        }
+    //        cout&lt;&lt;&quot;nowMinRoadCity:&quot; &lt;&lt; nowMinRoadCity &lt;&lt;endl;
+        visited[nowMinRoadCity] = 1;
+
+        for(int j = 0; j &lt; N; j++) //在最小节点的基础上更新路径
+        {
+            if(visited[j] == 0) //
+            {
+                if(shortRoads[j] == -1) //当前城市处于不可达的状态
+                {
+                   if(roads[nowMinRoadCity][j] != -1)
+                   {
+                       shortRoads[j] = shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j];
+                       shortRoadsNum[j] = shortRoadsNum[nowMinRoadCity] ;
+                       if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])
+                       {
+                           maxHands[j] = maxHands[nowMinRoadCity] + hands[j];
+                       }
+                   }
+                }
+                else
+                {
+                    if(roads[nowMinRoadCity][j] != -1)
+                    {
+                        if(shortRoads[j] &gt; shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j])
+                        {
+                            shortRoads[j] = shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j];
+                            shortRoadsNum[j] = shortRoadsNum[nowMinRoadCity];
+                            if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])
+                            {
+                                maxHands[j] = maxHands[nowMinRoadCity] + hands[j];
+                            }
+                        }
+                        else if(shortRoads[j] == shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j])
+                        {
+                            shortRoadsNum[j] += shortRoadsNum[nowMinRoadCity];
+                            if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])
+                            {
+                                maxHands[j] = maxHands[nowMinRoadCity] + hands[j];
+                            }
+                        }
+                    }
+
+                }
+    //                cout&lt;&lt; &quot;shortRoads &quot; &lt;&lt;j &lt;&lt; &quot; &quot; &lt;&lt;shortRoads[j]&lt;&lt;endl;
+            }
+        }
+    }
+    cout&lt;&lt; shortRoadsNum[C2]&lt;&lt; &quot; &quot; &lt;&lt; maxHands[C2]&lt;&lt;endl;
+    return 0;
+}</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>docker-镜像基础操作</title>
+    <url>/2020/02/12/docker-%E9%95%9C%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
+<li><p>列出镜像<br>docker images</p>
+</li>
+<li><p>查看镜像<br>docker inspect</p>
+</li>
+<li><p>删除镜像<br>docker rmi</p>
+</li>
+<li><p>查找镜像<br>docker search</p>
+</li>
+<li><p>拉去镜像<br>docker pull</p>
+</li>
+<li><p>推送镜像<br>docker push</p>
+</li>
+<li><p>构建镜像<br>docker commit<br>例：<br>docker commit -a “menhu”  -m “nginx” menh/web web</p>
+</li>
+</ol>
+<p>利用dockerfile 构建镜像<br>docker build</p>
+<ol start="8">
+<li>dockerfile 构建镜像</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>影-肖申克的救赎</title>
     <url>/2020/02/11/%E5%BD%B1-%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>2020-02-10，大约是23:30 我看完了肖申克的救赎，总共用了两天时间，分三段看完的。<br>  看这部电影的初衷就是想看看评分如此之高，备受好评的电影是怎么做到的。经典为何为经典。<br>看的过程中并没有全身心的投入去看，因为像这种偏文艺的电影，我现在还不能做到心无旁骛的陶醉其中，然而虽然看的时候有点懈怠，但是经典的电影还是在不经意间引起我的深思。<br>  首先是主人公作为Andy作为一个在社会上有头有脸的人物，却沦为阶下囚，并受到了些凌辱。这样我想到，适应环境，利用规则，才是生存或者更好生活的的法则。狱警可以肆无忌惮的对囚徒进行殴打，因为在这个小小的“王国”下，他们就是规则的制定者。他们可以毫无理由的分配给囚徒各种工作，即使很地下的工作，在囚徒看来都可能是一种荣幸。</p>
@@ -26,8 +224,8 @@
 ]]></content>
   </entry>
   <entry>
-    <title>docker-基本操作</title>
-    <url>/2020/02/11/docker-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <title>docker-基本容器操作</title>
+    <url>/2020/02/11/docker-%E5%AE%B9%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="容器基本操作"><a href="#容器基本操作" class="headerlink" title="容器基本操作"></a>容器基本操作</h3><ol>
 <li><p>启动容器<br>docker run IMAGE [COMMAND] [ARG…]<br>例： 启动容器并输出hello world<br>docker run ubuntu echo “hello world”</p>
 </li>

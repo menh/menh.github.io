@@ -101,13 +101,15 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="列出镜像docker images  查看镜像docker inspect  删除镜像docker rmi  查找镜像docker search  拉去镜像docker pull  推送镜像docker push  构建镜像docker commit例：docker commit -a “menhu”  -m “nginx” menh&#x2F;web web   利用dockerfile 构建镜像doc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker-镜像基础操作">
+<meta property="og:url" content="http://yoursite.com/2020/02/12/docker-%E9%95%9C%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="列出镜像docker images  查看镜像docker inspect  删除镜像docker rmi  查找镜像docker search  拉去镜像docker pull  推送镜像docker push  构建镜像docker commit例：docker commit -a “menhu”  -m “nginx” menh&#x2F;web web   利用dockerfile 构建镜像doc">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-19T08:39:46.000Z">
-<meta property="article:modified_time" content="2020-01-19T08:39:46.954Z">
+<meta property="article:published_time" content="2020-02-12T01:49:17.000Z">
+<meta property="article:modified_time" content="2020-02-12T10:45:23.105Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -138,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/02/12/docker-镜像基础操作/"/>
 
 
 
 
 
-  <title>categories | Hexo</title>
+  <title>docker-镜像基础操作 | Hexo</title>
   
 
 
@@ -319,33 +321,192 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/12/docker-%E9%95%9C%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">docker-镜像基础操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-12T09:49:17+08:00">
+                2020-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+                  66
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <ol>
+<li><p>列出镜像<br>docker images</p>
+</li>
+<li><p>查看镜像<br>docker inspect</p>
+</li>
+<li><p>删除镜像<br>docker rmi</p>
+</li>
+<li><p>查找镜像<br>docker search</p>
+</li>
+<li><p>拉去镜像<br>docker pull</p>
+</li>
+<li><p>推送镜像<br>docker push</p>
+</li>
+<li><p>构建镜像<br>docker commit<br>例：<br>docker commit -a “menhu”  -m “nginx” menh/web web</p>
+</li>
+</ol>
+<p>利用dockerfile 构建镜像<br>docker build</p>
+<ol start="8">
+<li>dockerfile 构建镜像</li>
+</ol>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/11/%E5%BD%B1-%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E/" rel="next" title="影-肖申克的救赎">
+                <i class="fa fa-chevron-left"></i> 影-肖申克的救赎
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/13/PAT-1003-Emergency/" rel="prev" title="PAT-1003_Emergency">
+                PAT-1003_Emergency <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -547,10 +708,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
