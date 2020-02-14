@@ -104,16 +104,17 @@
 <meta name="description" content="基本实现原理 网页端和服务器配合逻辑首先用户打开网站登陆界面时，向服务器发送获取登陆二维码的请求。服务器收到请求后，随机生成一个uuid，将这个id作为key值存入redis服务器，同时设置一个过期时间，过期后，用户登陆二维码需要进行刷新重新获取。 同时，将这个key值和本公司的验证码字符串合在一起，生成一个二维码图片，将后将二维码图片和uuid一起返回给浏览器。 浏览器拿到二维码和uuid后，会">
 <meta property="og:type" content="article">
 <meta property="og:title" content="二维码登陆原理">
-<meta property="og:url" content="http://yoursite.com/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://menh.github.io/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Hugh">
 <meta property="og:description" content="基本实现原理 网页端和服务器配合逻辑首先用户打开网站登陆界面时，向服务器发送获取登陆二维码的请求。服务器收到请求后，随机生成一个uuid，将这个id作为key值存入redis服务器，同时设置一个过期时间，过期后，用户登陆二维码需要进行刷新重新获取。 同时，将这个key值和本公司的验证码字符串合在一起，生成一个二维码图片，将后将二维码图片和uuid一起返回给浏览器。 浏览器拿到二维码和uuid后，会">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/qrcode_login.jpg">
+<meta property="og:image" content="https://menh.github.io/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/qrcode_login.jpg">
 <meta property="article:published_time" content="2020-02-09T09:07:36.000Z">
 <meta property="article:modified_time" content="2020-02-09T10:23:18.239Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="Hugh Men">
+<meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/qrcode_login.jpg">
+<meta name="twitter:image" content="https://menh.github.io/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/qrcode_login.jpg">
 
 
 
@@ -142,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/02/09/二维码登陆原理/"/>
+  <link rel="canonical" href="https://menh.github.io/2020/02/09/二维码登陆原理/"/>
 
 
 
 
 
-  <title>二维码登陆原理 | Hexo</title>
+  <title>二维码登陆原理 | Hugh</title>
   
 
 
@@ -184,12 +185,12 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Hexo</span>
+        <span class="site-title">Hugh</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <p class="site-subtitle">门泊东吴万里船</p>
       
   </div>
 
@@ -335,16 +336,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="Hugh Men">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Hugh">
     </span>
 
     
@@ -551,10 +552,10 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
-               alt="John Doe" />
-          <p class="site-author-name" itemprop="name">John Doe</p>
+               alt="Hugh Men" />
+          <p class="site-author-name" itemprop="name">Hugh Men</p>
            
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">大丈夫当带三尺剑，立不世之功</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -644,7 +645,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">Hugh Men</span>
 </div>
 
 
