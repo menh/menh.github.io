@@ -1,208 +1,503 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>PAT-1004_Counting_Leaves</title>
-      <link href="/2020/02/14/PAT-1004-Counting-Leaves/"/>
-      <url>/2020/02/14/PAT-1004-Counting-Leaves/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>就是求解树结构的每一层的叶子节点的树木，使用宽度搜索</p><hr><h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;#include &lt;iostream&gt;#include &lt;stdio.h&gt;#include &lt;map&gt;#include &lt;vector&gt;#include &lt;queue&gt;using namespace std;map&lt;string,int&gt; mapNodeLevel; //记录节点所在层数int iMaxLevel = 0; //记录最大层数int szNoLeafNode[100]; //记录每层没有孩子的节点数int main(){    int N = 0, M;    cin&gt;&gt; N &gt;&gt; M;    map&lt;string, vector&lt;string&gt; &gt; mapTree;    for(int i = 0; i &lt; M; i++)    {        string strRoot;        cin&gt;&gt; strRoot;        int iK;        cin &gt;&gt; iK;        vector&lt;string&gt; vecChild;        for(int j = 0; j &lt; iK; j++)        {            string strChild;            cin&gt;&gt; strChild;            vecChild.push_back(strChild);        }        mapTree[strRoot] = vecChild;    }    queue&lt;string&gt; queNode;    queNode.push(&quot;01&quot;);    mapNodeLevel[&quot;01&quot;] = 0;    while(queNode.empty() != true)    {        string strFrontNode = queNode.front();        queNode.pop();        if(mapTree[strFrontNode].size() == 0)        {            szNoLeafNode[mapNodeLevel[strFrontNode]] ++;        }        iMaxLevel = max(iMaxLevel, mapNodeLevel[strFrontNode]);        for(int i = 0; i &lt; mapTree[strFrontNode].size(); i++)        {            mapNodeLevel[mapTree[strFrontNode][i]] = mapNodeLevel[strFrontNode] + 1;            queNode.push(mapTree[strFrontNode][i]);        }    }    printf(&quot;%d&quot;, szNoLeafNode[0]);    for(int i = 1; i &lt;= iMaxLevel; i++)    {        printf(&quot; %d&quot;, szNoLeafNode[i]);    }    printf(&quot;\n&quot;);    return 0;}</code></pre>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PAT-1003_Emergency</title>
-      <link href="/2020/02/13/PAT-1003-Emergency/"/>
-      <url>/2020/02/13/PAT-1003-Emergency/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805523835109376" target="_blank" rel="noopener">1003 Emergency</a></p><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>此题就是求解最短路径，只是在求解的过程中需要记录有几个最短路径，以及在所有最短路径中权重最大的值。<br>求解最短路径使用的是Dijkstra算法，在这道题中，需要做一下变化记录下最短路径数，和最大权重</p><h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;#include &lt;stdio.h&gt;#include &lt;map&gt;using namespace std;int main(){    int N, M, C1, C2;    cin&gt;&gt;N &gt;&gt;M &gt;&gt;C1 &gt;&gt; C2;    int hands[N]; // 城市助手数量    int roads[N][N]; // 两座城市的路费    int visited[N]; //该城市是否已经访问    int shortRoads[N]; //最短路径长度    int shortRoadsNum[N]; //最短路径数量    int maxHands[N]; //到该城市最多的人数    for(int i = 0; i &lt; N; i++)    {        cin&gt;&gt;hands[i];        visited[i] = 0; //初始化所有城市未访问        shortRoads[i] = -1; //初始化所有城市最短路径都不存在        shortRoadsNum[i] = 0; // 初始化所有的城市最短路径数量为0        maxHands[i] = 0;        for(int j = 0;j &lt; N; j++)        {            roads[i][j] = -1; //初始化两座城市不可达        }    }    for(int i = 0; i &lt; M; i++)    {        int c1, c2, L;        cin &gt;&gt; c1 &gt;&gt; c2 &gt;&gt; L;        roads[c1][c2] = L;        roads[c2][c1] = L;    }    shortRoads[C1] = 0;    shortRoadsNum[C1] = 1;    maxHands[C1] = hands[C1];    for(int i = 0; i &lt; N; i++)    {        int nowMinRoadCity = -1;        int nowMinRoad = -1;        for(int j = 0; j &lt; N; j++) //寻找当前距离最小的节点        {            if(visited[j] == 0 &amp;&amp; shortRoads[j] != -1)//目前不可达的城市不考虑            {                if(nowMinRoad == -1 || nowMinRoad &gt; shortRoads[j])                {                    nowMinRoad = shortRoads[j];                    nowMinRoadCity = j;                }            }        }        if(nowMinRoad == -1) //如果没找到未访问过的城市的最小路径则结束        {            break;        }    //        cout&lt;&lt;&quot;nowMinRoadCity:&quot; &lt;&lt; nowMinRoadCity &lt;&lt;endl;        visited[nowMinRoadCity] = 1;        for(int j = 0; j &lt; N; j++) //在最小节点的基础上更新路径        {            if(visited[j] == 0) //            {                if(shortRoads[j] == -1) //当前城市处于不可达的状态                {                   if(roads[nowMinRoadCity][j] != -1)                   {                       shortRoads[j] = shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j];                       shortRoadsNum[j] = shortRoadsNum[nowMinRoadCity] ;                       if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])                       {                           maxHands[j] = maxHands[nowMinRoadCity] + hands[j];                       }                   }                }                else                {                    if(roads[nowMinRoadCity][j] != -1)                    {                        if(shortRoads[j] &gt; shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j])                        {                            shortRoads[j] = shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j];                            shortRoadsNum[j] = shortRoadsNum[nowMinRoadCity];                            if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])                            {                                maxHands[j] = maxHands[nowMinRoadCity] + hands[j];                            }                        }                        else if(shortRoads[j] == shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j])                        {                            shortRoadsNum[j] += shortRoadsNum[nowMinRoadCity];                            if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])                            {                                maxHands[j] = maxHands[nowMinRoadCity] + hands[j];                            }                        }                    }                }    //                cout&lt;&lt; &quot;shortRoads &quot; &lt;&lt;j &lt;&lt; &quot; &quot; &lt;&lt;shortRoads[j]&lt;&lt;endl;            }        }    }    cout&lt;&lt; shortRoadsNum[C2]&lt;&lt; &quot; &quot; &lt;&lt; maxHands[C2]&lt;&lt;endl;    return 0;}</code></pre>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>docker-镜像基础操作</title>
-      <link href="/2020/02/12/docker-%E9%95%9C%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/"/>
-      <url>/2020/02/12/docker-%E9%95%9C%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol><li><p>列出镜像<br>docker images</p></li><li><p>查看镜像<br>docker inspect</p></li><li><p>删除镜像<br>docker rmi</p></li><li><p>查找镜像<br>docker search</p></li><li><p>拉去镜像<br>docker pull</p></li><li><p>推送镜像<br>docker push</p></li><li><p>构建镜像<br>docker commit<br>例：<br>docker commit -a “menhu”  -m “nginx” menh/web web</p></li></ol><p>利用dockerfile 构建镜像<br>docker build</p><ol start="8"><li>dockerfile 构建镜像</li></ol>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>影-肖申克的救赎</title>
-      <link href="/2020/02/11/%E5%BD%B1-%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E/"/>
-      <url>/2020/02/11/%E5%BD%B1-%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>2020-02-10，大约是23:30 我看完了肖申克的救赎，总共用了两天时间，分三段看完的。<br>  看这部电影的初衷就是想看看评分如此之高，备受好评的电影是怎么做到的。经典为何为经典。<br>看的过程中并没有全身心的投入去看，因为像这种偏文艺的电影，我现在还不能做到心无旁骛的陶醉其中，然而虽然看的时候有点懈怠，但是经典的电影还是在不经意间引起我的深思。<br>  首先是主人公作为Andy作为一个在社会上有头有脸的人物，却沦为阶下囚，并受到了些凌辱。这样我想到，适应环境，利用规则，才是生存或者更好生活的的法则。狱警可以肆无忌惮的对囚徒进行殴打，因为在这个小小的“王国”下，他们就是规则的制定者。他们可以毫无理由的分配给囚徒各种工作，即使很地下的工作，在囚徒看来都可能是一种荣幸。</p><p>  其次是知识的作用，Andy有知识，他利用他的知识能力在狱中可以得到与其他囚徒不一样的待遇，同时他又利用他的知识能力来教化其他狱友。从某点上来考虑，这个情节很激励人心，教化自己普渡他人，这是一个自带光芒的人啊，然而转念一想，这情节有些突兀。在一个没有自由，或者说是在一个狭小的几乎会永远生活在这没有“文明”的地方，真的会有人崇尚知识吗。这就好比生活在三维世界的人，可能只是四维生物的打工仔，我们所谓的知识，只是四维生物赏赐给我们的低级的趣味。</p><p>  Brooks从监狱里出来之后，选择了自杀，因为他很难再适应外面世界的规则。</p><p>  以后再看一次</p><hr><p>下面为阅读的影评<br>肖申克的救赎与信念，自由，友谊有关。</p><h5 id="【信念】"><a href="#【信念】" class="headerlink" title="【信念】"></a>【信念】</h5><p>Red说，希望是危险的东西，是精神苦闷的根源。重重挤压下的牢狱里待了三十年的他的确有资格这么说。因为从进来的那一天起，狱长就说过「把灵魂交给上帝，把身体交给我」。 他除了能弄来香烟和印着裸女的扑克牌，其他任何异动在这个黑暗的高墙之内似乎都无法生长。</p><p>然而，Andy却告诉他，「记住，希望是好事——甚至也许是人间至善而美好的事永不消失」。</p><p>所以Andy能够用二十年挖开瑞德认为六百年都无法凿穿隧洞。当Andy终于排除五百码恶臭的污水管道，站在瓢泼大雨中情不自禁的时候，我们仿佛看到信念刺穿重重黑幕，在暗夜中打了一道夺目的霹雳。亮光之下，我们怯懦的灵魂在Andy张开的双臂下现行，并且颤抖。</p><p><em>庸常生活里的我们，似乎已经习惯了按步就按，习惯了先说「不可能」，习惯了没有奇迹，习惯了习惯了。</em></p><p>我们应该试着留住一些信念，在他们丧失殆尽之前。它们也许最终无法实现，也许无法让我们或者更有意义的活着，甚至对于我们自己而言，它们只会愈加给我们带来更多的虚无感。然而我知道我有多需要这样的虚伪与自欺，因为你可以说我在做梦，但我不会是仅有的一个。</p><h5 id="【自由】"><a href="#【自由】" class="headerlink" title="【自由】"></a>【自由】</h5><p>我到今天也不明白，那两个意大利的女人在唱什么。事实上，我也不想去明白。有些东西不说更好。我想那是非笔墨可形容的美貌，然而却令你如此心伤。</p><p>那声音飞扬，高远入云，超过任何在禁锢中的囚犯的梦。仿佛一只美丽的小鸟，飞入这灰色的鸟笼，让那些围墙消失，另铁窗中的所有犯人，感到一刻的自由。</p><p>当Andy不顾一切的在监狱的喇叭里放《费加罗的婚礼》时。正在广场上防风的囚徒们和那些狱警，它们静立当地，抛却所有愤懑，狠毒，怨恨，沐浴着从未觉得如此自由的阳光。莫扎特的乐声铺洒在这些人的身上，来自俗世的美妙音符似乎将他们都濯洗的纯净无比。</p><p><em>强者自救，圣者渡人。</em> 修屋顶的时候，Andy为大家争取来啤酒，事实上是为大家争取到的那种像修缮自家的屋顶一般自由的存在，所以他不喝酒，微笑却带着巨大的幸福。播放《费加罗的婚礼》也是要唤醒它们已经丧失殆尽的自由感。</p><p>然而强者终究是少数。自由面前，更多人选择禁锢。在监狱图书馆待了五十年的Brooks，为了不被假释，竟然想通过伤害狱友来达到留在监狱的目的。自由本就是人们向往和追求的东西。可是Brooks却早已在监狱的规则下规则了自己，没有规则，他无法生存。</p><p>「监狱的高墙是在是很有趣。刚入狱时，你痛恨周围的高墙；慢慢的，你习惯生活在其中，最终你会发现自己不得不依靠它来生存。这就是体制化」假Red之口，斯蒂芬金直指卑微</p><p>Brooks得到了身体的自由，灵魂却早已经无法挽回的体制化。他终于没有能摆脱对自由无法适应的困境，悬梁自尽。而睿智如瑞德，在出狱之后也悲哀的发现，自己竟然连撒尿都要向经理报告，否则一滴都挤不出来。他也考虑如何违规以便回到监狱，甚至考虑与Brooks一样离开。</p><p>要么忙着生活，要么忙着等死。步履匆匆的人们也许应该偶尔驻足，跳出来看看自己的模样。我们终会知道，<em>习惯与服从规则的人们将付出巨大的代价来习惯本来属于每一个人的自由</em></p><h5 id="【友谊】"><a href="#【友谊】" class="headerlink" title="【友谊】"></a>【友谊】</h5><p>Red和Andy那种置放在高墙之下的友谊，似乎比我们纷繁俗世中的友情来的更加纯粹和干净。他们都是内敛的人，然而洞悉一切，心意切合。他们终于相会在太平洋小岛的阳光沙滩上。</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>docker-基本容器操作</title>
-      <link href="/2020/02/11/docker-%E5%AE%B9%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-      <url>/2020/02/11/docker-%E5%AE%B9%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="容器基本操作"><a href="#容器基本操作" class="headerlink" title="容器基本操作"></a>容器基本操作</h3><ol><li><p>启动容器<br>docker run IMAGE [COMMAND] [ARG…]<br>例： 启动容器并输出hello world<br>docker run ubuntu echo “hello world”</p></li><li><p>启动交互式容器<br>docker run -i -t IMAGE /bin/bash<br>例：<br>docker run -i -t ubuntu /bin/bash</p></li><li><p>查看容器列表<br>docker ps</p></li><li><p>查看容器详情<br>docker inspect</p></li><li><p>重新启动已经停止的容器<br>docker start -i</p></li><li><p>删除停止的容器<br>docker rm cool_sammet</p></li><li><p>以守护形式运行容器<br>docker run -i -t IMAGE /bin/bash<br>CTRL + Q 退出</p></li><li><p>再次进入守护形式运行的容器<br>docker attach</p></li><li><p>使用run 启动守护形式容器<br>docker run -d IMAGE [COMMAND] [ARG…]<br>例：docker run –name dc1 -d ubuntu /bin/sh -c “while true; do echo hello world; sleep 1; done”</p></li><li><p>查看容器日志<br>docker logs [-f] [-t] [–tail] 容器名</p></li><li><p>查看容器的进程<br>docker top 容器名</p></li><li><p>在运行容器中启动新的进程<br>docker exec [-d][-i][-t] 容器名 [COMMAND][ARG…]<br>例：docker exec -i -t dc1 /bin/bash</p></li><li><p>停止守护容器<br>docker stop 发送信号给容器，等待其停止<br>docker kill 直接停止容器</p></li></ol>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PAT-1002_A+B_for_Polynomials</title>
-      <link href="/2020/02/11/PAT-1002-A-B-for-Polynomials/"/>
-      <url>/2020/02/11/PAT-1002-A-B-for-Polynomials/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h2 id="1002-A-B-for-Polynomials"><a href="#1002-A-B-for-Polynomials" class="headerlink" title="1002 A+B for Polynomials"></a><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805526272000000" target="_blank" rel="noopener">1002 A+B for Polynomials</a></h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><h2 id="将系数相同的项累加，累加后若该项为0则删除"><a href="#将系数相同的项累加，累加后若该项为0则删除" class="headerlink" title="将系数相同的项累加，累加后若该项为0则删除"></a>将系数相同的项累加，累加后若该项为0则删除</h2><h4 id="误区"><a href="#误区" class="headerlink" title="误区"></a>误区</h4><ol><li>项为0的不输出</li><li>按照系数大小逆向输出</li></ol><hr><h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;#include &lt;stdio.h&gt;#include &lt;map&gt;using namespace std;int main(){  map&lt;int, double&gt; poly;  for(int poly_i = 0; poly_i &lt; 2; poly_i++)  {      int N;      cin &gt;&gt; N;      for(int i = 0; i &lt; N; i++)      {          int Ni;          double aN;          cin&gt;&gt; Ni &gt;&gt; aN;          if(poly.find(Ni) != poly.end())          {              poly[Ni] += aN;          }          else          {              poly[Ni] = aN;          }          if(poly[Ni] == 0)          {              poly.erase(Ni); // 删除项为0          }      }  }  cout&lt;&lt; poly.size();  map&lt;int, double&gt;::reverse_iterator rit;  for(rit = poly.rbegin(); rit != poly.rend(); rit++)  {      printf(&quot; %d %.1f&quot;, rit-&gt;first, rit-&gt;second); //保留1位小数  }  return 0;}</code></pre>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>tf-keras和keras</title>
-      <link href="/2020/02/10/tf-keras%E5%92%8Ckeras/"/>
-      <url>/2020/02/10/tf-keras%E5%92%8Ckeras/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>keras 是什么</p><ul><li>基于python的高级神经网络API</li><li>以Tensorflow，CNTK或者Theano为后段运行，keras必须有后端才可以运行</li><li>极方便与快速实验，帮助用户以最少的时间验证自己的想法<br>Tensorflow-keras是什么<ul><li>Tensorflow对keras API的规范实现</li><li>比以Tensorflow为后段的keras，Tensorflow-keras与Tensorflow结合更加紧密</li><li>实现在tf.keras空间下</li></ul></li></ul><p>Tf-keras 和 keras的联系</p><ul><li>基于同一套API<ul><li>keras程序可以通过导入方式转换为tf.keras程序</li><li>反之不成立，因为tf.keras有其他特性<ul><li>相同的JSON和HDF5模型序列化格式和语义</li></ul></li></ul></li></ul><p>Tf-keras 和 keras的区别</p><ul><li>Tf.keras全面支持eager mode<ul><li>只是用keras.Sequential和keras.Model时没有影响</li><li>自动以的Model内部运算逻辑时没有影响<ul><li>Tf低层API可以使用keras的model.fit等抽象</li></ul></li></ul></li><li>Tf.keras支持基于tf.data的模型训练</li><li>Tf.keras支持TPU训练</li><li>Tf.keras支持tf.distribution的分布式策略</li><li>Tf.keras可以与Tensorflow中的estimator集成</li><li>Tf.keras可以保存为SaveModel</li></ul>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>深度学习-概率分布</title>
-      <link href="/2020/02/10/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/"/>
-      <url>/2020/02/10/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>李文亮医生1</title>
-      <link href="/2020/02/10/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F1/"/>
-      <url>/2020/02/10/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F1/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="我走了-带着一张训诫书！"><a href="#我走了-带着一张训诫书！" class="headerlink" title="我走了,带着一张训诫书！"></a>我走了,带着一张训诫书！</h2><p>  天还没亮，我走了</p><p>  我走的时候，渡口很黑，无人相送，只有几朵雪花落在我的眼底。我一思念，它们便从我的眼眶滑落。</p><p>  黑夜真黑，黑的让我想不起万家灯火。我一生追求光，我自诩很明亮，但我拼尽全力，却什么都没点亮</p><p>  谢谢你们，昨夜冒着风雪来看我的人！谢谢你们整夜不眠，像守望亲人一样把我守望！可是脆弱人间，没有奇迹。</p><p>  我原本平凡而渺小，有一天我被上帝选中，托我将他的旨意转告苍生。</p><p>  我小心翼翼的说了，于是，有人劝我不要惊扰太平，他们说：你没看见满城繁华开得正艳吗！</p><p>  为了让全世界相信现世安稳，我只好守口如瓶，还用鲜红的指印保证 – 我说的话都是童话，带花冠的致命皇后从来不曾下凡作乱。</p><p>  就这样，天下继续熙熙攘攘，谁也不知道，巨大的悲伤即将把城门紧锁。</p><p>  后来，上帝大怒，山河失色，我也病了。再后来，我的家人都病了。我们就像千万片雪花一样，你一片，我一片，各自凋零。</p><p>  我曾以为，只待春江水暖，我和家人便能再度重相逢。到那时，我们就坐在鹅黄的油菜花田，把花儿一朵一朵的数，把日子一分一秒地过。</p><p>  等啊等啊，我只等来了昨夜小雪，上帝摸摸我的头，爱怜地说：乖，跟我走吧，人间不值得！</p><p>  我一听就泪如雨下，虽然人间苦寒，上帝温暖。但我怕过了奈何桥，偶尔回望吾乡，再也望不见一家老小。</p><p>  其实，我的风骨早就被拍死在一张保证书上。我继续阳光朗照地活着，歌颂生命，赞美松柏，那是因为我对这土地爱得深沉。而今，我的肉身也死了。</p><p>  在我成为一粒尘埃之前，我又静静地怀想了一遍故乡的黑土白云。多想回到小时候啊，风是尽情飞舞的，雪是洁白无瑕的。</p><p>  活着真好，可我死了。我再也无法抚摸亲人的脸庞，再也无法带孩子去看东湖春晓，再也无法陪父母去看武大的樱花，再也无法把风筝放到白云深处。</p><p>  我曾依稀梦见我尚未出世的孩子，他一出生就眼含热泪，在人潮人海中把我寻找。对不起，孩子！我知道你只想要一个平凡的父亲，而我却做了一个平民英雄。</p><p>  天快亮了，我要走了。带着一张保证书，那是我此生唯一的行囊。</p><p>  谢谢世间所有懂我怜我爱我的人，我知道你们都在黎明等候，等我越过山丘！可是，我太累了。</p><p>  此生，我不想重于泰山，也不怕轻于鸿毛。我唯一的心愿，就是希望冰雪消融之后，众生依然热爱大地，依然相信祖国。</p><p>  等到春雷滚滚，如果有人还想纪念我，请给我立一个小小的墓碑吧！不必伟岸，只须证明我曾来过这个世界，有名有姓，无知无畏。</p><p>  那么，我的墓志铭只需一句话：他为苍生说过话</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>疫情下的元宵节</title>
-      <link href="/2020/02/09/%E7%96%AB%E6%83%85%E4%B8%8B%E7%9A%84%E5%85%83%E5%AE%B5%E8%8A%82/"/>
-      <url>/2020/02/09/%E7%96%AB%E6%83%85%E4%B8%8B%E7%9A%84%E5%85%83%E5%AE%B5%E8%8A%82/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p> 2020年正月十五-元宵节</p><p> 今年春节非比寻常，在武汉瘟疫肆虐的情况下，每个人都被限制在了室内。出门都是口罩护身。往日的走街串巷，拜亲戚，聚会的习俗都被瘟疫压制了。</p><p> 这是2020年正月16的疫情数据。<br> <img src="epidemic_data.jpeg" alt="患病人数"><br> <img src="epidemic_data_map.jpeg" alt="各省统计"><br> 总确诊人数将近4万了，很恐怖的数据了。<br> 湖北，广东，浙江都已经变黑了，河南今天也变黑了。</p><p> <img src="we.jpeg" alt="我们"><br> 在这样的疫情下，我和他在一起过的元宵节，带着口罩背对着正月十五的月亮，在一起就很开心</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>二维码登陆原理</title>
-      <link href="/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/"/>
-      <url>/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="基本实现原理"><a href="#基本实现原理" class="headerlink" title="基本实现原理"></a>基本实现原理</h2><ol><li><p>网页端和服务器配合逻辑<br>首先用户打开网站登陆界面时，向服务器发送获取登陆二维码的请求。服务器收到请求后，随机生成一个uuid，将这个id作为key值存入redis服务器，同时设置一个过期时间，过期后，用户登陆二维码需要进行刷新重新获取。</p><p>同时，将这个key值和本公司的验证码字符串合在一起，生成一个二维码图片，将后将二维码图片和uuid一起返回给浏览器。</p><p>浏览器拿到二维码和uuid后，会每隔一秒向浏览器发送一次登陆是否成功的请求。请求中携带有uuid作为当前页面的标识符。</p></li><li><p>手机端与服务器端配合逻辑<br>浏览器拿到二维码后，将二维码展示到网页上，并给用户一个提示：打开扫一扫进行登陆。</p><p>用户扫描二维码后，就可以得到一个验证码和一个uuid。</p><p>手机端访问服务器，参数中会有token，手机端服务器可以从中得到用户的userId。手机端将解析到的数据和用户token一起作为参数，向服务器发送验证登陆请求。</p><p>服务器收到登陆请求后，返回登陆确认信息给手机端。</p><p>手机端收到返回后，进行登陆确认。确认后再次返送请求，服务器拿到userId和uuid后，将用户的userId作为value存入redis</p></li><li><p>登陆确认后，浏览器逻辑</p></li></ol><p>浏览器每秒发送时候登陆成功的请求，确认登陆成功后，可以获取登陆用户的userId。</p><p>流程图如下：<br><img src="qrcode_login.jpg" alt="qrcode login"></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>李文亮医生，再见</title>
-      <link href="/2020/02/07/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F%E5%86%8D%E8%A7%81/"/>
-      <url>/2020/02/07/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F%E5%86%8D%E8%A7%81/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="我走了-带着一张训诫书！"><a href="#我走了-带着一张训诫书！" class="headerlink" title="我走了,带着一张训诫书！"></a>我走了,带着一张训诫书！</h2><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=491833132&auto=1&height=66"></iframe><iframe src="http://open.iqiyi.com/developer/player_js/coopPlayerIndex.html?vid=e90721dc87291f4510c03309e249411a&tvId=12381616400&accessToken=2.f22860a2479ad60d8da7697274de9346&appKey=3955c3425820435e86d0f4cdfe56f5e7&appId=1368&height=100%&width=100%" frameborder="0" allowfullscreen="true" width="100%" height="100%"></iframe><p>  <img src="LWL.jpg" alt="李文亮医生"><br>  天还没亮，我走了</p><p>  我走的时候，渡口很黑，无人相送，只有几朵雪花落在我的眼底。我一思念，它们便从我的眼眶滑落。</p><p>  黑夜真黑，黑的让我想不起万家灯火。我一生追求光，我自诩很明亮，但我拼尽全力，却什么都没点亮</p><p>  谢谢你们，昨夜冒着风雪来看我的人！谢谢你们整夜不眠，像守望亲人一样把我守望！可是脆弱人间，没有奇迹。</p><p>  我原本平凡而渺小，有一天我被上帝选中，托我将他的旨意转告苍生。</p><p>  我小心翼翼的说了，于是，有人劝我不要惊扰太平，他们说：你没看见满城繁华开得正艳吗！</p><p>  为了让全世界相信现世安稳，我只好守口如瓶，还用鲜红的指印保证 – 我说的话都是童话，带花冠的致命皇后从来不曾下凡作乱。</p><p>  就这样，天下继续熙熙攘攘，谁也不知道，巨大的悲伤即将把城门紧锁。</p><p>  后来，上帝大怒，山河失色，我也病了。再后来，我的家人都病了。我们就像千万片雪花一样，你一片，我一片，各自凋零。</p><p>  我曾以为，只待春江水暖，我和家人便能再度重相逢。到那时，我们就坐在鹅黄的油菜花田，把花儿一朵一朵的数，把日子一分一秒地过。</p><p>  等啊等啊，我只等来了昨夜小雪，上帝摸摸我的头，爱怜地说：乖，跟我走吧，人间不值得！</p><p>  我一听就泪如雨下，虽然人间苦寒，上帝温暖。但我怕过了奈何桥，偶尔回望吾乡，再也望不见一家老小。</p><p>  其实，我的风骨早就被拍死在一张保证书上。我继续阳光朗照地活着，歌颂生命，赞美松柏，那是因为我对这土地爱得深沉。而今，我的肉身也死了。</p><p>  在我成为一粒尘埃之前，我又静静地怀想了一遍故乡的黑土白云。多想回到小时候啊，风是尽情飞舞的，雪是洁白无瑕的。</p><p>  活着真好，可我死了。我再也无法抚摸亲人的脸庞，再也无法带孩子去看东湖春晓，再也无法陪父母去看武大的樱花，再也无法把风筝放到白云深处。</p><p>  我曾依稀梦见我尚未出世的孩子，他一出生就眼含热泪，在人潮人海中把我寻找。对不起，孩子！我知道你只想要一个平凡的父亲，而我却做了一个平民英雄。</p><p>  天快亮了，我要走了。带着一张保证书，那是我此生唯一的行囊。</p><p>  谢谢世间所有懂我怜我爱我的人，我知道你们都在黎明等候，等我越过山丘！可是，我太累了。</p><p>  此生，我不想重于泰山，也不怕轻于鸿毛。我唯一的心愿，就是希望冰雪消融之后，众生依然热爱大地，依然相信祖国。</p><p>  等到春雷滚滚，如果有人还想纪念我，请给我立一个小小的墓碑吧！不必伟岸，只须证明我曾来过这个世界，有名有姓，无知无畏。</p><p>  那么，我的墓志铭只需一句话：他为苍生说过话</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>设计模式</title>
-      <link href="/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-      <url>/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-      
-        <content type="html"><![CDATA[<ol><li><p>模版方法 Template</p><ul><li>动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求</li><li>定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林）</li><li>处理思路: 利用虚函数的多态性</li></ul></li><li><p>策略模式 Strategy</p><ul><li>动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担</li><li>定义：定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。策略模式使得算法可独立于使用它的客户程序而变化</li><li>处理方法： 利用多态性</li></ul></li><li><p>观察者模式 Observer/Event</p><ul><li>动机：软件构建过程中，我们需要为某些对象建立一种“通知依赖关系”，一个对象发生状态改变，所有依赖对象都将得到通知</li><li>定义：定义对象间一种一对多的依赖关系，以便一个对象的状态改变时，所有依赖于它的对象都得到通知和更新</li></ul></li><li><p>装饰模式 Decorator</p><ul><li>动机: 过度的使用继承来拓展对象的功能，由于继承为类型引入的静态特质，使得这种拓展方式缺乏灵活性，并且随着子类的增多，各种子类的组合会导致更多的子类膨胀</li><li>定义： 动态给一个对象增加额外的职责</li></ul></li><li><p>桥模式 Brige</p></li></ol>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> technology </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>test</title>
-      <link href="/2020/01/19/test/"/>
-      <url>/2020/01/19/test/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2020/01/19/hello-world/"/>
-      <url>/2020/01/19/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+<search>
+  <entry>
+    <title>PAT-1004_Counting_Leaves</title>
+    <url>/2020/02/14/PAT-1004-Counting-Leaves/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>就是求解树结构的每一层的叶子节点的树木，使用宽度搜索</p>
+<hr>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;map&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+map&lt;string,int&gt; mapNodeLevel; //记录节点所在层数
+int iMaxLevel = 0; //记录最大层数
+int szNoLeafNode[100]; //记录每层没有孩子的节点数
+int main()
+{
+    int N = 0, M;
+    cin&gt;&gt; N &gt;&gt; M;
+    map&lt;string, vector&lt;string&gt; &gt; mapTree;
+    for(int i = 0; i &lt; M; i++)
+    {
+        string strRoot;
+        cin&gt;&gt; strRoot;
+        int iK;
+        cin &gt;&gt; iK;
+        vector&lt;string&gt; vecChild;
+        for(int j = 0; j &lt; iK; j++)
+        {
+            string strChild;
+            cin&gt;&gt; strChild;
+            vecChild.push_back(strChild);
+        }
+        mapTree[strRoot] = vecChild;
+    }
+    queue&lt;string&gt; queNode;
+    queNode.push(&quot;01&quot;);
+    mapNodeLevel[&quot;01&quot;] = 0;
+    while(queNode.empty() != true)
+    {
+        string strFrontNode = queNode.front();
+        queNode.pop();
+        if(mapTree[strFrontNode].size() == 0)
+        {
+            szNoLeafNode[mapNodeLevel[strFrontNode]] ++;
+        }
+        iMaxLevel = max(iMaxLevel, mapNodeLevel[strFrontNode]);
+        for(int i = 0; i &lt; mapTree[strFrontNode].size(); i++)
+        {
+            mapNodeLevel[mapTree[strFrontNode][i]] = mapNodeLevel[strFrontNode] + 1;
+            queNode.push(mapTree[strFrontNode][i]);
+        }
+    }
+    printf(&quot;%d&quot;, szNoLeafNode[0]);
+    for(int i = 1; i &lt;= iMaxLevel; i++)
+    {
+        printf(&quot; %d&quot;, szNoLeafNode[i]);
+    }
+    printf(&quot;\n&quot;);
+    return 0;
+}</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>PAT-1003_Emergency</title>
+    <url>/2020/02/13/PAT-1003-Emergency/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805523835109376" target="_blank" rel="noopener">1003 Emergency</a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>此题就是求解最短路径，只是在求解的过程中需要记录有几个最短路径，以及在所有最短路径中权重最大的值。<br>求解最短路径使用的是Dijkstra算法，在这道题中，需要做一下变化记录下最短路径数，和最大权重</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;map&gt;
+using namespace std;
+int main()
+{
+    int N, M, C1, C2;
+    cin&gt;&gt;N &gt;&gt;M &gt;&gt;C1 &gt;&gt; C2;
+    int hands[N]; // 城市助手数量
+    int roads[N][N]; // 两座城市的路费
+    int visited[N]; //该城市是否已经访问
+    int shortRoads[N]; //最短路径长度
+    int shortRoadsNum[N]; //最短路径数量
+    int maxHands[N]; //到该城市最多的人数
+    for(int i = 0; i &lt; N; i++)
+    {
+        cin&gt;&gt;hands[i];
+        visited[i] = 0; //初始化所有城市未访问
+        shortRoads[i] = -1; //初始化所有城市最短路径都不存在
+        shortRoadsNum[i] = 0; // 初始化所有的城市最短路径数量为0
+        maxHands[i] = 0;
+        for(int j = 0;j &lt; N; j++)
+        {
+            roads[i][j] = -1; //初始化两座城市不可达
+        }
+    }
+    for(int i = 0; i &lt; M; i++)
+    {
+        int c1, c2, L;
+        cin &gt;&gt; c1 &gt;&gt; c2 &gt;&gt; L;
+        roads[c1][c2] = L;
+        roads[c2][c1] = L;
+    }
+    shortRoads[C1] = 0;
+    shortRoadsNum[C1] = 1;
+    maxHands[C1] = hands[C1];
+    for(int i = 0; i &lt; N; i++)
+    {
+        int nowMinRoadCity = -1;
+        int nowMinRoad = -1;
+        for(int j = 0; j &lt; N; j++) //寻找当前距离最小的节点
+        {
+            if(visited[j] == 0 &amp;&amp; shortRoads[j] != -1)//目前不可达的城市不考虑
+            {
+                if(nowMinRoad == -1 || nowMinRoad &gt; shortRoads[j])
+                {
+                    nowMinRoad = shortRoads[j];
+                    nowMinRoadCity = j;
+                }
+            }
+        }
+        if(nowMinRoad == -1) //如果没找到未访问过的城市的最小路径则结束
+        {
+            break;
+        }
+    //        cout&lt;&lt;&quot;nowMinRoadCity:&quot; &lt;&lt; nowMinRoadCity &lt;&lt;endl;
+        visited[nowMinRoadCity] = 1;
+
+        for(int j = 0; j &lt; N; j++) //在最小节点的基础上更新路径
+        {
+            if(visited[j] == 0) //
+            {
+                if(shortRoads[j] == -1) //当前城市处于不可达的状态
+                {
+                   if(roads[nowMinRoadCity][j] != -1)
+                   {
+                       shortRoads[j] = shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j];
+                       shortRoadsNum[j] = shortRoadsNum[nowMinRoadCity] ;
+                       if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])
+                       {
+                           maxHands[j] = maxHands[nowMinRoadCity] + hands[j];
+                       }
+                   }
+                }
+                else
+                {
+                    if(roads[nowMinRoadCity][j] != -1)
+                    {
+                        if(shortRoads[j] &gt; shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j])
+                        {
+                            shortRoads[j] = shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j];
+                            shortRoadsNum[j] = shortRoadsNum[nowMinRoadCity];
+                            if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])
+                            {
+                                maxHands[j] = maxHands[nowMinRoadCity] + hands[j];
+                            }
+                        }
+                        else if(shortRoads[j] == shortRoads[nowMinRoadCity] + roads[nowMinRoadCity][j])
+                        {
+                            shortRoadsNum[j] += shortRoadsNum[nowMinRoadCity];
+                            if(maxHands[j] &lt; maxHands[nowMinRoadCity] + hands[j])
+                            {
+                                maxHands[j] = maxHands[nowMinRoadCity] + hands[j];
+                            }
+                        }
+                    }
+
+                }
+    //                cout&lt;&lt; &quot;shortRoads &quot; &lt;&lt;j &lt;&lt; &quot; &quot; &lt;&lt;shortRoads[j]&lt;&lt;endl;
+            }
+        }
+    }
+    cout&lt;&lt; shortRoadsNum[C2]&lt;&lt; &quot; &quot; &lt;&lt; maxHands[C2]&lt;&lt;endl;
+    return 0;
+}</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>docker-镜像基础操作</title>
+    <url>/2020/02/12/docker-%E9%95%9C%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
+<li><p>列出镜像<br>docker images</p>
+</li>
+<li><p>查看镜像<br>docker inspect</p>
+</li>
+<li><p>删除镜像<br>docker rmi</p>
+</li>
+<li><p>查找镜像<br>docker search</p>
+</li>
+<li><p>拉去镜像<br>docker pull</p>
+</li>
+<li><p>推送镜像<br>docker push</p>
+</li>
+<li><p>构建镜像<br>docker commit<br>例：<br>docker commit -a “menhu”  -m “nginx” menh/web web</p>
+</li>
+</ol>
+<p>利用dockerfile 构建镜像<br>docker build</p>
+<ol start="8">
+<li>dockerfile 构建镜像</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>影-肖申克的救赎</title>
+    <url>/2020/02/11/%E5%BD%B1-%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>2020-02-10，大约是23:30 我看完了肖申克的救赎，总共用了两天时间，分三段看完的。<br>  看这部电影的初衷就是想看看评分如此之高，备受好评的电影是怎么做到的。经典为何为经典。<br>看的过程中并没有全身心的投入去看，因为像这种偏文艺的电影，我现在还不能做到心无旁骛的陶醉其中，然而虽然看的时候有点懈怠，但是经典的电影还是在不经意间引起我的深思。<br>  首先是主人公作为Andy作为一个在社会上有头有脸的人物，却沦为阶下囚，并受到了些凌辱。这样我想到，适应环境，利用规则，才是生存或者更好生活的的法则。狱警可以肆无忌惮的对囚徒进行殴打，因为在这个小小的“王国”下，他们就是规则的制定者。他们可以毫无理由的分配给囚徒各种工作，即使很地下的工作，在囚徒看来都可能是一种荣幸。</p>
+<p>  其次是知识的作用，Andy有知识，他利用他的知识能力在狱中可以得到与其他囚徒不一样的待遇，同时他又利用他的知识能力来教化其他狱友。从某点上来考虑，这个情节很激励人心，教化自己普渡他人，这是一个自带光芒的人啊，然而转念一想，这情节有些突兀。在一个没有自由，或者说是在一个狭小的几乎会永远生活在这没有“文明”的地方，真的会有人崇尚知识吗。这就好比生活在三维世界的人，可能只是四维生物的打工仔，我们所谓的知识，只是四维生物赏赐给我们的低级的趣味。</p>
+<p>  Brooks从监狱里出来之后，选择了自杀，因为他很难再适应外面世界的规则。</p>
+<p>  以后再看一次</p>
+<hr>
+<p>下面为阅读的影评<br>肖申克的救赎与信念，自由，友谊有关。</p>
+<h5 id="【信念】"><a href="#【信念】" class="headerlink" title="【信念】"></a>【信念】</h5><p>Red说，希望是危险的东西，是精神苦闷的根源。重重挤压下的牢狱里待了三十年的他的确有资格这么说。因为从进来的那一天起，狱长就说过「把灵魂交给上帝，把身体交给我」。 他除了能弄来香烟和印着裸女的扑克牌，其他任何异动在这个黑暗的高墙之内似乎都无法生长。</p>
+<p>然而，Andy却告诉他，「记住，希望是好事——甚至也许是人间至善而美好的事永不消失」。</p>
+<p>所以Andy能够用二十年挖开瑞德认为六百年都无法凿穿隧洞。当Andy终于排除五百码恶臭的污水管道，站在瓢泼大雨中情不自禁的时候，我们仿佛看到信念刺穿重重黑幕，在暗夜中打了一道夺目的霹雳。亮光之下，我们怯懦的灵魂在Andy张开的双臂下现行，并且颤抖。</p>
+<p><em>庸常生活里的我们，似乎已经习惯了按步就按，习惯了先说「不可能」，习惯了没有奇迹，习惯了习惯了。</em></p>
+<p>我们应该试着留住一些信念，在他们丧失殆尽之前。它们也许最终无法实现，也许无法让我们或者更有意义的活着，甚至对于我们自己而言，它们只会愈加给我们带来更多的虚无感。然而我知道我有多需要这样的虚伪与自欺，因为你可以说我在做梦，但我不会是仅有的一个。</p>
+<h5 id="【自由】"><a href="#【自由】" class="headerlink" title="【自由】"></a>【自由】</h5><p>我到今天也不明白，那两个意大利的女人在唱什么。事实上，我也不想去明白。有些东西不说更好。我想那是非笔墨可形容的美貌，然而却令你如此心伤。</p>
+<p>那声音飞扬，高远入云，超过任何在禁锢中的囚犯的梦。仿佛一只美丽的小鸟，飞入这灰色的鸟笼，让那些围墙消失，另铁窗中的所有犯人，感到一刻的自由。</p>
+<p>当Andy不顾一切的在监狱的喇叭里放《费加罗的婚礼》时。正在广场上防风的囚徒们和那些狱警，它们静立当地，抛却所有愤懑，狠毒，怨恨，沐浴着从未觉得如此自由的阳光。莫扎特的乐声铺洒在这些人的身上，来自俗世的美妙音符似乎将他们都濯洗的纯净无比。</p>
+<p><em>强者自救，圣者渡人。</em> 修屋顶的时候，Andy为大家争取来啤酒，事实上是为大家争取到的那种像修缮自家的屋顶一般自由的存在，所以他不喝酒，微笑却带着巨大的幸福。播放《费加罗的婚礼》也是要唤醒它们已经丧失殆尽的自由感。</p>
+<p>然而强者终究是少数。自由面前，更多人选择禁锢。在监狱图书馆待了五十年的Brooks，为了不被假释，竟然想通过伤害狱友来达到留在监狱的目的。自由本就是人们向往和追求的东西。可是Brooks却早已在监狱的规则下规则了自己，没有规则，他无法生存。</p>
+<p>「监狱的高墙是在是很有趣。刚入狱时，你痛恨周围的高墙；慢慢的，你习惯生活在其中，最终你会发现自己不得不依靠它来生存。这就是体制化」假Red之口，斯蒂芬金直指卑微</p>
+<p>Brooks得到了身体的自由，灵魂却早已经无法挽回的体制化。他终于没有能摆脱对自由无法适应的困境，悬梁自尽。而睿智如瑞德，在出狱之后也悲哀的发现，自己竟然连撒尿都要向经理报告，否则一滴都挤不出来。他也考虑如何违规以便回到监狱，甚至考虑与Brooks一样离开。</p>
+<p>要么忙着生活，要么忙着等死。步履匆匆的人们也许应该偶尔驻足，跳出来看看自己的模样。我们终会知道，<em>习惯与服从规则的人们将付出巨大的代价来习惯本来属于每一个人的自由</em></p>
+<h5 id="【友谊】"><a href="#【友谊】" class="headerlink" title="【友谊】"></a>【友谊】</h5><p>Red和Andy那种置放在高墙之下的友谊，似乎比我们纷繁俗世中的友情来的更加纯粹和干净。他们都是内敛的人，然而洞悉一切，心意切合。他们终于相会在太平洋小岛的阳光沙滩上。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>docker-基本容器操作</title>
+    <url>/2020/02/11/docker-%E5%AE%B9%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="容器基本操作"><a href="#容器基本操作" class="headerlink" title="容器基本操作"></a>容器基本操作</h3><ol>
+<li><p>启动容器<br>docker run IMAGE [COMMAND] [ARG…]<br>例： 启动容器并输出hello world<br>docker run ubuntu echo “hello world”</p>
+</li>
+<li><p>启动交互式容器<br>docker run -i -t IMAGE /bin/bash<br>例：<br>docker run -i -t ubuntu /bin/bash</p>
+</li>
+<li><p>查看容器列表<br>docker ps</p>
+</li>
+<li><p>查看容器详情<br>docker inspect</p>
+</li>
+<li><p>重新启动已经停止的容器<br>docker start -i</p>
+</li>
+<li><p>删除停止的容器<br>docker rm cool_sammet</p>
+</li>
+<li><p>以守护形式运行容器<br>docker run -i -t IMAGE /bin/bash<br>CTRL + Q 退出</p>
+</li>
+<li><p>再次进入守护形式运行的容器<br>docker attach</p>
+</li>
+<li><p>使用run 启动守护形式容器<br>docker run -d IMAGE [COMMAND] [ARG…]<br>例：docker run –name dc1 -d ubuntu /bin/sh -c “while true; do echo hello world; sleep 1; done”</p>
+</li>
+<li><p>查看容器日志<br>docker logs [-f] [-t] [–tail] 容器名</p>
+</li>
+<li><p>查看容器的进程<br>docker top 容器名</p>
+</li>
+<li><p>在运行容器中启动新的进程<br>docker exec [-d][-i][-t] 容器名 [COMMAND][ARG…]<br>例：docker exec -i -t dc1 /bin/bash</p>
+</li>
+<li><p>停止守护容器<br>docker stop 发送信号给容器，等待其停止<br>docker kill 直接停止容器</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>PAT-1002_A+B_for_Polynomials</title>
+    <url>/2020/02/11/PAT-1002-A-B-for-Polynomials/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h2 id="1002-A-B-for-Polynomials"><a href="#1002-A-B-for-Polynomials" class="headerlink" title="1002 A+B for Polynomials"></a><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805526272000000" target="_blank" rel="noopener">1002 A+B for Polynomials</a></h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><h2 id="将系数相同的项累加，累加后若该项为0则删除"><a href="#将系数相同的项累加，累加后若该项为0则删除" class="headerlink" title="将系数相同的项累加，累加后若该项为0则删除"></a>将系数相同的项累加，累加后若该项为0则删除</h2><h4 id="误区"><a href="#误区" class="headerlink" title="误区"></a>误区</h4><ol>
+<li>项为0的不输出</li>
+<li>按照系数大小逆向输出</li>
+</ol>
+<hr>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;map&gt;
+using namespace std;
+int main()
+{
+  map&lt;int, double&gt; poly;
+  for(int poly_i = 0; poly_i &lt; 2; poly_i++)
+  {
+      int N;
+      cin &gt;&gt; N;
+
+      for(int i = 0; i &lt; N; i++)
+      {
+          int Ni;
+          double aN;
+          cin&gt;&gt; Ni &gt;&gt; aN;
+          if(poly.find(Ni) != poly.end())
+          {
+              poly[Ni] += aN;
+          }
+          else
+          {
+              poly[Ni] = aN;
+          }
+          if(poly[Ni] == 0)
+          {
+              poly.erase(Ni); // 删除项为0
+          }
+
+      }
+  }
+  cout&lt;&lt; poly.size();
+  map&lt;int, double&gt;::reverse_iterator rit;
+  for(rit = poly.rbegin(); rit != poly.rend(); rit++)
+  {
+      printf(&quot; %d %.1f&quot;, rit-&gt;first, rit-&gt;second); //保留1位小数
+  }
+  return 0;
+}</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>tf-keras和keras</title>
+    <url>/2020/02/10/tf-keras%E5%92%8Ckeras/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>keras 是什么</p>
+<ul>
+<li>基于python的高级神经网络API</li>
+<li>以Tensorflow，CNTK或者Theano为后段运行，keras必须有后端才可以运行</li>
+<li>极方便与快速实验，帮助用户以最少的时间验证自己的想法<br>Tensorflow-keras是什么<ul>
+<li>Tensorflow对keras API的规范实现</li>
+<li>比以Tensorflow为后段的keras，Tensorflow-keras与Tensorflow结合更加紧密</li>
+<li>实现在tf.keras空间下</li>
+</ul>
+</li>
+</ul>
+<p>Tf-keras 和 keras的联系</p>
+<ul>
+<li>基于同一套API<ul>
+<li>keras程序可以通过导入方式转换为tf.keras程序</li>
+<li>反之不成立，因为tf.keras有其他特性<ul>
+<li>相同的JSON和HDF5模型序列化格式和语义</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Tf-keras 和 keras的区别</p>
+<ul>
+<li>Tf.keras全面支持eager mode<ul>
+<li>只是用keras.Sequential和keras.Model时没有影响</li>
+<li>自动以的Model内部运算逻辑时没有影响<ul>
+<li>Tf低层API可以使用keras的model.fit等抽象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Tf.keras支持基于tf.data的模型训练</li>
+<li>Tf.keras支持TPU训练</li>
+<li>Tf.keras支持tf.distribution的分布式策略</li>
+<li>Tf.keras可以与Tensorflow中的estimator集成</li>
+<li>Tf.keras可以保存为SaveModel</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>深度学习-概率分布</title>
+    <url>/2020/02/10/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+  </entry>
+  <entry>
+    <title>李文亮医生1</title>
+    <url>/2020/02/10/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F1/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="我走了-带着一张训诫书！"><a href="#我走了-带着一张训诫书！" class="headerlink" title="我走了,带着一张训诫书！"></a>我走了,带着一张训诫书！</h2><p>  天还没亮，我走了</p>
+<p>  我走的时候，渡口很黑，无人相送，只有几朵雪花落在我的眼底。我一思念，它们便从我的眼眶滑落。</p>
+<p>  黑夜真黑，黑的让我想不起万家灯火。我一生追求光，我自诩很明亮，但我拼尽全力，却什么都没点亮</p>
+<p>  谢谢你们，昨夜冒着风雪来看我的人！谢谢你们整夜不眠，像守望亲人一样把我守望！可是脆弱人间，没有奇迹。</p>
+<p>  我原本平凡而渺小，有一天我被上帝选中，托我将他的旨意转告苍生。</p>
+<p>  我小心翼翼的说了，于是，有人劝我不要惊扰太平，他们说：你没看见满城繁华开得正艳吗！</p>
+<p>  为了让全世界相信现世安稳，我只好守口如瓶，还用鲜红的指印保证 – 我说的话都是童话，带花冠的致命皇后从来不曾下凡作乱。</p>
+<p>  就这样，天下继续熙熙攘攘，谁也不知道，巨大的悲伤即将把城门紧锁。</p>
+<p>  后来，上帝大怒，山河失色，我也病了。再后来，我的家人都病了。我们就像千万片雪花一样，你一片，我一片，各自凋零。</p>
+<p>  我曾以为，只待春江水暖，我和家人便能再度重相逢。到那时，我们就坐在鹅黄的油菜花田，把花儿一朵一朵的数，把日子一分一秒地过。</p>
+<p>  等啊等啊，我只等来了昨夜小雪，上帝摸摸我的头，爱怜地说：乖，跟我走吧，人间不值得！</p>
+<p>  我一听就泪如雨下，虽然人间苦寒，上帝温暖。但我怕过了奈何桥，偶尔回望吾乡，再也望不见一家老小。</p>
+<p>  其实，我的风骨早就被拍死在一张保证书上。我继续阳光朗照地活着，歌颂生命，赞美松柏，那是因为我对这土地爱得深沉。而今，我的肉身也死了。</p>
+<p>  在我成为一粒尘埃之前，我又静静地怀想了一遍故乡的黑土白云。多想回到小时候啊，风是尽情飞舞的，雪是洁白无瑕的。</p>
+<p>  活着真好，可我死了。我再也无法抚摸亲人的脸庞，再也无法带孩子去看东湖春晓，再也无法陪父母去看武大的樱花，再也无法把风筝放到白云深处。</p>
+<p>  我曾依稀梦见我尚未出世的孩子，他一出生就眼含热泪，在人潮人海中把我寻找。对不起，孩子！我知道你只想要一个平凡的父亲，而我却做了一个平民英雄。</p>
+<p>  天快亮了，我要走了。带着一张保证书，那是我此生唯一的行囊。</p>
+<p>  谢谢世间所有懂我怜我爱我的人，我知道你们都在黎明等候，等我越过山丘！可是，我太累了。</p>
+<p>  此生，我不想重于泰山，也不怕轻于鸿毛。我唯一的心愿，就是希望冰雪消融之后，众生依然热爱大地，依然相信祖国。</p>
+<p>  等到春雷滚滚，如果有人还想纪念我，请给我立一个小小的墓碑吧！不必伟岸，只须证明我曾来过这个世界，有名有姓，无知无畏。</p>
+<p>  那么，我的墓志铭只需一句话：他为苍生说过话</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>疫情下的元宵节</title>
+    <url>/2020/02/09/%E7%96%AB%E6%83%85%E4%B8%8B%E7%9A%84%E5%85%83%E5%AE%B5%E8%8A%82/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p> 2020年正月十五-元宵节</p>
+<p> 今年春节非比寻常，在武汉瘟疫肆虐的情况下，每个人都被限制在了室内。出门都是口罩护身。往日的走街串巷，拜亲戚，聚会的习俗都被瘟疫压制了。</p>
+<p> 这是2020年正月16的疫情数据。<br> <img src="epidemic_data.jpeg" alt="患病人数"><br> <img src="epidemic_data_map.jpeg" alt="各省统计"><br> 总确诊人数将近4万了，很恐怖的数据了。<br> 湖北，广东，浙江都已经变黑了，河南今天也变黑了。</p>
+<p> <img src="we.jpeg" alt="我们"><br> 在这样的疫情下，我和他在一起过的元宵节，带着口罩背对着正月十五的月亮，在一起就很开心</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>二维码登陆原理</title>
+    <url>/2020/02/09/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E9%99%86%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="基本实现原理"><a href="#基本实现原理" class="headerlink" title="基本实现原理"></a>基本实现原理</h2><ol>
+<li><p>网页端和服务器配合逻辑<br>首先用户打开网站登陆界面时，向服务器发送获取登陆二维码的请求。服务器收到请求后，随机生成一个uuid，将这个id作为key值存入redis服务器，同时设置一个过期时间，过期后，用户登陆二维码需要进行刷新重新获取。</p>
+<p>同时，将这个key值和本公司的验证码字符串合在一起，生成一个二维码图片，将后将二维码图片和uuid一起返回给浏览器。</p>
+<p>浏览器拿到二维码和uuid后，会每隔一秒向浏览器发送一次登陆是否成功的请求。请求中携带有uuid作为当前页面的标识符。</p>
+</li>
+<li><p>手机端与服务器端配合逻辑<br>浏览器拿到二维码后，将二维码展示到网页上，并给用户一个提示：打开扫一扫进行登陆。</p>
+<p>用户扫描二维码后，就可以得到一个验证码和一个uuid。</p>
+<p>手机端访问服务器，参数中会有token，手机端服务器可以从中得到用户的userId。手机端将解析到的数据和用户token一起作为参数，向服务器发送验证登陆请求。</p>
+<p>服务器收到登陆请求后，返回登陆确认信息给手机端。</p>
+<p>手机端收到返回后，进行登陆确认。确认后再次返送请求，服务器拿到userId和uuid后，将用户的userId作为value存入redis</p>
+</li>
+<li><p>登陆确认后，浏览器逻辑</p>
+</li>
+</ol>
+<p>浏览器每秒发送时候登陆成功的请求，确认登陆成功后，可以获取登陆用户的userId。</p>
+<p>流程图如下：<br><img src="qrcode_login.jpg" alt="qrcode login"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>李文亮医生，再见</title>
+    <url>/2020/02/07/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F%E5%86%8D%E8%A7%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="我走了-带着一张训诫书！"><a href="#我走了-带着一张训诫书！" class="headerlink" title="我走了,带着一张训诫书！"></a>我走了,带着一张训诫书！</h2><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=491833132&auto=1&height=66"></iframe>
+
+<iframe src="http://open.iqiyi.com/developer/player_js/coopPlayerIndex.html?vid=e90721dc87291f4510c03309e249411a&tvId=12381616400&accessToken=2.f22860a2479ad60d8da7697274de9346&appKey=3955c3425820435e86d0f4cdfe56f5e7&appId=1368&height=100%&width=100%" frameborder="0" allowfullscreen="true" width="100%" height="100%"></iframe>
+
+<p>  <img src="LWL.jpg" alt="李文亮医生"><br>  天还没亮，我走了</p>
+<p>  我走的时候，渡口很黑，无人相送，只有几朵雪花落在我的眼底。我一思念，它们便从我的眼眶滑落。</p>
+<p>  黑夜真黑，黑的让我想不起万家灯火。我一生追求光，我自诩很明亮，但我拼尽全力，却什么都没点亮</p>
+<p>  谢谢你们，昨夜冒着风雪来看我的人！谢谢你们整夜不眠，像守望亲人一样把我守望！可是脆弱人间，没有奇迹。</p>
+<p>  我原本平凡而渺小，有一天我被上帝选中，托我将他的旨意转告苍生。</p>
+<p>  我小心翼翼的说了，于是，有人劝我不要惊扰太平，他们说：你没看见满城繁华开得正艳吗！</p>
+<p>  为了让全世界相信现世安稳，我只好守口如瓶，还用鲜红的指印保证 – 我说的话都是童话，带花冠的致命皇后从来不曾下凡作乱。</p>
+<p>  就这样，天下继续熙熙攘攘，谁也不知道，巨大的悲伤即将把城门紧锁。</p>
+<p>  后来，上帝大怒，山河失色，我也病了。再后来，我的家人都病了。我们就像千万片雪花一样，你一片，我一片，各自凋零。</p>
+<p>  我曾以为，只待春江水暖，我和家人便能再度重相逢。到那时，我们就坐在鹅黄的油菜花田，把花儿一朵一朵的数，把日子一分一秒地过。</p>
+<p>  等啊等啊，我只等来了昨夜小雪，上帝摸摸我的头，爱怜地说：乖，跟我走吧，人间不值得！</p>
+<p>  我一听就泪如雨下，虽然人间苦寒，上帝温暖。但我怕过了奈何桥，偶尔回望吾乡，再也望不见一家老小。</p>
+<p>  其实，我的风骨早就被拍死在一张保证书上。我继续阳光朗照地活着，歌颂生命，赞美松柏，那是因为我对这土地爱得深沉。而今，我的肉身也死了。</p>
+<p>  在我成为一粒尘埃之前，我又静静地怀想了一遍故乡的黑土白云。多想回到小时候啊，风是尽情飞舞的，雪是洁白无瑕的。</p>
+<p>  活着真好，可我死了。我再也无法抚摸亲人的脸庞，再也无法带孩子去看东湖春晓，再也无法陪父母去看武大的樱花，再也无法把风筝放到白云深处。</p>
+<p>  我曾依稀梦见我尚未出世的孩子，他一出生就眼含热泪，在人潮人海中把我寻找。对不起，孩子！我知道你只想要一个平凡的父亲，而我却做了一个平民英雄。</p>
+<p>  天快亮了，我要走了。带着一张保证书，那是我此生唯一的行囊。</p>
+<p>  谢谢世间所有懂我怜我爱我的人，我知道你们都在黎明等候，等我越过山丘！可是，我太累了。</p>
+<p>  此生，我不想重于泰山，也不怕轻于鸿毛。我唯一的心愿，就是希望冰雪消融之后，众生依然热爱大地，依然相信祖国。</p>
+<p>  等到春雷滚滚，如果有人还想纪念我，请给我立一个小小的墓碑吧！不必伟岸，只须证明我曾来过这个世界，有名有姓，无知无畏。</p>
+<p>  那么，我的墓志铭只需一句话：他为苍生说过话</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>设计模式</title>
+    <url>/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<ol>
+<li><p>模版方法 Template</p>
+<ul>
+<li>动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求</li>
+<li>定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林）</li>
+<li>处理思路: 利用虚函数的多态性</li>
+</ul>
+</li>
+<li><p>策略模式 Strategy</p>
+<ul>
+<li>动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担</li>
+<li>定义：定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。策略模式使得算法可独立于使用它的客户程序而变化</li>
+<li>处理方法： 利用多态性</li>
+</ul>
+</li>
+<li><p>观察者模式 Observer/Event</p>
+<ul>
+<li>动机：软件构建过程中，我们需要为某些对象建立一种“通知依赖关系”，一个对象发生状态改变，所有依赖对象都将得到通知</li>
+<li>定义：定义对象间一种一对多的依赖关系，以便一个对象的状态改变时，所有依赖于它的对象都得到通知和更新</li>
+</ul>
+</li>
+<li><p>装饰模式 Decorator</p>
+<ul>
+<li>动机: 过度的使用继承来拓展对象的功能，由于继承为类型引入的静态特质，使得这种拓展方式缺乏灵活性，并且随着子类的增多，各种子类的组合会导致更多的子类膨胀</li>
+<li>定义： 动态给一个对象增加额外的职责</li>
+</ul>
+</li>
+<li><p>桥模式 Brige</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>technology</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2020/01/19/test/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/01/19/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
 </search>
