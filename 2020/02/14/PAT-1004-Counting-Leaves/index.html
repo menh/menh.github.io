@@ -101,15 +101,15 @@
 
 
 
-<meta name="description" content="思路就是求解树结构的每一层的叶子节点的树木，使用宽度搜索  源码#include &lt;iostream&gt; #include &lt;iostream&gt; #include &lt;stdio.h&gt; #include &lt;map&gt; #include &lt;vector&gt; #include &lt;queue&gt; using namespace std; ma">
+<meta name="description" content="思路就是求解树结构的每一层的叶子节点的树木，使用宽度搜索">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PAT-1004_Counting_Leaves">
 <meta property="og:url" content="https://menh.github.io/2020/02/14/PAT-1004-Counting-Leaves/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="思路就是求解树结构的每一层的叶子节点的树木，使用宽度搜索  源码#include &lt;iostream&gt; #include &lt;iostream&gt; #include &lt;stdio.h&gt; #include &lt;map&gt; #include &lt;vector&gt; #include &lt;queue&gt; using namespace std; ma">
+<meta property="og:description" content="思路就是求解树结构的每一层的叶子节点的树木，使用宽度搜索">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-14T07:33:02.000Z">
-<meta property="article:modified_time" content="2020-02-14T09:24:17.471Z">
+<meta property="article:modified_time" content="2020-02-14T10:34:49.184Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -339,7 +339,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hugh Men">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
+      <meta itemprop="image" content="/images/menhu.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  248
+                  254
                 </span>
               
 
@@ -455,63 +455,10 @@
 
       
         <h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>就是求解树结构的每一层的叶子节点的树木，使用宽度搜索</p>
+<a id="more"></a>
 <hr>
-<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><pre><code>#include &lt;iostream&gt;
-#include &lt;iostream&gt;
-#include &lt;stdio.h&gt;
-#include &lt;map&gt;
-#include &lt;vector&gt;
-#include &lt;queue&gt;
-using namespace std;
-map&lt;string,int&gt; mapNodeLevel; //记录节点所在层数
-int iMaxLevel = 0; //记录最大层数
-int szNoLeafNode[100]; //记录每层没有孩子的节点数
-int main()
-{
-    int N = 0, M;
-    cin&gt;&gt; N &gt;&gt; M;
-    map&lt;string, vector&lt;string&gt; &gt; mapTree;
-    for(int i = 0; i &lt; M; i++)
-    {
-        string strRoot;
-        cin&gt;&gt; strRoot;
-        int iK;
-        cin &gt;&gt; iK;
-        vector&lt;string&gt; vecChild;
-        for(int j = 0; j &lt; iK; j++)
-        {
-            string strChild;
-            cin&gt;&gt; strChild;
-            vecChild.push_back(strChild);
-        }
-        mapTree[strRoot] = vecChild;
-    }
-    queue&lt;string&gt; queNode;
-    queNode.push(&quot;01&quot;);
-    mapNodeLevel[&quot;01&quot;] = 0;
-    while(queNode.empty() != true)
-    {
-        string strFrontNode = queNode.front();
-        queNode.pop();
-        if(mapTree[strFrontNode].size() == 0)
-        {
-            szNoLeafNode[mapNodeLevel[strFrontNode]] ++;
-        }
-        iMaxLevel = max(iMaxLevel, mapNodeLevel[strFrontNode]);
-        for(int i = 0; i &lt; mapTree[strFrontNode].size(); i++)
-        {
-            mapNodeLevel[mapTree[strFrontNode][i]] = mapNodeLevel[strFrontNode] + 1;
-            queNode.push(mapTree[strFrontNode][i]);
-        }
-    }
-    printf(&quot;%d&quot;, szNoLeafNode[0]);
-    for(int i = 1; i &lt;= iMaxLevel; i++)
-    {
-        printf(&quot; %d&quot;, szNoLeafNode[i]);
-    }
-    printf(&quot;\n&quot;);
-    return 0;
-}</code></pre>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt; mapNodeLevel; <span class="comment">//记录节点所在层数</span></span><br><span class="line"><span class="keyword">int</span> iMaxLevel = <span class="number">0</span>; <span class="comment">//记录最大层数</span></span><br><span class="line"><span class="keyword">int</span> szNoLeafNode[<span class="number">100</span>]; <span class="comment">//记录每层没有孩子的节点数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N = <span class="number">0</span>, M;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt; N &gt;&gt; M;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; &gt; mapTree;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">string</span> strRoot;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt; strRoot;</span><br><span class="line">        <span class="keyword">int</span> iK;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; iK;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vecChild;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; iK; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">string</span> strChild;</span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt; strChild;</span><br><span class="line">            vecChild.push_back(strChild);</span><br><span class="line">        &#125;</span><br><span class="line">        mapTree[strRoot] = vecChild;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="built_in">string</span>&gt; queNode;</span><br><span class="line">    queNode.push(<span class="string">"01"</span>);</span><br><span class="line">    mapNodeLevel[<span class="string">"01"</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(queNode.empty() != <span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">string</span> strFrontNode = queNode.front();</span><br><span class="line">        queNode.pop();</span><br><span class="line">        <span class="keyword">if</span>(mapTree[strFrontNode].<span class="built_in">size</span>() == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            szNoLeafNode[mapNodeLevel[strFrontNode]] ++;</span><br><span class="line">        &#125;</span><br><span class="line">        iMaxLevel = <span class="built_in">max</span>(iMaxLevel, mapNodeLevel[strFrontNode]);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mapTree[strFrontNode].<span class="built_in">size</span>(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            mapNodeLevel[mapTree[strFrontNode][i]] = mapNodeLevel[strFrontNode] + <span class="number">1</span>;</span><br><span class="line">            queNode.push(mapTree[strFrontNode][i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>, szNoLeafNode[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= iMaxLevel; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">" %d"</span>, szNoLeafNode[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -544,6 +491,10 @@ int main()
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/17/PAT-1005-Spell-It-Right/" rel="prev" title="PAT-1005_Spell_It_Right">
+                PAT-1005_Spell_It_Right <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -608,7 +559,7 @@ int main()
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/%5Bobject%20Object%5D"
+               src="/images/menhu.jpg"
                alt="Hugh Men" />
           <p class="site-author-name" itemprop="name">Hugh Men</p>
            
@@ -642,7 +593,7 @@ int main()
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
