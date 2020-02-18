@@ -101,13 +101,15 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tag">
-<meta property="og:url" content="https://menh.github.io/tags/index.html">
+<meta name="description" content="1008 Elevator  思路简单 源码line_number: true1234567891011121314151617181920212223242526272829303132333435#include &lt;iostream&gt;#include &lt;stdio.h&gt;#include &lt;map&gt;#include &lt;vector&gt;#include">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PAT-1008_Elevator">
+<meta property="og:url" content="https://menh.github.io/2020/02/17/PAT-1008-Elevator/index.html">
 <meta property="og:site_name" content="Hugh">
+<meta property="og:description" content="1008 Elevator  思路简单 源码line_number: true1234567891011121314151617181920212223242526272829303132333435#include &lt;iostream&gt;#include &lt;stdio.h&gt;#include &lt;map&gt;#include &lt;vector&gt;#include">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-19T08:42:01.000Z">
-<meta property="article:modified_time" content="2020-02-14T09:28:02.738Z">
+<meta property="article:published_time" content="2020-02-17T07:23:03.000Z">
+<meta property="article:modified_time" content="2020-02-18T06:21:12.341Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -139,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://menh.github.io/tags/"/>
+  <link rel="canonical" href="https://menh.github.io/2020/02/17/PAT-1008-Elevator/"/>
 
 
 
 
 
-  <title>tag | Hugh</title>
+  <title>PAT-1008_Elevator | Hugh</title>
   
 
 
@@ -320,40 +322,175 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/17/PAT-1008-Elevator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hugh Men">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/menhu.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tag</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                3 tags in total
+          <h1 class="post-title" itemprop="name headline">PAT-1008_Elevator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-17T15:23:03+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+                  106
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
             </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/CS/" style="font-size: 12px; color: #ccc">CS</a> <a href="/tags/Docker/" style="font-size: 12px; color: #ccc">Docker</a> <a href="/tags/technology/" style="font-size: 12px; color: #ccc">technology</a>
-            </div>
-          </div>
-        
-      </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805511923286016" target="_blank" rel="noopener">1008 Elevator </a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>简单</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> iN;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt; iN;</span><br><span class="line">    <span class="keyword">int</span> iFloor;</span><br><span class="line">    <span class="keyword">int</span> iLastFloor = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> iCost = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; iN; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; iFloor;</span><br><span class="line">        <span class="keyword">int</span> iStep = iFloor - iLastFloor;</span><br><span class="line">        <span class="keyword">if</span>(iStep &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            iCost += iStep * <span class="number">6</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            iCost -= iStep * <span class="number">4</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        iLastFloor = iFloor;</span><br><span class="line"></span><br><span class="line">        iCost += <span class="number">5</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt; iCost &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/17/PAT-1007-Maximum-Subsequence-Sum/" rel="next" title="PAT-1007_Maximum_Subsequence_Sum">
+                <i class="fa fa-chevron-left"></i> PAT-1007_Maximum_Subsequence_Sum
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/17/%E8%B6%85%E7%BA%A7%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-%E5%87%A0%E4%B8%AA%E5%88%86%E5%BD%A2%E5%87%BD%E6%95%B0/" rel="prev" title="超级数学建模-几个分形函数">
+                超级数学建模-几个分形函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -386,8 +523,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/menhu.jpg"
@@ -449,6 +595,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码"><span class="nav-number">2.</span> <span class="nav-text">源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -564,10 +726,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
