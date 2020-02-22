@@ -1,6 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>PAT-1015_Reversible_Primes</title>
+    <url>/2020/02/22/PAT-1015-Reversible-Primes/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805495863296000" target="_blank" rel="noopener">1015 Reversible Primes</a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>按照题目来判断原数是不是质数，数位逆转后再判断是不是质数</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isPrime</span><span class="params">(<span class="keyword">int</span> iNum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(iNum &lt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(iNum == <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> iHalf = iNum / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">int</span> iDivisorCount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= iHalf; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(iNum % i == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> iNum, <span class="keyword">int</span> iD)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> iReverse = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(iNum != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        iReverse = iReverse * iD + iNum % iD;</span><br><span class="line">        iNum = iNum / iD;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> iReverse;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> iN, iD;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt; iN)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(iN &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt; iD;</span><br><span class="line">        <span class="keyword">if</span>(isPrime(iN) == <span class="literal">false</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"No"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(isPrime(reverse(iN, iD)) == <span class="literal">false</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt; <span class="string">"No"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"Yes"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Django-数据迁移问题</title>
+    <url>/2020/02/21/Django-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
+<li><p>清空数据表<br>python manage.py flush</p>
+</li>
+<li><p>使用Django框架的倒入导出<br>python manage.py dumpdata [APP_NAME] &gt; [EXPOER_FILE_NAME]<br>python manage.py loaddata [EXPOER_FILE_NAME]<br>不指定应用名称则会导出所有数据表，包括一些系统数据表<br>所以在导出时尽量只指定有关业务应用的名称<br>例如:<br>有personnels和customers两个应用要导出数据时<br>python manage.py dumpdata personnels customers &gt; data.json</p>
+</li>
+</ol>
+<p>导入数据<br>python manage.py loaddata data.json</p>
+<ol start="2">
+<li>当使用安全删除策略时可能面临的导出问题<br>若业务删除操作写的很标准，关联数据都可以逻辑删除的话，执行上述导出导入就可以实现数据的迁移<br>但时可能由于业务复杂，表关联复杂，导致一些数据逻辑删除后，其关联表数据还在。这样在执行原来导出时，那些逻辑删除的数据会导不出来，在执行导入时就会导致某些PK找不到数据<br>如下解决方法是再导出时，将所有数据，包括逻辑删除的数据一并导出<br>这里是修改了框架对于数据查询的代码<br>修改框架manager.py的get_queryset函数中的<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">queryset._safedelete_visibility = DELETED_VISIBLE </span><br></pre></td></tr></table></figure>
+然后执行导出命令</li>
+</ol>
+<p>说明<br>在寻找解决方法的过程实际上是想到python manage.py dumpdata命令也是要查询数据的，万变不离其宗，他一定回去查数据表中的数据，未修改框架代码时，他默认是过滤掉了逻辑删除的数据，所以这里只要找到调用数据库查询的接口，把逻辑删除查询命令改掉就可以，经过查找就是这个了。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>PAT-1013_Battle_Over_Cities</title>
+    <url>/2020/02/21/PAT-1013-Battle-Over-Cities/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805500414115840" target="_blank" rel="noopener">1013 Battle Over Cities</a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>此题就是求连通域的个数<br>使用深搜，搜索几次就是几个连通域<br>注意：最后一个样例可能会超时,用C的输入输出</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> iN, iM, iK;</span><br><span class="line"><span class="keyword">bool</span> szVisited[<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">bool</span> szRoute [<span class="number">1000</span>][<span class="number">1000</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> iCity)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    szVisited[iCity] = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span>; iIndex &lt; iN; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(szRoute[iCity][iIndex] == <span class="literal">true</span> &amp;&amp; szVisited[iIndex] == <span class="literal">false</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            dfs(iIndex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>, &amp;iN, &amp;iM, &amp;iK);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span>; iIndex &lt; iM; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> iCity1;</span><br><span class="line">        <span class="keyword">int</span> iCity2;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; iCity1 &gt;&gt; iCity2;</span><br><span class="line">        szRoute[iCity1 - <span class="number">1</span>][iCity2 - <span class="number">1</span>] = <span class="literal">true</span>;</span><br><span class="line">        szRoute[iCity2 - <span class="number">1</span>][iCity1 - <span class="number">1</span>] = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span>; iIndex &lt; iK; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> iCity;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;iCity);</span><br><span class="line">        <span class="built_in">fill</span>(szVisited, szVisited + iN, <span class="literal">false</span>);</span><br><span class="line">        szVisited[iCity - <span class="number">1</span>] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> iResult = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> jIndex = <span class="number">0</span>; jIndex &lt; iN; jIndex++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(szVisited[jIndex] == <span class="literal">true</span>) <span class="comment">//访问过的城市不再访问</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            dfs(jIndex);</span><br><span class="line">            iResult ++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, iResult - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>PAT</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>PAT-1012_The_Best_Rank</title>
+    <url>/2020/02/21/PAT-1012-The-Best-Rank/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805502658068480" target="_blank" rel="noopener">1012 The Best Rank</a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>题目要求给出每个学生A,C,M,E的分数,计算每个学生名次最好的科目,且4个科目的重要程度为A&gt;C&gt;M&gt;E<br>求解过程是将每科的分数单独排序,计算出每个科目分数所在的名次,并用map存下该分数的名次,然后可以直接通过学生的分数得到所在名次</p>
+<p>对于A平均分排序,因为浮点数不适合做key值,所以我采用总分排名</p>
+<p>注意：相同分数的名次相同,其后的名次则为累计名次</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">STUDENT_GRADE</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> C;</span><br><span class="line">    <span class="keyword">int</span> M;</span><br><span class="line">    <span class="keyword">int</span> E;</span><br><span class="line">    <span class="keyword">int</span> A;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">cmp1</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> b&lt;a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> szTest[<span class="number">4</span>] = &#123;<span class="string">'C'</span>, <span class="string">'M'</span>, <span class="string">'E'</span>, <span class="string">'A'</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> iN, iM;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt;iN &gt;&gt;iM;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vecGrade[<span class="number">4</span>]; <span class="comment">//记录每种科目的所有分数,并排序</span></span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; mapGradeIndex[<span class="number">4</span>]; <span class="comment">//记录分数在该科目中的位次</span></span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>, STUDENT_GRADE&gt; mapStudentGrade; <span class="comment">//记录学生的分数</span></span><br><span class="line">    <span class="built_in">string</span> strStudentId;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; iN; i++)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> iC, iM, iE;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; strStudentId &gt;&gt; iC &gt;&gt; iM &gt;&gt; iE;</span><br><span class="line">        STUDENT_GRADE stTudentGrade;</span><br><span class="line">        stTudentGrade.C = iC;</span><br><span class="line">        stTudentGrade.M = iM;</span><br><span class="line">        stTudentGrade.E = iE;</span><br><span class="line">        stTudentGrade.A = iC + iM + iE;</span><br><span class="line">        mapStudentGrade[strStudentId] = stTudentGrade;</span><br><span class="line">        vecGrade[<span class="number">0</span>].push_back(iC);</span><br><span class="line">        vecGrade[<span class="number">1</span>].push_back(iM);</span><br><span class="line">        vecGrade[<span class="number">2</span>].push_back(iE);</span><br><span class="line">        vecGrade[<span class="number">3</span>].push_back(stTudentGrade.A);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对每个科目的分数进行排序,并计算出位次</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        sort(vecGrade[i].<span class="built_in">begin</span>(), vecGrade[i].<span class="built_in">end</span>(), cmp1); <span class="comment">//从大到小倒叙排列</span></span><br><span class="line">        <span class="keyword">int</span> iNextRank = <span class="number">1</span>; <span class="comment">//下一个名次的位次</span></span><br><span class="line">        <span class="keyword">int</span> iLastNum = <span class="number">301</span>; <span class="comment">//总分最大为300,所以这里取301</span></span><br><span class="line">        <span class="comment">//计算位次</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; vecGrade[i].<span class="built_in">size</span>(); j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(iLastNum &gt; vecGrade[i][j]) <span class="comment">//上一名的分数大于本轮次分数,名次顺延续</span></span><br><span class="line">            &#123;</span><br><span class="line">                mapGradeIndex[i][vecGrade[i][j]] = iNextRank;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                mapGradeIndex[i][vecGrade[i][j]] = mapGradeIndex[i][vecGrade[i][j]]; <span class="comment">//和上一名分数相同,则名次也相同</span></span><br><span class="line">            &#125;</span><br><span class="line">            iLastNum = vecGrade[i][j]; <span class="comment">//保留本轮分数</span></span><br><span class="line">            iNextRank ++; <span class="comment">// 记录分数位次</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; iM; i++)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; strStudentId;</span><br><span class="line">        <span class="keyword">if</span>(mapStudentGrade.<span class="built_in">find</span>(strStudentId) == mapStudentGrade.<span class="built_in">end</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"N/A"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> iTest = <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">int</span> iRank = mapGradeIndex[<span class="number">3</span>][mapStudentGrade[strStudentId].A];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(iRank &gt; mapGradeIndex[<span class="number">0</span>][mapStudentGrade[strStudentId].C])</span><br><span class="line">        &#123;</span><br><span class="line">            iRank = mapGradeIndex[<span class="number">0</span>][mapStudentGrade[strStudentId].C];</span><br><span class="line">            iTest = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(iRank &gt; mapGradeIndex[<span class="number">1</span>][mapStudentGrade[strStudentId].M])</span><br><span class="line">        &#123;</span><br><span class="line">            iRank = mapGradeIndex[<span class="number">1</span>][mapStudentGrade[strStudentId].M];</span><br><span class="line">            iTest = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(iRank &gt; mapGradeIndex[<span class="number">2</span>][mapStudentGrade[strStudentId].E])</span><br><span class="line">        &#123;</span><br><span class="line">            iRank = mapGradeIndex[<span class="number">2</span>][mapStudentGrade[strStudentId].E];</span><br><span class="line">            iTest = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt; iRank &lt;&lt; <span class="string">" "</span>&lt;&lt; szTest[iTest] &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>PAT</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CS-多线程综述</title>
+    <url>/2020/02/21/CS-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BB%BC%E8%BF%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+  </entry>
+  <entry>
+    <title>SLAM-学习笔记</title>
+    <url>/2020/02/20/SLAM-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>第三讲 三维空间刚体运动<br>3.1 点，向量和坐标系，旋转矩阵</p>
+<ul>
+<li><p>表示</p>
+</li>
+<li><p>运算(加减, 内积, 外积)</p>
+</li>
+<li><p>两个不同的坐标系变化  T = 旋转 + 平移</p>
+<p>旋转<br>设某坐标系D1(e1, e2, e3)发生一次旋转，变成了D2(e1’, e2’, e3’)<br>对于某个固定向量a</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>音-一荤一素</title>
+    <url>/2020/02/20/%E9%9F%B3-%E4%B8%80%E8%8D%A4%E4%B8%80%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>日出又日落 深处再深处<br>一张小方桌 有一荤一素<br>一个身影从容地忙忙碌碌<br>一双手让这时光有了温度<br>太年轻地人 他总是不满足<br>固执地不愿停下 远行的脚步<br>望着高高的天走了长长的路<br>忘了回头看 她有没有哭<br>月儿明 风儿轻<br>可是你在敲打我的窗棂<br>听到这你就别担心<br>其实我过的还可以<br>月儿明 风儿轻<br>你又可曾来过我的梦里<br>一定是你来时太小心<br>知道我睡得很轻</p>
+<p>音评：<br>第一次听这首歌是在歌手上听到的，一直喜欢听毛不易的歌曲，很安静。这首歌更是听的深入我心，听的过程很有画面<br>，很多回忆涌来，不知道怎么的我就长大了，现在还能想到童年的几个片段。<br>那应该是中午刚过，我躲在鸡房那个老房子门口，那时应该是个冬天，挺冷的，没有去上学。我在门口躲风等着妈妈去集市回来。现在还能体会到当时的感觉。<br>还有一个片段是跟着妈妈去集市卖鸡蛋，忘了那时是几年级了，反正当时觉得自己挺大的。<br>现在想到这些莫名的酸楚</p>
+<h2 id="网评"><a href="#网评" class="headerlink" title="网评"></a>网评</h2><p>你传的照片，是我离家时的床铺<br>你说好久了，屋子都没人住<br>我总有办法打断你的叮嘱<br>多数是不耐烦，少数是想哭</p>
+<p>我总说自己要减轻你的辛苦<br>要自己去闯自己的路<br>以为自己足够光彩夺目<br>却被你一眼看穿艰辛苦楚</p>
+<p>传说上帝无法亲力亲为所有的守护<br>派仙女下凡，做人间的公主<br>从此，<br>一切美好，在茶米油盐中驻足</p>
+<hr>
+<p>一荤配一素，一汤配一饭<br>平常日子里，不仅也不慢<br>你给我港湾，我给你期盼<br>走时抬头望天，忍住泪珠涟涟<br>忘了回头看，他人形只影单<br>远行，是孤寂的身影<br>送别，是难耐的情绪<br>他乡，是未知的故里<br>忘了有多久没回到这个港湾<br>忘了她的期盼<br>回去吧，停下远行的脚步<br>月儿正明，风儿正轻，吃一顿热腾腾的饭</p>
+]]></content>
+      <categories>
+        <category>音</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>内修-打造自己的个人品牌</title>
+    <url>/2020/02/20/%E5%86%85%E4%BF%AE-%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%93%81%E7%89%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="如何打造个人品牌"><a href="#如何打造个人品牌" class="headerlink" title="如何打造个人品牌"></a>如何打造个人品牌</h4><p>干好本职工作， 写作， 演讲</p>
+<ul>
+<li>热爱本职工作<ol>
+<li>主动思考一些问题，遇到难题「我可以学」这是无穷力量。</li>
+<li>把公司当作自己的事业</li>
+<li>等哪天若是真跳槽了，不用多想，同事对你的背书一定是嘎嘎的棒。这都是长期积累的「馈赠」。<br><img src="%E7%8E%8B%E5%85%B4.jpg" alt="内修-打造自己的个人品牌"></li>
+</ol>
+</li>
+<li>写作<ol>
+<li>搞清写作的目的</li>
+<li>写就对了，干就完了</li>
+<li>积极寻求反馈，鼓励读者或朋友给建议和反馈，改正提升<br><img src="%E8%87%AA%E6%88%91%E8%AE%A4%E7%9F%A5.jpg" alt="内修-打造自己的个人品牌"></li>
+</ol>
+</li>
+<li>演讲<ol>
+<li>台上一分钟，台下十年功</li>
+<li>抓住核心，不用面面俱到</li>
+<li>多看一些优秀朋友的演讲</li>
+<li>一定要有Q&amp;A环节，积极寻求思想的碰撞，获得更多志同道合的朋友<br><img src="%E5%AD%A6%E4%B9%A0%E9%87%91%E5%AD%97%E5%A1%94.jpg" alt="内修-打造自己的个人品牌"></li>
+</ol>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>内修</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>影-海上钢琴师</title>
+    <url>/2020/02/19/%E5%BD%B1-%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88.jpeg" alt="海上钢琴师"><br>首先表态，这影片一看就是经典影片的样子</p>
+<p>看的过程有点松散，分了几段看完的，看完后在我印象中的几个片段，</p>
+<ol>
+<li>胖子卖小号，</li>
+<li>船员爸爸捡到了1900</li>
+<li>船员爸爸被铁链砸中去世</li>
+<li>1900莫名开始弹钢琴还很厉害</li>
+<li>大陆上的著名钢琴师前来挑战，被血虐。</li>
+<li>1900遇到个女孩，还有什么关系</li>
+<li>胖子来找1900</li>
+<li>船炸了</li>
+</ol>
+<hr>
+<p>关于钢琴，关于镜头，关于彼岸，关于1900</p>
+<p>众人叫他天才，众人为之疯狂。1900，从拥有这个不平凡的名字起，就注定是个不平凡的人。目光，掌声和荣耀，平凡人可能终其一生都得不到的东西，对于天才的1900就像空气一样稀松平常。</p>
+<p>但目光，掌声和荣耀并不能令人幸福，也不长久。电影里有一个镜头：人们围绕在1900身边为音乐起舞的时候，有人看见了自由女神，一下子所有的人呼啦啦作鸟兽散，只剩下1900孤寂的身影。再多的荣耀也挽救不了孤独，此刻他非天才，是个可怜的被遗弃者。</p>
+<p>天才其实是世界上最不幸的人。所有的天才都是异类。而再体面的异类都不会被人真正地爱。那些为1900的琴声瞠目结舌的人，在琴声终结的时候，他们也就砸吧着嘴散去。1900这样天才更像个宠物。人们喜欢它，呵护它，痴迷它，但它跑到马路中间迎面驰来飞车，谁也不会扑过去用自己的身体挡住。</p>
+]]></content>
+      <categories>
+        <category>影</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Django-查询优化方法</title>
+    <url>/2020/02/19/Django-%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最近负责的项目后台访问接口贼慢，有时候慢到没有反应的地步，经过多方排查最终把问题源头确定到数据库性性能上。<br>因为同样的数据同样的代码使用本地数据库和使用云数据库查询速度相差将近100倍。然而提升云数据库性能需要资金，资金不充裕只能从后台代码下手，这个不需要资金支持。</p>
+<p>首先因为访问数据库很慢，所以尽量减少对数据库的操作。参看django框架和自己的思考主要优化方面如下:</p>
+<ol>
+<li><p>查询时尽量使用关联表查询，少请求服务器</p>
+</li>
+<li><p>使用value,value_list指明查询的字段<br>StuChoiceRes.objects.values(“choice_ans”, “score”, “is_correct”).</p>
+</li>
+<li><p>使用values_list查询时，若只有一个字段，则flat置为True<br>StuTaskQuestionRes.objects.values_list(“exampaper_question”, flat = True)</p>
+</li>
+</ol>
+<p>然而经过以上操作提升的速度也并不可观,所以只能使用终极大招，缓存<br>对于需要频繁使用且数据量很大的表，在查询时去redis缓存中找，若没有找到则此时建立一个。<br>需要注意的是，使用缓存要保证缓存数据和数据表数据一致，这里采用的策略是在执行更新操作时更新相应的缓存数据</p>
+<p>4.</p>
+]]></content>
+      <categories>
+        <category>Django</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>PAT-1054_The_Dominant_Color</title>
+    <url>/2020/02/19/PAT-1054-The-Dominant-Color/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805422639136768" target="_blank" rel="noopener">1054 The Dominant Color</a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>用一个值记录当前色号的数量，当收到不同于当前色号的值时则数量减1，当收到相同的色号，数量加1，当数量减为0时，则切换色号</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> M, N;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; M &gt;&gt; N;</span><br><span class="line">    <span class="keyword">int</span> iDominantColor = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> iDominantColorCount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> iColor;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; iColor;</span><br><span class="line">            <span class="keyword">if</span>(iDominantColorCount == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                iDominantColor = iColor;</span><br><span class="line">                iDominantColorCount = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(iDominantColor == iColor)</span><br><span class="line">                &#123;</span><br><span class="line">                    iDominantColorCount++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    iDominantColorCount--;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;iDominantColor&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
     <title>PAT-1011_World_Cup_Betting</title>
     <url>/2020/02/18/PAT-1011-World-Cup-Betting/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805504927186944" target="_blank" rel="noopener">1011 World Cup Betting</a></p>
@@ -42,6 +209,21 @@
 </li>
 </ol>
 <p>此时可以使用浏览器访问””，访问到django欢迎界面就好<br>也可以使用容器的ip访问</p>
+<h2 id="部署生产"><a href="#部署生产" class="headerlink" title="部署生产"></a>部署生产</h2><ol>
+<li><p>apt-get install uwsgi<br>安装uwsgi</p>
+</li>
+<li><p>配置uwsgi文件</p>
+</li>
+</ol>
+<p>‘’’<br>[uwsgi]<br>chdir = /home/ubuntu/qlassroom-ai/backend #后台代码路径<br>module = backend.wsgi #后台.wsgi文件 即/backend/wsgi.py<br>master = True<br>processes = 4<br>max-requests = 5000<br>harakiri = 60<br>socket = 0.0.0.0:8888  #内网ip + 端口号<br>uid = root<br>gid = root<br>pidfile = /home/ubuntu/qlassroom-ai-uwsgi/master.pid<br>daemonize = /home/ubuntu/qlassroom-ai-uwsgi/mysite.log<br>vacuum = True<br>‘’’</p>
+<ol start="3">
+<li><p>apt-get install nginx<br>安装nginx</p>
+</li>
+<li><p>配置nginx</p>
+</li>
+</ol>
+<p>service nginx restart;<br>killall -9 uwsgi<br>uwsgi –ini /home/ubuntu/DockerDjangoTest/docker-django-test-uwsgi.ini;<br>tail -100f /var/log/nginx/access.log;</p>
+<p>aws 172.31.18.194:8888</p>
 ]]></content>
       <categories>
         <category>Docker</category>
@@ -53,7 +235,15 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://distill.pub/2020/growing-ca/" target="_blank" rel="noopener">Growing Neural Cellular Automata</a><br>神经细胞自动生长机</p>
 <p>Differentiable Model of Morphogenesis<br>形态变化的微分模型</p>
 <p>Most multicellular organisms begin their life as a single egg cell - a single cell whose progeny reliably self-assemble into highly complex anatomies with many organs and tissues in precisely the same arrangement each time.<br>大多数多细胞有机体生命起源于一个单细胞-单细胞的后代每次都可靠的自组装成高度复杂的解剖结构,其中许多器官和机构每次都使用完全同样的组织方式。</p>
-<p>The ability to build their own bodies is probably the most fundamental skill every living creature possesses.</p>
+<p>The ability to build their own bodies is probably the most fundamental skill every living creature possesses.<br>构建自己的躯体或许是每个物种具有的最基本的技能</p>
+<p>Morphogenesis (the process of an organism’s shape development) is one of the most striking examples of a phenomenon called self-organisation<br>形态进化(一个有机体形体发展的过程)是称为自组织现象最明显的例子</p>
+<p>Cells, the tiny building blocks of bodies, communicate with their neighbors to decide the shape of organs and body plans, where to grow each organ, how to interconnect them, and when to eventually stop.<br>细胞，人体的最小组成部分，通过和相邻细胞间的交流来决定机体的形状和人体的计划，每个器官生长的位置，他们之间如何交流，什么时候停止生长。</p>
+<p>Understanding the interplay of the emergence of complex outcomes from simple rules and homeostatic feedback loops is an active area of research<br>从简单的规则和稳态的反馈回路中理解复杂结果出现的交互作用是一个活跃的研究领域</p>
+<p>What is clear is that evolution has learned to exploit the laws of physics and computation to implement the highly robust morphogenetic software that runs on genome-encoded cellular hardware.<br>显而易见的是进化已经学习到利用物理规律和计算力来完成运行在记忆编码细胞的硬件上高度健壮的软件</p>
+<p>This process is extremely robust to perturbations.</p>
+<p>Even when the organism is fully developed, some species still have the capability to repair damage - a process known as regeneration.<br>即使当有机体完全发育，某些物种仍然具有自我修复损害的能力，这个叫做复生的过程</p>
+<p>Some creatures, such as salamanders, can fully regenerate vital organs, limbs, eyes, or even parts of the brain! Morphogenesis is a surprisingly adaptive process.<br>某些生物，比如salamanders，可以完全再生重要的组织，腿，眼睛，甚至是部分大脑！形态变化是一个很惊奇的适应的过程。</p>
+<p>Sometimes even a very atypical development process can result in a viable organism - for example, when an early mammalian embryo is cut in two, each half will form a complete individual - monozygotic twins!<br>有时，即使一个非常不同寻常的发育过程也能产生一个活得机体。例如，当一个早期的哺乳动物被切分成两个时，每个部分都将形成一个完整的个体，单卵双胞胎</p>
 ]]></content>
       <categories>
         <category>英-文</category>
@@ -149,9 +339,9 @@
 <li><p>推送镜像<br>docker push</p>
 </li>
 </ol>
-<p>docker push 872204778/qlassroom_dev:v1<br>872204778:用户名<br>qlassroom_dev:镜像名<br>v1: 标签</p>
+<p>例子docker push qlassroom_ai_dev</p>
 <ol start="7">
-<li>构建镜像<br>docker commit<br>例：<br>docker commit -a “menhu”  -m “nginx” menh/web web</li>
+<li>构建镜像<br>docker commit</li>
 </ol>
 <p>利用dockerfile 构建镜像<br>docker build</p>
 <ol start="8">
@@ -173,7 +363,7 @@
   <entry>
     <title>影-肖申克的救赎</title>
     <url>/2020/02/11/%E5%BD%B1-%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>2020-02-10，大约是23:30 我看完了肖申克的救赎，总共用了两天时间，分三段看完的。<br>  看这部电影的初衷就是想看看评分如此之高，备受好评的电影是怎么做到的。经典为何为经典。<br>看的过程中并没有全身心的投入去看，因为像这种偏文艺的电影，我现在还不能做到心无旁骛的陶醉其中，然而虽然看的时候有点懈怠，但是经典的电影还是在不经意间引起我的深思。<br>  首先是主人公作为Andy作为一个在社会上有头有脸的人物，却沦为阶下囚，并受到了些凌辱。这样我想到，适应环境，利用规则，才是生存或者更好生活的的法则。狱警可以肆无忌惮的对囚徒进行殴打，因为在这个小小的“王国”下，他们就是规则的制定者。他们可以毫无理由的分配给囚徒各种工作，即使很地下的工作，在囚徒看来都可能是一种荣幸。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.jpeg" alt="肖申克的救赎"><br>2020-02-10，大约是23:30 我看完了肖申克的救赎，总共用了两天时间，分三段看完的。<br>  看这部电影的初衷就是想看看评分如此之高，备受好评的电影是怎么做到的。经典为何为经典。<br>看的过程中并没有全身心的投入去看，因为像这种偏文艺的电影，我现在还不能做到心无旁骛的陶醉其中，然而虽然看的时候有点懈怠，但是经典的电影还是在不经意间引起我的深思。<br>  首先是主人公作为Andy作为一个在社会上有头有脸的人物，却沦为阶下囚，并受到了些凌辱。这样我想到，适应环境，利用规则，才是生存或者更好生活的的法则。狱警可以肆无忌惮的对囚徒进行殴打，因为在这个小小的“王国”下，他们就是规则的制定者。他们可以毫无理由的分配给囚徒各种工作，即使很地下的工作，在囚徒看来都可能是一种荣幸。</p>
 <p>  其次是知识的作用，Andy有知识，他利用他的知识能力在狱中可以得到与其他囚徒不一样的待遇，同时他又利用他的知识能力来教化其他狱友。从某点上来考虑，这个情节很激励人心，教化自己普渡他人，这是一个自带光芒的人啊，然而转念一想，这情节有些突兀。在一个没有自由，或者说是在一个狭小的几乎会永远生活在这没有“文明”的地方，真的会有人崇尚知识吗。这就好比生活在三维世界的人，可能只是四维生物的打工仔，我们所谓的知识，只是四维生物赏赐给我们的低级的趣味。</p>
 <p>  Brooks从监狱里出来之后，选择了自杀，因为他很难再适应外面世界的规则。</p>
 <p>  以后再看一次</p>

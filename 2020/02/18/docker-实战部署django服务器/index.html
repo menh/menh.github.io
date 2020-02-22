@@ -109,7 +109,7 @@
 <meta property="og:description" content="django 基本环境安装 docker pull ubuntu:18.04拉一个ubuntu 18.04版本的镜像，开始使用14.04版本在django包时疯狂报错，慎用  docker run -it -p 8000:8000 ubuntu:18.04使用ubuntu:18.04启动一个容器其中-p 8000:8000最好在启动容器的时候指定，否则容器启动后很难修改  apt-get upda">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-18T03:46:46.000Z">
-<meta property="article:modified_time" content="2020-02-18T07:04:24.842Z">
+<meta property="article:modified_time" content="2020-02-19T10:30:56.996Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  269
+                  380
                 </span>
               
 
@@ -482,6 +482,21 @@
 </li>
 </ol>
 <p>此时可以使用浏览器访问””，访问到django欢迎界面就好<br>也可以使用容器的ip访问</p>
+<h2 id="部署生产"><a href="#部署生产" class="headerlink" title="部署生产"></a>部署生产</h2><ol>
+<li><p>apt-get install uwsgi<br>安装uwsgi</p>
+</li>
+<li><p>配置uwsgi文件</p>
+</li>
+</ol>
+<p>‘’’<br>[uwsgi]<br>chdir = /home/ubuntu/qlassroom-ai/backend #后台代码路径<br>module = backend.wsgi #后台.wsgi文件 即/backend/wsgi.py<br>master = True<br>processes = 4<br>max-requests = 5000<br>harakiri = 60<br>socket = 0.0.0.0:8888  #内网ip + 端口号<br>uid = root<br>gid = root<br>pidfile = /home/ubuntu/qlassroom-ai-uwsgi/master.pid<br>daemonize = /home/ubuntu/qlassroom-ai-uwsgi/mysite.log<br>vacuum = True<br>‘’’</p>
+<ol start="3">
+<li><p>apt-get install nginx<br>安装nginx</p>
+</li>
+<li><p>配置nginx</p>
+</li>
+</ol>
+<p>service nginx restart;<br>killall -9 uwsgi<br>uwsgi –ini /home/ubuntu/DockerDjangoTest/docker-django-test-uwsgi.ini;<br>tail -100f /var/log/nginx/access.log;</p>
+<p>aws 172.31.18.194:8888</p>
 
       
     </div>
@@ -595,7 +610,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -606,7 +621,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -652,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#django-基本环境安装"><span class="nav-number">1.</span> <span class="nav-text">django 基本环境安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#django-测试基本环境"><span class="nav-number">2.</span> <span class="nav-text">django 测试基本环境</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#django-基本环境安装"><span class="nav-number">1.</span> <span class="nav-text">django 基本环境安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#django-测试基本环境"><span class="nav-number">2.</span> <span class="nav-text">django 测试基本环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署生产"><span class="nav-number">3.</span> <span class="nav-text">部署生产</span></a></li></ol></div>
             
 
           </div>
