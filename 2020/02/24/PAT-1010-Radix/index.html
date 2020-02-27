@@ -85,7 +85,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="technology," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -101,17 +101,17 @@
 
 
 
-<meta name="description" content="模版方法 Template  动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求 定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林） 处理思路: 利用虚函数的多态性   策略模式 Strategy  动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担 定义">
+<meta name="description" content="1010 Radix 思路这题题目很好理解,就是做起来真难受,各种部分正确总体思路就是使用二分法找进制,按照进制转换成数字.但是中间有很多需要注意的地方 最重要的是 源码line_number: true12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式">
-<meta property="og:url" content="https://menh.github.io/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="PAT-1010_Radix">
+<meta property="og:url" content="https://menh.github.io/2020/02/24/PAT-1010-Radix/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="模版方法 Template  动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求 定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林） 处理思路: 利用虚函数的多态性   策略模式 Strategy  动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担 定义">
+<meta property="og:description" content="1010 Radix 思路这题题目很好理解,就是做起来真难受,各种部分正确总体思路就是使用二分法找进制,按照进制转换成数字.但是中间有很多需要注意的地方 最重要的是 源码line_number: true12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-19T09:52:30.000Z">
-<meta property="article:modified_time" content="2020-02-14T09:25:52.664Z">
+<meta property="article:published_time" content="2020-02-24T03:15:21.000Z">
+<meta property="article:modified_time" content="2020-02-24T04:04:46.171Z">
 <meta property="article:author" content="Hugh Men">
-<meta property="article:tag" content="technology">
+<meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
 
 
@@ -141,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://menh.github.io/2020/01/19/设计模式/"/>
+  <link rel="canonical" href="https://menh.github.io/2020/02/24/PAT-1010-Radix/"/>
 
 
 
 
 
-  <title>设计模式 | Hugh</title>
+  <title>PAT-1010_Radix | Hugh</title>
   
 
 
@@ -334,7 +334,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/24/PAT-1010-Radix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hugh Men">
@@ -351,7 +351,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式</h1>
+          <h1 class="post-title" itemprop="name headline">PAT-1010_Radix</h1>
         
 
         <div class="post-meta">
@@ -363,8 +363,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-19T17:52:30+08:00">
-                2020-01-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-24T11:15:21+08:00">
+                2020-02-24
               </time>
             
 
@@ -373,28 +373,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CS/" itemprop="url" rel="index">
-                    <span itemprop="name">CS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -417,7 +395,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  416
+                  279
                 </span>
               
 
@@ -454,36 +432,10 @@
       
 
       
-        <ol>
-<li><p>模版方法 Template</p>
-<ul>
-<li>动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求</li>
-<li>定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林）</li>
-<li>处理思路: 利用虚函数的多态性</li>
-</ul>
-</li>
-<li><p>策略模式 Strategy</p>
-<ul>
-<li>动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担</li>
-<li>定义：定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。策略模式使得算法可独立于使用它的客户程序而变化</li>
-<li>处理方法： 利用多态性</li>
-</ul>
-</li>
-<li><p>观察者模式 Observer/Event</p>
-<ul>
-<li>动机：软件构建过程中，我们需要为某些对象建立一种“通知依赖关系”，一个对象发生状态改变，所有依赖对象都将得到通知</li>
-<li>定义：定义对象间一种一对多的依赖关系，以便一个对象的状态改变时，所有依赖于它的对象都得到通知和更新</li>
-</ul>
-</li>
-<li><p>装饰模式 Decorator</p>
-<ul>
-<li>动机: 过度的使用继承来拓展对象的功能，由于继承为类型引入的静态特质，使得这种拓展方式缺乏灵活性，并且随着子类的增多，各种子类的组合会导致更多的子类膨胀</li>
-<li>定义： 动态给一个对象增加额外的职责</li>
-</ul>
-</li>
-<li><p>桥模式 Brige</p>
-</li>
-</ol>
+        <p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805507225665536" target="_blank" rel="noopener">1010 Radix</a></p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>这题题目很好理解,就是做起来真难受,各种部分正确<br>总体思路就是使用二分法找进制,按照进制转换成数字.<br>但是中间有很多需要注意的地方</p>
+<p>最重要的是</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">str2RadixNum</span><span class="params">(<span class="built_in">string</span> strNum, <span class="keyword">long</span> <span class="keyword">long</span> llRadix)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> llNum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> pT = strNum.<span class="built_in">begin</span>(); pT != strNum.<span class="built_in">end</span>(); pT++)</span><br><span class="line">    &#123;</span><br><span class="line">        llNum = llNum * llRadix + (<span class="built_in">isdigit</span>(*pT) ? (*pT - <span class="string">'0'</span>) : (*pT - <span class="string">'a'</span> + <span class="number">10</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> llNum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">findNumRadix</span><span class="params">(<span class="built_in">string</span> strNum, <span class="keyword">long</span> <span class="keyword">long</span> llTagNum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> strMaxChar = *max_element(strNum.<span class="built_in">begin</span>(), strNum.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> llLow = (<span class="built_in">isdigit</span>(strMaxChar) ? strMaxChar - <span class="string">'0'</span> : strMaxChar - <span class="string">'a'</span> + <span class="number">10</span>) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> llHigh = <span class="built_in">max</span>(llLow,llTagNum);</span><br><span class="line">    <span class="keyword">while</span>(llLow &lt;= llHigh)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> llMedium = (llLow + llHigh) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> llMediumRadixNum = str2RadixNum(strNum, llMedium);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(llMediumRadixNum &lt; <span class="number">0</span> || llMediumRadixNum &gt; llTagNum)</span><br><span class="line">        &#123;</span><br><span class="line">            llHigh = llMedium - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(llMediumRadixNum &lt; llTagNum)</span><br><span class="line">        &#123;</span><br><span class="line">            llLow = llMedium + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> llMedium;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> strN1;</span><br><span class="line">    <span class="built_in">string</span> strN2;</span><br><span class="line">    <span class="keyword">int</span> iTag;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> llRadix;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt; strN1 &gt;&gt; strN2 &gt;&gt; iTag &gt;&gt; llRadix)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> llTagNum = iTag == <span class="number">1</span> ? str2RadixNum(strN1, llRadix) : str2RadixNum(strN2, llRadix);</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> llResult = iTag == <span class="number">1</span> ? findNumRadix(strN2, llTagNum) : findNumRadix(strN1, llTagNum);</span><br><span class="line">        llResult == <span class="number">-1</span> ? <span class="built_in">cout</span> &lt;&lt; <span class="string">"Impossible"</span> &lt;&lt;<span class="built_in">endl</span> : <span class="built_in">cout</span>&lt;&lt; llResult &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -499,12 +451,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/technology/" rel="tag"># technology</a>
-          
-        </div>
-      
 
       
       
@@ -514,14 +460,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/02/22/PAT-1015-Reversible-Primes/" rel="next" title="PAT-1015_Reversible_Primes">
+                <i class="fa fa-chevron-left"></i> PAT-1015_Reversible_Primes
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/07/%E6%9D%8E%E6%96%87%E4%BA%AE%E5%8C%BB%E7%94%9F%E5%86%8D%E8%A7%81/" rel="prev" title="李文亮医生，再见">
-                李文亮医生，再见 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/24/PAT-1014-Waiting-in-Line/" rel="prev" title="PAT-1014_Waiting_in_Line">
+                PAT-1014_Waiting_in_Line <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -574,8 +524,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/menhu.jpg"
@@ -637,6 +596,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码"><span class="nav-number">2.</span> <span class="nav-text">源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
