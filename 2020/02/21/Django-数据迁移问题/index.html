@@ -101,15 +101,15 @@
 
 
 
-<meta name="description" content="清空数据表python manage.py flush  使用Django框架的倒入导出python manage.py dumpdata [APP_NAME] &gt; [EXPOER_FILE_NAME]python manage.py loaddata [EXPOER_FILE_NAME]不指定应用名称则会导出所有数据表，包括一些系统数据表所以在导出时尽量只指定有关业务应用的名称例如:有p">
+<meta name="description" content="Django在迁移数据库数据时一些方法步骤，以及在导出安全删除数据时的处理方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django-数据迁移问题">
 <meta property="og:url" content="https://menh.github.io/2020/02/21/Django-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="清空数据表python manage.py flush  使用Django框架的倒入导出python manage.py dumpdata [APP_NAME] &gt; [EXPOER_FILE_NAME]python manage.py loaddata [EXPOER_FILE_NAME]不指定应用名称则会导出所有数据表，包括一些系统数据表所以在导出时尽量只指定有关业务应用的名称例如:有p">
+<meta property="og:description" content="Django在迁移数据库数据时一些方法步骤，以及在导出安全删除数据时的处理方法">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-21T09:54:12.000Z">
-<meta property="article:modified_time" content="2020-02-21T10:19:59.291Z">
+<meta property="article:modified_time" content="2020-02-24T15:01:49.570Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  428
+                  461
                 </span>
               
 
@@ -432,14 +432,16 @@
       
 
       
-        <ol>
+        <p> Django在迁移数据库数据时一些方法步骤，以及在导出安全删除数据时的处理方法</p>
+ <a id="more"></a>
+<ol>
 <li><p>清空数据表<br>python manage.py flush</p>
 </li>
 <li><p>使用Django框架的倒入导出<br>python manage.py dumpdata [APP_NAME] &gt; [EXPOER_FILE_NAME]<br>python manage.py loaddata [EXPOER_FILE_NAME]<br>不指定应用名称则会导出所有数据表，包括一些系统数据表<br>所以在导出时尽量只指定有关业务应用的名称<br>例如:<br>有personnels和customers两个应用要导出数据时<br>python manage.py dumpdata personnels customers &gt; data.json</p>
 </li>
 </ol>
 <p>导入数据<br>python manage.py loaddata data.json</p>
-<ol start="2">
+<ol>
 <li>当使用安全删除策略时可能面临的导出问题<br>若业务删除操作写的很标准，关联数据都可以逻辑删除的话，执行上述导出导入就可以实现数据的迁移<br>但时可能由于业务复杂，表关联复杂，导致一些数据逻辑删除后，其关联表数据还在。这样在执行原来导出时，那些逻辑删除的数据会导不出来，在执行导入时就会导致某些PK找不到数据<br>如下解决方法是再导出时，将所有数据，包括逻辑删除的数据一并导出<br>这里是修改了框架对于数据查询的代码<br>修改框架manager.py的get_queryset函数中的<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">queryset._safedelete_visibility = DELETED_VISIBLE </span><br></pre></td></tr></table></figure>
 然后执行导出命令</li>
 </ol>
@@ -468,8 +470,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/PAT-1013-Battle-Over-Cities/" rel="next" title="PAT-1013_Battle_Over_Cities">
-                <i class="fa fa-chevron-left"></i> PAT-1013_Battle_Over_Cities
+              <a href="/2020/02/21/PAT-1013-Battle-Over-Cities/" rel="next" title="PAT-1013 Battle Over Cities">
+                <i class="fa fa-chevron-left"></i> PAT-1013 Battle Over Cities
               </a>
             
           </div>
@@ -478,8 +480,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/22/PAT-1015-Reversible-Primes/" rel="prev" title="PAT-1015_Reversible_Primes">
-                PAT-1015_Reversible_Primes <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/22/PAT-1015-Reversible-Primes/" rel="prev" title="PAT-1015 Reversible Primes">
+                PAT-1015 Reversible Primes <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -548,7 +550,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -559,7 +561,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1079,6 +1081,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

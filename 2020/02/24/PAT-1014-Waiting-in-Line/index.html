@@ -101,15 +101,15 @@
 
 
 
-<meta name="description" content="1014 Waiting in Line 题意一队列人到银行办理业务, 每个人办理业务时长不同, 银行有几个服务窗口，每个服务窗口允许固定的人数排队，排满之后，后面的人只能等着在办理的人结束，才能去排队。哪个队列走就可以去排那个队列，银行的营业时间是8:00-17:000 分析从题意中分析到，这道题就是一个排队入队出队问题，问题的难点怎样确定去排哪个队 思路用一个结构体来记录每个窗口的信息ST_W">
+<meta name="description" content="1014 Waiting in Line 题意一队列人到银行办理业务, 每个人办理业务时长不同, 银行有几个服务窗口，每个服务窗口允许固定的人数排队，排满之后，后面的人只能等着在办理的人结束，才能去排队。哪个队列走就可以去排那个队列，银行的营业时间是8:00-17:000">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PAT-1014_Waiting_in_Line">
+<meta property="og:title" content="PAT-1014 Waiting in Line">
 <meta property="og:url" content="https://menh.github.io/2020/02/24/PAT-1014-Waiting-in-Line/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="1014 Waiting in Line 题意一队列人到银行办理业务, 每个人办理业务时长不同, 银行有几个服务窗口，每个服务窗口允许固定的人数排队，排满之后，后面的人只能等着在办理的人结束，才能去排队。哪个队列走就可以去排那个队列，银行的营业时间是8:00-17:000 分析从题意中分析到，这道题就是一个排队入队出队问题，问题的难点怎样确定去排哪个队 思路用一个结构体来记录每个窗口的信息ST_W">
+<meta property="og:description" content="1014 Waiting in Line 题意一队列人到银行办理业务, 每个人办理业务时长不同, 银行有几个服务窗口，每个服务窗口允许固定的人数排队，排满之后，后面的人只能等着在办理的人结束，才能去排队。哪个队列走就可以去排那个队列，银行的营业时间是8:00-17:000">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-24T14:33:37.000Z">
-<meta property="article:modified_time" content="2020-02-24T14:44:22.600Z">
+<meta property="article:modified_time" content="2020-02-24T14:55:34.593Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
 
 
 
-  <title>PAT-1014_Waiting_in_Line | Hugh</title>
+  <title>PAT-1014 Waiting in Line | Hugh</title>
   
 
 
@@ -351,7 +351,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">PAT-1014_Waiting_in_Line</h1>
+          <h1 class="post-title" itemprop="name headline">PAT-1014 Waiting in Line</h1>
         
 
         <div class="post-meta">
@@ -374,6 +374,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PAT/" itemprop="url" rel="index">
+                    <span itemprop="name">PAT</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -395,7 +417,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  509
+                  566
                 </span>
               
 
@@ -433,10 +455,10 @@
 
       
         <p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805498207911936" target="_blank" rel="noopener">1014 Waiting in Line</a></p>
-<h4 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h4><p>一队列人到银行办理业务, 每个人办理业务时长不同, 银行有几个服务窗口，每个服务窗口允许固定的人数排队，排满之后，后面的人只能等着在办理的人结束，才能去排队。<br>哪个队列走就可以去排那个队列，银行的营业时间是8:00-17:000</p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>从题意中分析到，这道题就是一个排队入队出队问题，问题的难点怎样确定去排哪个队</p>
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>用一个结构体来记录每个窗口的信息<br>ST_WINDOW{<br>    int iTopFinishTime;<br>    int iTotalTime;<br>    queue<int> quPeopleId;<br>};<br>iTopFinishTime 表示队列中最顶端的人何时服务结束<br>iTotalTime 表示这个队列总共服务的时长<br>quPeopleId 表示当前队列中的人<br>这样每次只需要找到当前所有窗口最小的iTopFinishTime，就是下次可排队的窗口</p>
-<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ST_WINDOW</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> iTopFinishTime;</span><br><span class="line">    <span class="keyword">int</span> iTotalTime;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; quPeopleId;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> iN, iM, iK, iQ;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt; iN &gt;&gt; iM &gt;&gt; iK &gt;&gt; iQ;</span><br><span class="line">    ST_WINDOW stWindow[iN];</span><br><span class="line">    <span class="keyword">int</span> szProcessTime[iK]; <span class="comment">//每个客户处理的时间</span></span><br><span class="line">    <span class="keyword">int</span> szBeginTime[iK];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span>; iIndex &lt; iK; iIndex ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; szProcessTime[iIndex];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> iProcessingNum = <span class="built_in">min</span>(iN * iM, iK);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span> ; iIndex &lt; iProcessingNum; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        stWindow[iIndex % iN].quPeopleId.push(iIndex);</span><br><span class="line">        <span class="keyword">if</span>(iIndex &lt; iN)</span><br><span class="line">        &#123;</span><br><span class="line">            stWindow[iIndex % iN].iTopFinishTime = szProcessTime[iIndex];</span><br><span class="line">            stWindow[iIndex % iN].iTotalTime = szProcessTime[iIndex];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            stWindow[iIndex % iN].iTotalTime = stWindow[iIndex % iN].iTotalTime + szProcessTime[iIndex];</span><br><span class="line">        &#125;</span><br><span class="line">        szBeginTime[iIndex] = stWindow[iIndex % iN].iTotalTime ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = iProcessingNum; iIndex &lt; iK; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> iMinTopFinishTimeWindow = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> jIndex = <span class="number">1</span>; jIndex &lt; iN; jIndex ++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(stWindow[iMinTopFinishTimeWindow].iTopFinishTime &gt; stWindow[jIndex].iTopFinishTime)</span><br><span class="line">            &#123;</span><br><span class="line">                iMinTopFinishTimeWindow = jIndex;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].quPeopleId.pop();</span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].quPeopleId.push(iIndex);</span><br><span class="line">        <span class="keyword">int</span> iToProcePeopleId = stWindow[iMinTopFinishTimeWindow].quPeopleId.front();</span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].iTopFinishTime += szProcessTime[iToProcePeopleId];</span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].iTotalTime += szProcessTime[iIndex];</span><br><span class="line">        szBeginTime[iIndex] = stWindow[iMinTopFinishTimeWindow].iTotalTime ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> iQueryId;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span>; iIndex &lt; iQ; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt; iQueryId;</span><br><span class="line">        <span class="keyword">if</span>(szBeginTime[iQueryId - <span class="number">1</span>] - szProcessTime[iQueryId - <span class="number">1</span>]&gt;= <span class="number">540</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"Sorry"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%02d:%02d"</span>, <span class="number">8</span> + (szBeginTime[iQueryId - <span class="number">1</span>]) / <span class="number">60</span> , (szBeginTime[iQueryId - <span class="number">1</span>] ) % <span class="number">60</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(iIndex&lt;iQ<span class="number">-1</span>) <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h4><p>一队列人到银行办理业务, 每个人办理业务时长不同, 银行有几个服务窗口，每个服务窗口允许固定的人数排队，排满之后，后面的人只能等着在办理的人结束，才能去排队。<br>哪个队列走就可以去排那个队列，银行的营业时间是8:00-17:000<br><a id="more"></a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>这道题就是一个排队入队出队问题，问题的难点怎样确定去排哪个队。<br>类似于多核CPU任务调度的问题</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>用一个结构体来记录每个窗口的信息<br>ST_WINDOW{<br>    int iTopFinishTime;<br>    int iTotalTime;<br>    queue<int> quePeopleId;<br>};<br>iTopFinishTime 表示队列中最顶端的人何时服务结束<br>iTotalTime 表示这个队列总共服务的时长<br>quePeopleId 表示当前队列中的人<br>这样每次只需要找到当前所有窗口最小的iTopFinishTime，就是下次可排队的窗口</p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ST_WINDOW</span>&#123;</span>  <span class="comment">//模拟服务窗口</span></span><br><span class="line">    <span class="keyword">int</span> iTopFinishTime;</span><br><span class="line">    <span class="keyword">int</span> iTotalTime;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; quePeopleId;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> iN, iM, iK, iQ;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt; iN &gt;&gt; iM &gt;&gt; iK &gt;&gt; iQ;</span><br><span class="line">    ST_WINDOW stWindow[iN]; <span class="comment">//服务窗口</span></span><br><span class="line">    <span class="keyword">int</span> szProcessTime[iK]; <span class="comment">//每个客户处理的时间</span></span><br><span class="line">    <span class="keyword">int</span> szFinishTime[iK]; <span class="comment">//每个客户结束处理时间</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span>; iIndex &lt; iK; iIndex ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; szProcessTime[iIndex];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> iProcessingNum = <span class="built_in">min</span>(iN * iM, iK); <span class="comment">//可进入服务窗口排队的人</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span> ; iIndex &lt; iProcessingNum; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        stWindow[iIndex % iN].quePeopleId.push(iIndex);</span><br><span class="line">        <span class="keyword">if</span>(iIndex &lt; iN)</span><br><span class="line">        &#123;</span><br><span class="line">            stWindow[iIndex % iN].iTopFinishTime = szProcessTime[iIndex];</span><br><span class="line">            stWindow[iIndex % iN].iTotalTime = szProcessTime[iIndex];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            stWindow[iIndex % iN].iTotalTime = stWindow[iIndex % iN].iTotalTime + szProcessTime[iIndex];</span><br><span class="line">        &#125;</span><br><span class="line">        szFinishTime[iIndex] = stWindow[iIndex % iN].iTotalTime ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = iProcessingNum; iIndex &lt; iK; iIndex++) <span class="comment">//需要等待进入排队的人</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> iMinTopFinishTimeWindow = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//寻找最小的顶端服务时间</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> jIndex = <span class="number">1</span>; jIndex &lt; iN; jIndex ++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(stWindow[iMinTopFinishTimeWindow].iTopFinishTime &gt; stWindow[jIndex].iTopFinishTime)</span><br><span class="line">            &#123;</span><br><span class="line">                iMinTopFinishTimeWindow = jIndex;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].quePeopleId.pop();</span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].quePeopleId.push(iIndex);</span><br><span class="line">        <span class="keyword">int</span> iToProcePeopleId = stWindow[iMinTopFinishTimeWindow].quePeopleId.front();</span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].iTopFinishTime += szProcessTime[iToProcePeopleId];</span><br><span class="line">        stWindow[iMinTopFinishTimeWindow].iTotalTime += szProcessTime[iIndex];</span><br><span class="line">        szFinishTime[iIndex] = stWindow[iMinTopFinishTimeWindow].iTotalTime ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> iQueryId;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> iIndex = <span class="number">0</span>; iIndex &lt; iQ; iIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt; iQueryId;</span><br><span class="line">        <span class="keyword">if</span>(szFinishTime[iQueryId - <span class="number">1</span>] - szProcessTime[iQueryId - <span class="number">1</span>]&gt;= <span class="number">540</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"Sorry"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%02d:%02d"</span>, <span class="number">8</span> + (szFinishTime[iQueryId - <span class="number">1</span>]) / <span class="number">60</span> , (szFinishTime[iQueryId - <span class="number">1</span>] ) % <span class="number">60</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(iIndex&lt;iQ<span class="number">-1</span>) <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -461,8 +483,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/24/PAT-1010-Radix/" rel="next" title="PAT-1010_Radix">
-                <i class="fa fa-chevron-left"></i> PAT-1010_Radix
+              <a href="/2020/02/24/PAT-1010-Radix/" rel="next" title="PAT-1010 Radix">
+                <i class="fa fa-chevron-left"></i> PAT-1010 Radix
               </a>
             
           </div>
@@ -470,6 +492,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/25/%E5%88%86%E7%B1%BB/" rel="prev" title="分类">
+                分类 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -546,7 +572,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -557,7 +583,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1093,6 +1119,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

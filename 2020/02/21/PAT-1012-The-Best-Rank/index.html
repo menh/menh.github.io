@@ -101,15 +101,15 @@
 
 
 
-<meta name="description" content="1012 The Best Rank 思路题目要求给出每个学生A,C,M,E的分数,计算每个学生名次最好的科目,且4个科目的重要程度为A&gt;C&gt;M&gt;E求解过程是将每科的分数单独排序,计算出每个科目分数所在的名次,并用map存下该分数的名次,然后可以直接通过学生的分数得到所在名次 对于A平均分排序,因为浮点数不适合做key值,所以我采用总分排名 注意：相同分数的名次相同,其后的名次则">
+<meta name="description" content="1012 The Best Rank 题意给定一些列学生在给定科目的得分情况，计算每个学生排名最好的科目，或者平均分排名最好">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PAT-1012_The_Best_Rank">
+<meta property="og:title" content="PAT-1012 The Best Rank">
 <meta property="og:url" content="https://menh.github.io/2020/02/21/PAT-1012-The-Best-Rank/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="1012 The Best Rank 思路题目要求给出每个学生A,C,M,E的分数,计算每个学生名次最好的科目,且4个科目的重要程度为A&gt;C&gt;M&gt;E求解过程是将每科的分数单独排序,计算出每个科目分数所在的名次,并用map存下该分数的名次,然后可以直接通过学生的分数得到所在名次 对于A平均分排序,因为浮点数不适合做key值,所以我采用总分排名 注意：相同分数的名次相同,其后的名次则">
+<meta property="og:description" content="1012 The Best Rank 题意给定一些列学生在给定科目的得分情况，计算每个学生排名最好的科目，或者平均分排名最好">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-21T03:25:54.000Z">
-<meta property="article:modified_time" content="2020-02-21T04:02:42.386Z">
+<meta property="article:modified_time" content="2020-02-25T07:39:21.630Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
 
 
 
-  <title>PAT-1012_The_Best_Rank | Hugh</title>
+  <title>PAT-1012 The Best Rank | Hugh</title>
   
 
 
@@ -351,7 +351,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">PAT-1012_The_Best_Rank</h1>
+          <h1 class="post-title" itemprop="name headline">PAT-1012 The Best Rank</h1>
         
 
         <div class="post-meta">
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  642
+                  683
                 </span>
               
 
@@ -455,6 +455,8 @@
 
       
         <p><a href="https://pintia.cn/problem-sets/994805342720868352/problems/994805502658068480" target="_blank" rel="noopener">1012 The Best Rank</a></p>
+<h4 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h4><p>给定一些列学生在给定科目的得分情况，计算每个学生排名最好的科目，或者平均分排名最好</p>
+<a id="more"></a>
 <h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>题目要求给出每个学生A,C,M,E的分数,计算每个学生名次最好的科目,且4个科目的重要程度为A&gt;C&gt;M&gt;E<br>求解过程是将每科的分数单独排序,计算出每个科目分数所在的名次,并用map存下该分数的名次,然后可以直接通过学生的分数得到所在名次</p>
 <p>对于A平均分排序,因为浮点数不适合做key值,所以我采用总分排名</p>
 <p>注意：相同分数的名次相同,其后的名次则为累计名次</p>
@@ -493,8 +495,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/21/PAT-1013-Battle-Over-Cities/" rel="prev" title="PAT-1013_Battle_Over_Cities">
-                PAT-1013_Battle_Over_Cities <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/21/PAT-1013-Battle-Over-Cities/" rel="prev" title="PAT-1013 Battle Over Cities">
+                PAT-1013 Battle Over Cities <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -572,7 +574,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -583,7 +585,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -629,7 +631,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码"><span class="nav-number">2.</span> <span class="nav-text">源码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#题意"><span class="nav-number">1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码"><span class="nav-number">3.</span> <span class="nav-text">源码</span></a></li></ol></div>
             
 
           </div>
@@ -1119,6 +1121,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

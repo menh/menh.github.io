@@ -101,15 +101,13 @@
 
 
 
-<meta name="description" content="keras 是什么  基于python的高级神经网络API 以Tensorflow，CNTK或者Theano为后段运行，keras必须有后端才可以运行 极方便与快速实验，帮助用户以最少的时间验证自己的想法Tensorflow-keras是什么 Tensorflow对keras API的规范实现 比以Tensorflow为后段的keras，Tensorflow-keras与Tensorflow结合更">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tf-keras和keras">
-<meta property="og:url" content="https://menh.github.io/2020/02/10/tf-keras%E5%92%8Ckeras/index.html">
+<meta property="og:title" content="分类">
+<meta property="og:url" content="https://menh.github.io/2020/02/25/%E5%88%86%E7%B1%BB/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="keras 是什么  基于python的高级神经网络API 以Tensorflow，CNTK或者Theano为后段运行，keras必须有后端才可以运行 极方便与快速实验，帮助用户以最少的时间验证自己的想法Tensorflow-keras是什么 Tensorflow对keras API的规范实现 比以Tensorflow为后段的keras，Tensorflow-keras与Tensorflow结合更">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-02-10T10:14:05.000Z">
-<meta property="article:modified_time" content="2020-02-14T09:24:45.020Z">
+<meta property="article:published_time" content="2020-02-25T13:11:24.000Z">
+<meta property="article:modified_time" content="2020-02-25T13:11:24.431Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -141,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="https://menh.github.io/2020/02/10/tf-keras和keras/"/>
+  <link rel="canonical" href="https://menh.github.io/2020/02/25/分类/"/>
 
 
 
 
 
-  <title>tf-keras和keras | Hugh</title>
+  <title>分类 | Hugh</title>
   
 
 
@@ -334,7 +332,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/10/tf-keras%E5%92%8Ckeras/">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/25/%E5%88%86%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hugh Men">
@@ -351,7 +349,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">tf-keras和keras</h1>
+          <h1 class="post-title" itemprop="name headline">分类</h1>
         
 
         <div class="post-meta">
@@ -363,8 +361,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-10T18:14:05+08:00">
-                2020-02-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-25T21:11:24+08:00">
+                2020-02-25
               </time>
             
 
@@ -373,28 +371,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tensorflow2-0/" itemprop="url" rel="index">
-                    <span itemprop="name">Tensorflow2.0</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -417,7 +393,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  255
+                  0
                 </span>
               
 
@@ -454,45 +430,7 @@
       
 
       
-        <p>keras 是什么</p>
-<ul>
-<li>基于python的高级神经网络API</li>
-<li>以Tensorflow，CNTK或者Theano为后段运行，keras必须有后端才可以运行</li>
-<li>极方便与快速实验，帮助用户以最少的时间验证自己的想法<br>Tensorflow-keras是什么<ul>
-<li>Tensorflow对keras API的规范实现</li>
-<li>比以Tensorflow为后段的keras，Tensorflow-keras与Tensorflow结合更加紧密</li>
-<li>实现在tf.keras空间下</li>
-</ul>
-</li>
-</ul>
-<p>Tf-keras 和 keras的联系</p>
-<ul>
-<li>基于同一套API<ul>
-<li>keras程序可以通过导入方式转换为tf.keras程序</li>
-<li>反之不成立，因为tf.keras有其他特性<ul>
-<li>相同的JSON和HDF5模型序列化格式和语义</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>Tf-keras 和 keras的区别</p>
-<ul>
-<li>Tf.keras全面支持eager mode<ul>
-<li>只是用keras.Sequential和keras.Model时没有影响</li>
-<li>自动以的Model内部运算逻辑时没有影响<ul>
-<li>Tf低层API可以使用keras的model.fit等抽象</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Tf.keras支持基于tf.data的模型训练</li>
-<li>Tf.keras支持TPU训练</li>
-<li>Tf.keras支持tf.distribution的分布式策略</li>
-<li>Tf.keras可以与Tensorflow中的estimator集成</li>
-<li>Tf.keras可以保存为SaveModel</li>
-</ul>
-
+        
       
     </div>
     
@@ -516,8 +454,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/10/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/" rel="next" title="深度学习-概率分布">
-                <i class="fa fa-chevron-left"></i> 深度学习-概率分布
+              <a href="/2020/02/24/PAT-1014-Waiting-in-Line/" rel="next" title="PAT-1014 Waiting in Line">
+                <i class="fa fa-chevron-left"></i> PAT-1014 Waiting in Line
               </a>
             
           </div>
@@ -526,8 +464,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/11/PAT-1002-A-B-for-Polynomials/" rel="prev" title="PAT-1002_A+B_for_Polynomials">
-                PAT-1002_A+B_for_Polynomials <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/25/tf2-fashion-mnist-%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" rel="prev" title="TF2-fashion_mnist_分类模型">
+                TF2-fashion_mnist_分类模型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -596,7 +534,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -607,7 +545,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1127,6 +1065,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
