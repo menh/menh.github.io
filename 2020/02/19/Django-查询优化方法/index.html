@@ -101,15 +101,15 @@
 
 
 
-<meta name="description" content="最近负责的项目后台访问接口贼慢，有时候慢到没有反应的地步，经过多方排查最终把问题源头确定到数据库性性能上。因为通过尝试，同样的数据同样的代码使用本地数据库和使用云数据库查询速度相差将近百倍。然而提升云数据库性能需要资金，资金不充裕只能从后台代码下手，这个不需要资金支持。 首先因为访问数据库很慢，所以尽量减少对数据库的操作。参看django框架和自己的思考主要优化方面如下:  后台代码层面1.1.">
+<meta name="description" content="最近负责的项目后台访问接口贼慢，有时候慢到没有反应的地步，经过多方排查最终把问题源头确定到数据库性性能上。因为通过尝试，同样的数据同样的代码使用本地数据库和使用云数据库查询速度相差将近百倍。然而提升云数据库性能需要资金，资金不充裕只能从后台代码下手，这个不需要资金支持。 首先因为访问数据库很慢，所以尽量减少对数据库的操作。参看django框架和自己的思考主要优化方面如下: 代码层面 在不使用到关联">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django-查询优化方法">
 <meta property="og:url" content="https://menh.github.io/2020/02/19/Django-%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="最近负责的项目后台访问接口贼慢，有时候慢到没有反应的地步，经过多方排查最终把问题源头确定到数据库性性能上。因为通过尝试，同样的数据同样的代码使用本地数据库和使用云数据库查询速度相差将近百倍。然而提升云数据库性能需要资金，资金不充裕只能从后台代码下手，这个不需要资金支持。 首先因为访问数据库很慢，所以尽量减少对数据库的操作。参看django框架和自己的思考主要优化方面如下:  后台代码层面1.1.">
+<meta property="og:description" content="最近负责的项目后台访问接口贼慢，有时候慢到没有反应的地步，经过多方排查最终把问题源头确定到数据库性性能上。因为通过尝试，同样的数据同样的代码使用本地数据库和使用云数据库查询速度相差将近百倍。然而提升云数据库性能需要资金，资金不充裕只能从后台代码下手，这个不需要资金支持。 首先因为访问数据库很慢，所以尽量减少对数据库的操作。参看django框架和自己的思考主要优化方面如下: 代码层面 在不使用到关联">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-19T06:08:59.000Z">
-<meta property="article:modified_time" content="2020-02-25T07:40:38.518Z">
+<meta property="article:modified_time" content="2020-03-07T08:10:07.228Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  418
+                  658
                 </span>
               
 
@@ -433,7 +433,7 @@
                   <span class="post-meta-item-text">Reading time</span>
                 
                 <span title="Reading time">
-                  1
+                  2
                 </span>
               
             </div>
@@ -456,24 +456,33 @@
       
         <p>最近负责的项目后台访问接口贼慢，有时候慢到没有反应的地步，经过多方排查最终把问题源头确定到数据库性性能上。<br>因为通过尝试，同样的数据同样的代码使用本地数据库和使用云数据库查询速度相差将近百倍。然而提升云数据库性能需要资金，资金不充裕只能从后台代码下手，这个不需要资金支持。</p>
 <p>首先因为访问数据库很慢，所以尽量减少对数据库的操作。参看django框架和自己的思考主要优化方面如下:</p>
-<ol>
-<li>后台代码层面<br>1.1. 查询时尽量使用关联表查询，少请求服务器，<br>1.2. 减少在循环中对数据库的请求<br>1.3. select_related通过多表join关联查询，一次性获得所有数据，通过降低数据库查询次数来提升性能</li>
-</ol>
-<ol>
-<li>数据表设计方面</li>
-</ol>
-<ol>
-<li>项目结构方面</li>
-</ol>
-<p>1.</p>
-<ol>
-<li><p>使用value,value_list指明查询的字段<br>StuChoiceRes.objects.values(“choice_ans”, “score”, “is_correct”).</p>
+<h4 id="代码层面"><a href="#代码层面" class="headerlink" title="代码层面"></a>代码层面</h4><ol>
+<li><p>在不使用到关联表字段的情况下，尽量使用此表字段名,否则会产生多余的查询</p>
+<p>例如有表关系：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Author</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">  name = models.TextField()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">  title = models.TextField()</span><br><span class="line">  author = models.ForeignKey(Author, on_delete=models.PROTECT, related_name=<span class="string">'books'</span>, null=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>当检查某个某本书的某个作者是否存在时,尽量通Book里面的字段来判断<br>即:<br> 使用if(book.author_id)<br> 不使用if(book.author)</p>
 </li>
-<li><p>使用values_list查询时，若只有一个字段，则flat置为True<br>StuTaskQuestionRes.objects.values_list(“exampaper_question”, flat = True)</p>
+<li><p>正确使用count(),exists()和len(),if判断queryset<br> 如果不使用查询的数据，则使用count(),exists()方法</p>
+<p> 例：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">books = Books.objects.filter()</span><br><span class="line"><span class="keyword">if</span>(len(books) &gt; <span class="number">5</span>):</span><br><span class="line">  do_something_with_books(books)</span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">books = Book.objects.filter()</span><br><span class="line"><span class="keyword">if</span> books.count() &gt; <span class="number">5</span>:</span><br><span class="line">  do_something_without_books()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用values()或values_list()只获取需要的数据<br>例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Book.objects.values(<span class="string">'title'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>处理很多记录时,使用iterator()<br>当获得一个queryset的时候，Django会缓存这些数据。<br>例如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> book <span class="keyword">in</span> Books.objects.all():</span><br><span class="line">  do_something_with_book()</span><br></pre></td></tr></table></figure>
+<p>此项查询会将所有Books的对象存入内存<br>当我们想要保持这个数据库connection时每可以使用iterator()关键字<br>例如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> book <span class="keyword">in</span> Books.objects.all().iterator():</span><br><span class="line">  do_something_with_book()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关联查询select_related, prefetch_related<br>这样可以减少查询次数<br>(select_related, prefetch_related使用)[<a href="https://www.cnblogs.com/linkenpark/p/8866089.html" target="_blank" rel="noopener">https://www.cnblogs.com/linkenpark/p/8866089.html</a>]</p>
+<p>以上可参考<a href="https://www.cnblogs.com/linkenpark/p/8866089.html" target="_blank" rel="noopener">Django ORM</a></p>
 </li>
 </ol>
-<p>然而经过以上操作提升的速度也并不可观,所以只能使用终极大招，缓存<br>对于需要频繁使用且数据量很大的表，在查询时去redis缓存中找，若没有找到则此时建立一个。<br>需要注意的是，使用缓存要保证缓存数据和数据表数据一致，这里采用的策略是在执行更新操作时更新相应的缓存数据</p>
-<p>4.</p>
+<h4 id="数据表设计方面"><a href="#数据表设计方面" class="headerlink" title="数据表设计方面"></a>数据表设计方面</h4><ol>
+<li>为查询到的字段添加索引</li>
+</ol>
+<h4 id="项目结构方面"><a href="#项目结构方面" class="headerlink" title="项目结构方面"></a>项目结构方面</h4><p>使用redis将常用的数据存储下来<br>  因为有一些表采用的是父子表的关系，要查询到所有的数据并保持数据结构，从代码层面是无从下手了，但是这样的数据又必须取到，<br>  所以只能使用终极大招，缓存<br>  对于需要频繁使用且数据量很大的表，在查询时去redis缓存中找，若没有找到则此时建立一个。<br>  需要注意的是，使用缓存要保证缓存数据和数据表数据一致，这里采用的策略是在执行更新操作时更新相应的缓存数据</p>
 
       
     </div>
@@ -562,8 +571,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/menhu.jpg"
@@ -578,7 +596,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-count">82</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -589,7 +607,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -625,6 +643,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码层面"><span class="nav-number">1.</span> <span class="nav-text">代码层面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据表设计方面"><span class="nav-number">2.</span> <span class="nav-text">数据表设计方面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目结构方面"><span class="nav-number">3.</span> <span class="nav-text">项目结构方面</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

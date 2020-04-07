@@ -109,7 +109,7 @@
 <meta property="og:description" content="NLP &#x3D; NLU + NLG  NLU: 语音&#x2F;文本 -&gt; 意思 NLG: 意思-&gt; 文本  机器翻译系统实现 Decoding Algarithm Viterb NLP 应用案例  Question Answering问答系统（IBM） Sentiment Analysis情感分析 Machine Translation 机器翻译 Text Summarization 自动摘要 C">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-01T23:39:53.000Z">
-<meta property="article:modified_time" content="2020-03-04T05:12:10.715Z">
+<meta property="article:modified_time" content="2020-03-05T10:09:45.554Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  930
+                  890
                 </span>
               
 
@@ -433,7 +433,7 @@
                   <span class="post-meta-item-text">Reading time</span>
                 
                 <span title="Reading time">
-                  4
+                  3
                 </span>
               
             </div>
@@ -508,7 +508,7 @@
 <p>Spell Correction(拼写错误纠正)<br>  计算编辑距离 insert delete replace</p>
 <p>Flitering Words<br>  把停用词和出现频率低的词过滤</p>
 <p>Stemming/lemmatization 相同含义单词合并<br>    Porter Stemmer 算法</p>
-<p>文本表示 Word Representation<br>  词表示   one-hot representation<br>  句子表示 Boolean representation<br>          Count-based representation<br>          tfidf(w) = tf(d, w) <em> idf(w)<br>              tf(d,w)表示文档d中w的词频<br>              idf(w)考虑单词的重要性 logN/N(w) N语料库中的文档总数 N(w)词语w出现在多少个文档<br>句子相似度 Sentence Similarity<br>  欧式距离: d = |s1 - s2|<br>  余弦相似度: d = (s1 </em> s2)/(|s1| * |s2|)</p>
+<p>文本表示 Word Representation<br>  词表示   one-hot representation<br>  句子表示 Boolean representation<br>          Count-based representation<br>          tfidf(w) = tf(d, w) * idf(w)<br>              tf(d,w)表示文档d中w的词频<br>              idf(w)考虑单词的重要性 logN/N(w) N语料库中的文档总数 N(w)词语w出现在多少个文档<br>句子相似度 Sentence Similarity<br>  欧式距离: d = |s1 - s2|<br>  余弦相似度: d = (s1 * s2)/(|s1| * |s2|)</p>
 <p>one-hot representation 缺点<br>  没办法表示单词间语义的相似度<br>  Sparsity 稀疏性</p>
 <p>分布式表示法 Distributed Representation<br>  词向量(word vectors)</p>
 <p>词向量表达句子向量</p>
@@ -517,11 +517,11 @@
 <li>LSTM/RNN</li>
 </ol>
 <p>训练词向量的常用模型<br>  Skip-Gram<br>  G-lone<br>  CBow<br>  RNN/LSTM<br>  MF</p>
-<p>Noisy Channel Model<br>  p(text|source) 等比 p(source|text)p(text)<br>  应用场景<br>    语音识别  P(文本｜语音信号) 等比 P(语音信号｜文本) <em> P(文本)<br>    机器翻译 P（中文｜英文） 等比 P(英文｜中文) </em> P(中文)<br>    拼写纠错  P(正确写法｜错误写法) 等比 P（错误写法｜正确写法） <em> P(正确写法)<br>    OCR<br>    密码破译  P(明文｜暗文) 等比 P(暗文｜明文) </em> P(明文)</p>
+<p>Noisy Channel Model<br>  p(text|source) 等比 p(source|text)p(text)<br>  应用场景<br>    语音识别  P(文本｜语音信号) 等比 P(语音信号｜文本) * P(文本)<br>    机器翻译 P（中文｜英文） 等比 P(英文｜中文) * P(中文)<br>    拼写纠错  P(正确写法｜错误写法) 等比 P（错误写法｜正确写法） * P(正确写法)<br>    OCR<br>    密码破译  P(明文｜暗文) 等比 P(暗文｜明文) * P(明文)</p>
 <p>语言模型 Language Model<br>  作用：是否一句话从语法上是通顺的</p>
-<p>  Chain Rule<br>    p(w1,w2, w3,w4,w5,…wn) = p(w1) <em> p(w2|w1) </em> p(w3|w1w2)….p(wn|w1w2…wn_1)</p>
+<p>  Chain Rule<br>    p(w1,w2, w3,w4,w5,…wn) = p(w1) * p(w2|w1) * p(w3|w1w2)….p(wn|w1w2…wn_1)</p>
 <p>  Markov Assumption 马尔可夫假设 解决稀疏问题<br>    1st order ｜ 2st order ｜ 3rd order</p>
-<p>语言模型分类：<br>  Unigram： 每个单词是独立个体，相互独立 P(w1, w2, w3, w4 … wn) = p(w1) <em> p(w2) </em> p(w3) … p(wn)<br>  Bigran: 1st order Markov Assumption P(w1, w2, w3, w4 … wn) = p(w1) <em> p(w2|w1) </em> p(w3|w2) … p(wn|wn_1)<br>  N-gram:</p>
+<p>语言模型分类：<br>  Unigram： 每个单词是独立个体，相互独立 P(w1, w2, w3, w4 … wn) = p(w1) * p(w2) * p(w3) … p(wn)<br>  Bigran: 1st order Markov Assumption P(w1, w2, w3, w4 … wn) = p(w1) * p(w2|w1) * p(w3|w2) … p(wn|wn_1)<br>  N-gram:</p>
 <p>  使用Estimating Probability 计算每个单词的概率，但是会出现概率0项，可做平滑</p>
 <p>如何评估语言模型<br>  $ Perplexity = 2^{-(x)} $</p>
 <p>处理未出现在字典中的词</p>
@@ -536,7 +536,6 @@
 <li>Good-Turning Smoothing<br>   缺点：</li>
 </ol>
 <p>语言模型</p>
-<p>numpy<br>多维对象数组<br>每一个numpy的数组都有一个shape和一个叫dtype的方法<br>  shape获取数据的维度<br>  dype 获取数组的类型</p>
 <p>pandas</p>
 <p>贪心算法 每次选择当前最好的 局部最优<br>DP 全局最优</p>
 
@@ -643,7 +642,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-count">82</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -654,7 +653,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>

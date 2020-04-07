@@ -101,15 +101,15 @@
 
 
 
-<meta name="description" content="最近遇到一道题题目描述这样计算一个数字的立方根，不使用库函数麻烦的一点是输入是double类型假若规定输入的是整形，那很好做了，遍历计算就好，但是浮点型有点懵，遍历是不行了,因为每一步的跨度是不知道的。有想过先算原来浮点型的精度位数，然后以精度为遍历，貌似可行。但是感觉有点硬，不够优雅.最后上网查看一下比较正常的做法，恍然大雾，忘了泰勒级数了 求解 $ f(x) &#x3D; x^3 &#x3D; 0 $令$ f(x">
+<meta name="description" content="计算浮点型数字的立方根">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法-不用库函数计算立方根">
 <meta property="og:url" content="https://menh.github.io/2020/03/03/%E7%AE%97%E6%B3%95-%E4%B8%8D%E7%94%A8%E5%BA%93%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%AB%8B%E6%96%B9%E6%A0%B9/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="最近遇到一道题题目描述这样计算一个数字的立方根，不使用库函数麻烦的一点是输入是double类型假若规定输入的是整形，那很好做了，遍历计算就好，但是浮点型有点懵，遍历是不行了,因为每一步的跨度是不知道的。有想过先算原来浮点型的精度位数，然后以精度为遍历，貌似可行。但是感觉有点硬，不够优雅.最后上网查看一下比较正常的做法，恍然大雾，忘了泰勒级数了 求解 $ f(x) &#x3D; x^3 &#x3D; 0 $令$ f(x">
+<meta property="og:description" content="计算浮点型数字的立方根">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-03T12:50:06.000Z">
-<meta property="article:modified_time" content="2020-03-03T14:00:50.263Z">
+<meta property="article:modified_time" content="2020-03-05T10:12:13.382Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  250
+                  260
                 </span>
               
 
@@ -432,7 +432,8 @@
       
 
       
-        <p>最近遇到一道题<br>题目描述这样<br>计算一个数字的立方根，不使用库函数<br>麻烦的一点是输入是double类型<br>假若规定输入的是整形，那很好做了，遍历计算就好，但是浮点型有点懵，遍历是不行了,因为每一步的跨度是不知道的。<br>有想过先算原来浮点型的精度位数，然后以精度为遍历，貌似可行。但是感觉有点硬，不够优雅.<br>最后上网查看一下比较正常的做法，恍然大雾，忘了泰勒级数了</p>
+        <p>计算浮点型数字的立方根<br><a id="more"></a></p>
+<p>最近遇到一道题，题目描述这样<br>不使用库函数，计算一个数字的立方根<br>麻烦的点是输入是double类型<br>假若规定输入的是整形，那很好做了，遍历计算就好，但是浮点型有点懵，遍历是不行了,因为每一步的跨度是不知道的。<br>有想过先算原来浮点型的精度位数，然后以精度为遍历，貌似可行。但是感觉有点硬，不够优雅.<br>最后上网查看一下比较正常的做法，恍然大雾，忘了泰勒级数了</p>
 <p>求解 $ f(x) = x^3 = 0 $<br>令<br>$ f(x)  =  x^3 - a  = 0 $<br>利用泰勒展开，即f(x)在$x_0$处的函数值为<br>$ f(x) = f(x_0) + f \prime(x_0)(x - x_0) = x_0^3 - a + 3x_0^2(x - x_0) $<br>$ x = \frac{2x_0^2 - a}{3x_0^2} $</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">fun</span><span class="params">(<span class="keyword">double</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> x = <span class="number">1.0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">abs</span>(x*x*x - n) &gt; <span class="number">1e-9</span>)</span><br><span class="line">        x = x - ((x*x*x - n) / (<span class="number">3</span>*x*x));</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>还有一种方法是用二分法求解</p>
@@ -540,7 +541,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-count">82</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -551,7 +552,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
