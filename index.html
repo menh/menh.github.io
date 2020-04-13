@@ -397,7 +397,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  0
+                  138
                 </span>
               
 
@@ -438,7 +438,17 @@
           
           
 
-          
+文件描述符在内核区
+进程控制块有文件描述符表，文件描述符号表有1024大小数组，其中0，1，2为默认打开的分别表示标准输入，标准输出，标准错误
+每打开一个新文件，则占用一个文件描述符，而且使用的是最小的一个文件描述符
+
+
+
+0 - 3G为用户区
+3G - 4G为内核区，
+
+ELF是linux下可
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/04/07/linux-%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4/#more" rel="contents">

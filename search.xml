@@ -8,7 +8,7 @@
       <link href="/2020/04/07/linux-%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4/"/>
       <url>/2020/04/07/linux-%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4/</url>
       
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="linux虚拟地址.jpg" alt="linux虚拟地址空间"></p>]]></content>
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="linux文件描述符.jpg" alt="linux文件描述符"></p><ul><li>文件描述符在内核区</li><li>进程控制块有文件描述符表，文件描述符号表有1024大小数组，其中0，1，2为默认打开的分别表示标准输入，标准输出，标准错误</li><li>每打开一个新文件，则占用一个文件描述符，而且使用的是最小的一个文件描述符</li></ul><p><img src="linux虚拟地址.jpg" alt="linux虚拟地址空间"></p><ul><li>0 - 3G为用户区</li><li><p>3G - 4G为内核区，</p></li><li><p>ELF是linux下可执行文件的文件格式，</p></li><li>ELF段 包括.bss .dada 其他段(只读数据段，符号段) .text<br>*</li></ul>]]></content>
       
       
       
