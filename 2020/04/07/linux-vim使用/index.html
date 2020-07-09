@@ -101,20 +101,18 @@
 
 
 
-<meta name="description" content="softmax 含义softmax把一些输入映射为0-1之间的实数，并且归一化保证和为1，因此多分类的概率之和也刚好为1。 首先简单理解softmax的含义。顾名思义，softmax由两个单词组成，其中一个是max。对于max我们都很熟悉，比如有两个变量a,b。如果a&gt;b，则max为a，反之为b。另外一个单词为soft。max存在的一个问题是什么呢？如果将max看成一个分类问题，就是非黑即白">
+<meta name="description" content="显示行号set nu  移动光标向左移动一个字符 h向下移动一个字符 j向上移动一个字符 k向右移动一个字符 l移动至行首 0移动至行尾 $移动至下一个字的第一个字符 w移动至下一个字的最后一个字符 e移动至上一个字的第一个字符 b移动光标到某一行 :行号  选中 v  复制 y  粘贴 p  删除 d  撤销 u ctrl+r  查找&#x2F;  放弃所有修改并重新载入该文件的原始内容 e!  垂直分">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ML-softmax 理解">
-<meta property="og:url" content="https://menh.github.io/2020/02/25/ML-softmax/index.html">
+<meta property="og:title" content="linux-vim使用">
+<meta property="og:url" content="https://menh.github.io/2020/04/07/linux-vim%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Hugh">
-<meta property="og:description" content="softmax 含义softmax把一些输入映射为0-1之间的实数，并且归一化保证和为1，因此多分类的概率之和也刚好为1。 首先简单理解softmax的含义。顾名思义，softmax由两个单词组成，其中一个是max。对于max我们都很熟悉，比如有两个变量a,b。如果a&gt;b，则max为a，反之为b。另外一个单词为soft。max存在的一个问题是什么呢？如果将max看成一个分类问题，就是非黑即白">
+<meta property="og:description" content="显示行号set nu  移动光标向左移动一个字符 h向下移动一个字符 j向上移动一个字符 k向右移动一个字符 l移动至行首 0移动至行尾 $移动至下一个字的第一个字符 w移动至下一个字的最后一个字符 e移动至上一个字的第一个字符 b移动光标到某一行 :行号  选中 v  复制 y  粘贴 p  删除 d  撤销 u ctrl+r  查找&#x2F;  放弃所有修改并重新载入该文件的原始内容 e!  垂直分">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://menh.github.io/2020/02/25/ML-softmax/softmax.jpg">
-<meta property="article:published_time" content="2020-02-25T13:41:53.000Z">
-<meta property="article:modified_time" content="2020-02-27T06:05:07.054Z">
+<meta property="article:published_time" content="2020-04-07T13:55:58.000Z">
+<meta property="article:modified_time" content="2020-04-08T06:22:36.604Z">
 <meta property="article:author" content="Hugh Men">
 <meta property="article:tag" content="‘CS’">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://menh.github.io/2020/02/25/ML-softmax/softmax.jpg">
 
 
 
@@ -143,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://menh.github.io/2020/02/25/ML-softmax/"/>
+  <link rel="canonical" href="https://menh.github.io/2020/04/07/linux-vim使用/"/>
 
 
 
 
 
-  <title>ML-softmax 理解 | Hugh</title>
+  <title>linux-vim使用 | Hugh</title>
   
 
 
@@ -336,7 +334,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/25/ML-softmax/">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/04/07/linux-vim%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hugh Men">
@@ -353,7 +351,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ML-softmax 理解</h1>
+          <h1 class="post-title" itemprop="name headline">linux-vim使用</h1>
         
 
         <div class="post-meta">
@@ -365,8 +363,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-25T21:41:53+08:00">
-                2020-02-25
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-07T21:55:58+08:00">
+                2020-04-07
               </time>
             
 
@@ -397,7 +395,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  545
+                  175
                 </span>
               
 
@@ -413,7 +411,7 @@
                   <span class="post-meta-item-text">Reading time</span>
                 
                 <span title="Reading time">
-                  2
+                  1
                 </span>
               
             </div>
@@ -434,16 +432,32 @@
       
 
       
-        <h4 id="softmax-含义"><a href="#softmax-含义" class="headerlink" title="softmax 含义"></a>softmax 含义</h4><p>softmax把一些输入映射为0-1之间的实数，并且归一化保证和为1，因此多分类的概率之和也刚好为1。</p>
-<p>首先简单理解softmax的含义。顾名思义，softmax由两个单词组成，其中一个是max。对于max我们都很熟悉，比如有两个变量a,b。如果a&gt;b，则max为a，反之为b。<br>另外一个单词为soft。max存在的一个问题是什么呢？如果将max看成一个分类问题，就是非黑即白，最后的输出是一个确定的变量。更多的时候，我们希望输出的是取到某个分类的概率，或者说，我们希望分值大的那一项被经常取到，而分值较小的那一项也有一定的概率偶尔被取到，所以我们就应用到了soft的概念，即最后的输出是每个分类被取到的概率。</p>
-<h4 id="softmax-计算"><a href="#softmax-计算" class="headerlink" title="softmax 计算"></a>softmax 计算</h4><p>计算过程如下图<br><img src="softmax.jpg" alt="softmx"></p>
-<p>假设有一个数组V，$ V_i $表示V中的第i个元素，那么这个元素的softmax值为:<br>$$ s_i = \frac{e^i}{\sum_{j = 1} ^{i}e^j} $$<br>该元素的softmax值，就是该元素的指数与所有元素指数和的比值。</p>
-<p>这个定义可以说很简单，也很直观。那为什么要定义成这个形式呢？原因主要如下。</p>
-<p>1.softmax设计的初衷，是希望特征对概率的影响是乘性的。<br>2.多类分类问题的目标函数常常选为cross-entropy。即 $ L = - \sum_{k} t_k \cdot \ln P(y = k)$，其中目标类的 $ t_k $为1，其余类的$ t_k $为0。</p>
-<h4 id="softmax求导"><a href="#softmax求导" class="headerlink" title="softmax求导"></a>softmax求导</h4><p>在多分类问题中，我们经常使用交叉熵作为损失函数<br>$$ Loss = - \sum{t_i} \ln{y_i} $$<br>其中，$ t_i $表示真实值，$ y_i $表示求出的softmax值。<br>当预测第i个时，可以认为$ t_i = 1 $。此时损失函数变成了:<br>$$ Loss_i = −\ln {y_i} $$</p>
-<p>接下来对$ Loss $求导。根据定义：<br>$$ y_i = \frac{e^i} {\sum_j e_j} $$</p>
-<p>我们已经将数值映射到了0-1之间，并且和为1，则有：<br>$$ \frac{e^i} {\sum_j e^j} = 1 - \frac{ \sum_{j \neq i} e^j} { \sum_j e^j} $$</p>
-<p>求导</p>
+        <ul>
+<li><p>显示行号<br>set nu</p>
+</li>
+<li><p>移动光标<br>向左移动一个字符 h<br>向下移动一个字符 j<br>向上移动一个字符 k<br>向右移动一个字符 l<br>移动至行首 0<br>移动至行尾 $<br>移动至下一个字的第一个字符 w<br>移动至下一个字的最后一个字符 e<br>移动至上一个字的第一个字符 b<br>移动光标到某一行 :行号</p>
+</li>
+<li><p>选中 v</p>
+</li>
+<li><p>复制 y</p>
+</li>
+<li><p>粘贴 p</p>
+</li>
+<li><p>删除 d</p>
+</li>
+<li><p>撤销 u ctrl+r</p>
+</li>
+<li><p>查找<br>/</p>
+</li>
+<li><p>放弃所有修改并重新载入该文件的原始内容 e!</p>
+</li>
+<li><p>垂直分割编辑窗口 split</p>
+</li>
+<li><p>水平分割编辑窗口 vsplit</p>
+</li>
+<li><p>切换编辑窗口 ctrl + w</p>
+</li>
+</ul>
 
       
     </div>
@@ -468,8 +482,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/25/tf2-fashion-mnist-%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" rel="next" title="TF2-fashion_mnist_分类模型">
-                <i class="fa fa-chevron-left"></i> TF2-fashion_mnist_分类模型
+              <a href="/2020/04/07/linux-%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4/" rel="next" title="linux-虚拟地址空间">
+                <i class="fa fa-chevron-left"></i> linux-虚拟地址空间
               </a>
             
           </div>
@@ -477,10 +491,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/27/DB-MySQL%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="prev" title="DB-MySQL存储引擎">
-                DB-MySQL存储引擎 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -532,17 +542,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/menhu.jpg"
@@ -604,22 +605,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax-含义"><span class="nav-number">1.</span> <span class="nav-text">softmax 含义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax-计算"><span class="nav-number">2.</span> <span class="nav-text">softmax 计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax求导"><span class="nav-number">3.</span> <span class="nav-text">softmax求导</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
