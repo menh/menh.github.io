@@ -1767,57 +1767,6 @@
       </categories>
   </entry>
   <entry>
-    <title>docker-实战部署django服务器</title>
-    <url>/2020/02/18/docker-%E5%AE%9E%E6%88%98%E9%83%A8%E7%BD%B2django%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="django-基本环境安装"><a href="#django-基本环境安装" class="headerlink" title="django 基本环境安装"></a>django 基本环境安装</h2><ol>
-<li><p>docker pull ubuntu:18.04<br>拉一个ubuntu 18.04版本的镜像，开始使用14.04版本在django包时疯狂报错，慎用</p>
-</li>
-<li><p>docker run -it -p 8000:8000 ubuntu:18.04<br>使用ubuntu:18.04启动一个容器<br>其中-p 8000:8000最好在启动容器的时候指定，否则容器启动后很难修改</p>
-</li>
-<li><p>apt-get update<br>更新apt-get</p>
-</li>
-<li><p>apt-get vim<br>安装vim</p>
-</li>
-<li><p>apt-get install python3.6<br>安装python3.6</p>
-</li>
-<li><p>apt-get install python3-pip<br>安装pip3</p>
-</li>
-<li><p>修改pip3的源，速度会很快<br>vim ~/.pip/pip.conf  //修改pip源<br>输入以下pip源：<br>[global]<br>index-url = <a href="http://pypi.douban.com/simple" target="_blank" rel="noopener">http://pypi.douban.com/simple</a><br>trusted-host = pypi.douban.com<br>disable-pip-version-check = true<br>timeout = 120</p>
-</li>
-<li><p>ln -s /usr/bin/python3.6 python<br>给python3创建python的软连接，直接使用python命令</p>
-</li>
-<li><p>pip3 install django==2.2.5<br>安装2.2.5版本的django</p>
-</li>
-</ol>
-<p>此时django环境已经初步完成可测试一下环境是否可用</p>
-<h2 id="django-测试基本环境"><a href="#django-测试基本环境" class="headerlink" title="django 测试基本环境"></a>django 测试基本环境</h2><ol>
-<li><p>django-admin startproject DockerDjangoTest<br>创建一个django项目</p>
-</li>
-<li><p>python manager.py runserver 0.0.0.0:8000<br>启动django服务</p>
-</li>
-</ol>
-<p>此时可以使用浏览器访问””，访问到django欢迎界面就好<br>也可以使用容器的ip访问</p>
-<h2 id="部署生产"><a href="#部署生产" class="headerlink" title="部署生产"></a>部署生产</h2><ol>
-<li><p>pip3 install uwsgi<br>安装uwsgi</p>
-</li>
-<li><p>配置uwsgi文件</p>
-</li>
-</ol>
-<p>‘’’<br>[uwsgi]<br>chdir = /home/ubuntu/qlassroom-ai/backend #后台代码路径<br>module = backend.wsgi #后台.wsgi文件 即/backend/wsgi.py<br>master = True<br>processes = 4<br>max-requests = 5000<br>harakiri = 60<br>socket = 0.0.0.0:8888  #内网ip + 端口号<br>uid = root<br>gid = root<br>pidfile = /home/ubuntu/qlassroom-ai-uwsgi/master.pid<br>daemonize = /home/ubuntu/qlassroom-ai-uwsgi/mysite.log<br>vacuum = True<br>‘’’</p>
-<ol start="3">
-<li><p>apt-get install nginx<br>安装nginx</p>
-</li>
-<li><p>配置nginx</p>
-</li>
-</ol>
-<p>service nginx restart;<br>killall -9 uwsgi<br>uwsgi –ini /home/ubuntu/DockerDjangoTest/docker-django-test-uwsgi.ini;<br>tail -100f /var/log/nginx/access.log;</p>
-<p>aws 172.31.18.194:8888</p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-  </entry>
-  <entry>
     <title>英-文_Growing_Neural_Cellular_Automata</title>
     <url>/2020/02/18/%E8%8B%B1-%E6%96%87-Growing-Neural-Cellular-Automata/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://distill.pub/2020/growing-ca/" target="_blank" rel="noopener">Growing Neural Cellular Automata</a><br>神经细胞自动生长机</p>
@@ -2213,46 +2162,5 @@
       <categories>
         <category>文</category>
       </categories>
-  </entry>
-  <entry>
-    <title>设计模式</title>
-    <url>/2020/01/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
-<li><p>模版方法 Template</p>
-<ul>
-<li>动机: 某项任务有稳定的整体结构，但是各个子步骤有很多改变的需求</li>
-<li>定义: 定义一个操作中算法的骨架，而将一些步骤延迟到子类中，模版方法使得子类可以不改变一个算法的结构重定义该算法的特定步骤（只见树木不见森林）</li>
-<li>处理思路: 利用虚函数的多态性</li>
-</ul>
-</li>
-<li><p>策略模式 Strategy</p>
-<ul>
-<li>动机：在软件构件过程中，某些对象使用的算法可能多种多样，使用率小的算法也是一种性能负担</li>
-<li>定义：定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。策略模式使得算法可独立于使用它的客户程序而变化</li>
-<li>处理方法： 利用多态性</li>
-</ul>
-</li>
-<li><p>观察者模式 Observer/Event</p>
-<ul>
-<li>动机：软件构建过程中，我们需要为某些对象建立一种“通知依赖关系”，一个对象发生状态改变，所有依赖对象都将得到通知</li>
-<li>定义：定义对象间一种一对多的依赖关系，以便一个对象的状态改变时，所有依赖于它的对象都得到通知和更新</li>
-</ul>
-</li>
-<li><p>装饰模式 Decorator</p>
-<ul>
-<li>动机: 过度的使用继承来拓展对象的功能，由于继承为类型引入的静态特质，使得这种拓展方式缺乏灵活性，并且随着子类的增多，各种子类的组合会导致更多的子类膨胀</li>
-<li>定义： 动态给一个对象增加额外的职责</li>
-</ul>
-</li>
-<li><p>桥模式 Brige</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>technology</tag>
-      </tags>
   </entry>
 </search>
