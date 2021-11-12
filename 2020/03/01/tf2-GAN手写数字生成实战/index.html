@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"menh.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="实战使用keras的mnist数据集,使用GAN生成手写数据图片使用生成器模型生成手写图片使用判别器模型对真图片进行真判断对生成的图片进行假判断 定义生成器模型生成器用来将随机数生成手写数据图片生成器使用三层结构输入层和中间层使用BatchNormalization进行标准化,使用LeakyReLU进行激活输出层使用tanh激活最后将输出数据改为28 * 28 * 1 的形状 line_numbe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tf2-GAN">
+<meta property="og:url" content="https://menh.github.io/2020/03/01/tf2-GAN%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E7%94%9F%E6%88%90%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="Hugh">
+<meta property="og:description" content="实战使用keras的mnist数据集,使用GAN生成手写数据图片使用生成器模型生成手写图片使用判别器模型对真图片进行真判断对生成的图片进行假判断 定义生成器模型生成器用来将随机数生成手写数据图片生成器使用三层结构输入层和中间层使用BatchNormalization进行标准化,使用LeakyReLU进行激活输出层使用tanh激活最后将输出数据改为28 * 28 * 1 的形状 line_numbe">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-01T04:59:02.000Z">
+<meta property="article:modified_time" content="2020-03-02T11:22:48.415Z">
+<meta property="article:author" content="Hugh Men">
+<meta property="article:tag" content="‘CS’">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://menh.github.io/2020/03/01/tf2-GAN%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E7%94%9F%E6%88%90%E5%AE%9E%E6%88%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>tf2-GAN | Hugh</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hugh</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">门泊东吴万里船</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/03/01/tf2-GAN%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E7%94%9F%E6%88%90%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hugh Men">
+      <meta itemprop="description" content="大丈夫当带三尺剑，立不世之功">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          tf2-GAN
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-01 12:59:02" itemprop="dateCreated datePublished" datetime="2020-03-01T12:59:02+08:00">2020-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-02 19:22:48" itemprop="dateModified" datetime="2020-03-02T19:22:48+08:00">2020-03-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TF2/" itemprop="url" rel="index"><span itemprop="name">TF2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="实战使用keras的mnist数据集-使用GAN生成手写数据图片"><a href="#实战使用keras的mnist数据集-使用GAN生成手写数据图片" class="headerlink" title="实战使用keras的mnist数据集,使用GAN生成手写数据图片"></a>实战使用keras的mnist数据集,使用GAN生成手写数据图片</h4><p>使用生成器模型生成手写图片<br>使用判别器模型对真图片进行真判断对生成的图片进行假判断</p>
+<h4 id="定义生成器模型"><a href="#定义生成器模型" class="headerlink" title="定义生成器模型"></a>定义生成器模型</h4><p>生成器用来将随机数生成手写数据图片<br>生成器使用三层结构<br>输入层和中间层使用BatchNormalization进行标准化,使用LeakyReLU进行激活<br>输出层使用tanh激活<br>最后将输出数据改为28 * 28 * 1 的形状</p>
+<figure class="highlight plain"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def generator_model():</span><br><span class="line">    model &#x3D; tf.keras.Sequential()</span><br><span class="line">    model.add(keras.layers.Dense(256, input_shape &#x3D; (100,), use_bias &#x3D; False))</span><br><span class="line">    model.add(keras.layers.BatchNormalization())</span><br><span class="line">    model.add(keras.layers.LeakyReLU())</span><br><span class="line"></span><br><span class="line">    model.add(keras.layers.Dense(512, use_bias &#x3D; False))</span><br><span class="line">    model.add(keras.layers.BatchNormalization())</span><br><span class="line">    model.add(keras.layers.LeakyReLU())</span><br><span class="line"></span><br><span class="line">    model.add(keras.layers.Dense(28 * 28 * 1, use_bias &#x3D; False, activation &#x3D; &#39;tanh&#39;))</span><br><span class="line">    model.add(keras.layers.BatchNormalization())</span><br><span class="line"></span><br><span class="line">    model.add(keras.layers.Reshape((28, 28, 1)))</span><br><span class="line"></span><br><span class="line">    return model</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义判别器模型"><a href="#定义判别器模型" class="headerlink" title="定义判别器模型"></a>定义判别器模型</h4><p>判别器用来对输入图片进行判别<br>判别器使用三层网络结构<br>第一层将图片数据延展并输入到一个全连接层，使用BatchNormalization标准化，使用LeakyReLU激活<br>第二层是个全连接层，同样使用使用BatchNormalization标准化，使用LeakyReLU激活<br>第三层输出判别的结果</p>
+<figure class="highlight plain"><figcaption><span>line_number: true</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def discriminator_model():</span><br><span class="line">    model &#x3D; keras.Sequential()</span><br><span class="line">    model.add(keras.layers.Flatten())</span><br><span class="line"></span><br><span class="line">    model.add(keras.layers.Dense(512, use_bias &#x3D; False))</span><br><span class="line">    model.add(keras.layers.BatchNormalization())</span><br><span class="line">    model.add(keras.layers.LeakyReLU())</span><br><span class="line"></span><br><span class="line">    model.add(keras.layers.Dense(256, use_bias &#x3D; False))</span><br><span class="line">    model.add(keras.layers.BatchNormalization())</span><br><span class="line">    model.add(keras.layers.LeakyReLU())</span><br><span class="line"></span><br><span class="line">    model.add(keras.layers.Dense(1))</span><br><span class="line"></span><br><span class="line">    return model</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="GAN-生成对抗网络"><a href="#GAN-生成对抗网络" class="headerlink" title="GAN 生成对抗网络"></a>GAN 生成对抗网络</h3><h3 id="应用领域"><a href="#应用领域" class="headerlink" title="应用领域"></a>应用领域</h3><pre><code>* 图像生成
+* 图像增强
+* 风格化
+* 艺术的图像创作</code></pre><h3 id="GAN定义"><a href="#GAN定义" class="headerlink" title="GAN定义"></a>GAN定义</h3><p>GAN 包含两部分生成器generator与判别器discriminator,<br>    * 生成器主要用来学习真实图像分布从而让自身生成的图像更加真实，以骗过判别器<br>    * 判别器对接收的图片进行真假判断</p>
+<h3 id="GAN-设计"><a href="#GAN-设计" class="headerlink" title="GAN 设计"></a>GAN 设计</h3><ul>
+<li><p>生成器网络</p>
+</li>
+<li><p>判别器网络（例如 5层CNN)</p>
+</li>
+</ul>
+<p>自编码器<br>基本去燥自编ma<br>卷积去燥自编码器</p>
+<p>GAN自定义</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/27/%E9%9F%B3-Supermarket-Flowers/" rel="prev" title="音-Supermarket-Flowers">
+      <i class="fa fa-chevron-left"></i> 音-Supermarket-Flowers
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/01/tf2-from-tensor-slices%E8%AF%B4%E6%98%8E/" rel="next" title="tf2-from_tensor-slices说明">
+      tf2-from_tensor-slices说明 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#实战使用keras的mnist数据集-使用GAN生成手写数据图片"><span class="nav-number">1.</span> <span class="nav-text">实战使用keras的mnist数据集,使用GAN生成手写数据图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义生成器模型"><span class="nav-number">2.</span> <span class="nav-text">定义生成器模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义判别器模型"><span class="nav-number">3.</span> <span class="nav-text">定义判别器模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAN-生成对抗网络"><span class="nav-number"></span> <span class="nav-text">GAN 生成对抗网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用领域"><span class="nav-number"></span> <span class="nav-text">应用领域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAN定义"><span class="nav-number"></span> <span class="nav-text">GAN定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAN-设计"><span class="nav-number"></span> <span class="nav-text">GAN 设计</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hugh Men</p>
+  <div class="site-description" itemprop="description">大丈夫当带三尺剑，立不世之功</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hugh Men</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

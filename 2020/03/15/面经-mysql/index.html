@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"menh.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据库基础知识1、为什么要使用数据库2、什么是SQL？3、什么是MySQL?4、数据库三大范式是什么5、mysql有关权限的表都有哪几个  MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库里，由mysql_install_db脚本初始化。这些权限表分别user，db，table_priv，columns_priv和host。下面分别介绍一下这些表的结构和内容：  u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经-mysql">
+<meta property="og:url" content="https://menh.github.io/2020/03/15/%E9%9D%A2%E7%BB%8F-mysql/index.html">
+<meta property="og:site_name" content="Hugh">
+<meta property="og:description" content="数据库基础知识1、为什么要使用数据库2、什么是SQL？3、什么是MySQL?4、数据库三大范式是什么5、mysql有关权限的表都有哪几个  MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库里，由mysql_install_db脚本初始化。这些权限表分别user，db，table_priv，columns_priv和host。下面分别介绍一下这些表的结构和内容：  u">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-15T08:15:00.000Z">
+<meta property="article:modified_time" content="2020-03-19T10:27:34.348Z">
+<meta property="article:author" content="Hugh Men">
+<meta property="article:tag" content="‘CS’">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://menh.github.io/2020/03/15/%E9%9D%A2%E7%BB%8F-mysql/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>面经-mysql | Hugh</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hugh</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">门泊东吴万里船</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/03/15/%E9%9D%A2%E7%BB%8F-mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hugh Men">
+      <meta itemprop="description" content="大丈夫当带三尺剑，立不世之功">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面经-mysql
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-15 16:15:00" itemprop="dateCreated datePublished" datetime="2020-03-15T16:15:00+08:00">2020-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-19 18:27:34" itemprop="dateModified" datetime="2020-03-19T18:27:34+08:00">2020-03-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>数据库基础知识<br>1、为什么要使用数据库<br>2、什么是SQL？<br>3、什么是MySQL?<br>4、数据库三大范式是什么<br>5、mysql有关权限的表都有哪几个<br>  MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库里，由mysql_install_db脚本初始化。这些权限表分别user，db，table_priv，columns_priv和host。下面分别介绍一下这些表的结构和内容：<br>  user权限表：记录允许连接到服务器的用户帐号信息，里面的权限是全局级的。<br>  db权限表：记录各个帐号在各个数据库上的操作权限。<br>  table_priv权限表：记录数据表级的操作权限。<br>  columns_priv权限表：记录数据列级的操作权限。<br>  host权限表：配合db权限表对给定主机上数据库级操作权限作更细致的控制。这个权限表不受GRANT和REVOKE语句的影响。<br>6、MySQL的binlog有有几种录入格式？分别有什么区别？<br>  Statement：每一条会修改数据的sql<br>  ROW不记录sql语句上下文相关信息，仅保存哪条记录被修改。</p>
+<p>Mysql为什么用B树存储结构<br>  mysql的数据是放到外部存储的,因此我们必须减低磁盘的IO次数,因此我们需要尽量降低树的高度,树的分叉越多越好,因此B树正好符合我们的要求</p>
+<p>数据类型<br>1、mysql有哪些数据类型</p>
+<p>引擎<br>1、MySQL存储引擎MyISAM与InnoDB区别<br>  事务， 锁 外键</p>
+<p>2、MyISAM索引与InnoDB索引的区别？<br>  InnoDB是聚集索引，表记录的排列顺序和与索引的排列顺序是否一致。聚集索引一个表只有一个，非聚集索引一个表可以存在多个。聚集索引存储记录是物理上连续存在，非聚集索引是逻辑上的连续<br>  在经常搜索一定范围的值时，通过索引找到第一条数据，根据物理地址连续存储的特点，然后检索相邻的数据，直到到达条件截至项。</p>
+<p>  非聚集索引 非聚集索引就像根据偏旁部首查字典一样，字典前面的目录在逻辑上也是连续的，但是查两个偏旁在目录上挨着的字时，字典中的字却很不可能是挨着的。<br>  <a href="https://www.cnblogs.com/duzhentong/p/8639223.html" target="_blank" rel="noopener">https://www.cnblogs.com/duzhentong/p/8639223.html</a></p>
+<p>  主键索引：以主键索引到整条记录<br>  辅助索引：以另一字段索引到主键<br>MyISAM是非聚集索引，索引和数据文件是分离的<br>  主键索引：以关键字索引到记录的<br>  辅助索引：以某字段索引到记录地址</p>
+<p>  聚集索引优点：<br>  1、以最快的速度缩小查询范围。<br>  2、以最快的速度进行字段排序。<br>  聚集索引使用场合：<br>  1、此列包含有限数目的不同值。<br>  2、查询的结果返回一个区间的值。<br>  3、查询的结果返回某值相同的大量结果集。<br>  非聚集索引优点：<br>  1、非聚集索引比聚集索引层次多。<br>  3、添加记录不会引起数据顺序的重组。<br>  非聚集索引使用场合：<br>  1、此列包含了大量数目不同的值。<br>  2、查询的结束返回的是少量的结果集</p>
+<p>3、InnoDB引擎的4大特性<br>一：插入缓冲 提升插入性能，change buffering是insert buffer的加强，insert buffer只针对insert有效，change buffering对insert、delete、update(delete+insert)、purge都有效<br>二：二次写 Doublewrite缓存是位于系统表空间的存储区域，用来缓存InnoDB的数据页从innodb buffer pool中flush之后并写入到数据文件之前，所以当操作系统或者数据库进程在数据页写磁盘的过程中崩溃，Innodb可以在doublewrite缓存中找到数据页的备份而用来执行crash恢复<br>三：自适应哈希<br>b存储引擎会监控对表上二级索引的查找，如果发现某二级索引被频繁访问，二级索引成为热数据，建立哈希索引可以带来速度的提升<br>四：预读<br>4、存储引擎选择<br>线性预读（linear read-ahead）和随机预读（randomread-ahead）<br>为了区分这两种预读的方式，</p>
+<p>索引<br>1、什么是索引？<br>2、索引有哪些优缺点？<br>3、索引使用场景（重点）<br>4、索引有哪几种类型？<br>普通索引、唯一索引、全文索引、单列索引、多列索引、空间索引</p>
+<p>5、索引的数据结构（b树，hash）<br>6、索引的基本原理<br>7、索引算法有哪些？<br>8、索引设计的原则？<br>9、创建索引的原则（重中之重）<br>  对于查询频率高的字段创建索引<br>  对排序、分组、联合查询频率高的字段创建索引<br>  索引的数目不宜太多<br>  若在实际中，需要将多个列设置索引时，可以采用多列索引<br>  选择唯一性索引<br>  尽量使用数据量少的索引<br>  尽量使用前缀来索引<br>  删除不再使用或者很少使用的索引<br>10、创建索引的三种方式，删除索引<br>11、创建索引时需要注意什么？<br>12、使用索引查询一定能提高查询的性能吗？为什么<br>13、百万级别或以上的数据如何删除<br>  使用inner join 的方式删除起来，效率成倍的提升！<br>  然后根据使用的删除条件建立一个临时的索引,以此建立提高删除效率的索引,打造围绕一个字段的聚集型索引,以此为基地大大提升删除效率<br>  可以把要保留的数据备份出来。在drop表。重新创建，先不要急着创建索引、主键，把数据导回去，然后在建索引、约束之类的。<br>14、前缀索引<br>15、什么是最左前缀原则？什么是最左匹配原则<br>16、B树和B+树的区别<br>17、使用B树的好处<br>18、使用B+树的好处<br>    1. B+树很好的利用了局部性原理，预读<br>    2. B+树单次磁盘 IO 的信息量大于B树，从这点来看B+树相对B树磁盘 IO 次数少。<br>    3. B+Tree中因为数据都在叶子节点，所以每次查询的时间复杂度是固定的，因为稳定性保证了<br>    4. 而且叶子节点之间都是链表的结构，所以B+ Tree也是可以支持范围查询的，而B树每个节点 key 和 data 在一起，则无法区间查找。<br>19、Hash索引和B+树所有有什么区别或者说优劣呢?<br>20、数据库为什么使用B+树而不是B树<br>21、B+树在满足聚簇索引和覆盖索引的时候不需要回表查询数据<br>22、什么是聚簇索引？何时使用聚簇索引与非聚簇索引<br>23、非聚簇索引一定会回表查询吗？<br>24、联合索引是什么？为什么需要注意联合索引中的顺序？</p>
+<p>事务<br>1、什么是数据库事务？<br>2、事物的四大特性(ACID)介绍一下?<br>3、什么是脏读？幻读？不可重复读？<br>4、什么是事务的隔离级别？MySQL的默认隔离级别是什么？</p>
+<p>锁<br>1、对MySQL的锁了解吗<br>2、隔离级别与锁的关系<br>3、按照锁的粒度分数据库锁有哪些？锁机制与InnoDB锁算法<br>4、从锁的类别上分MySQL都有哪些锁呢？像上面那样子进行锁定岂不是有点阻碍并发效率了<br>5、MySQL中InnoDB引擎的行锁是怎么实现的？<br>6、InnoDB存储引擎的锁的算法有三种<br>7、什么是死锁？怎么解决？<br>8、数据库的乐观锁和悲观锁是什么？怎么实现的？</p>
+<p>视图<br>1、为什么要使用视图？什么是视图？<br>2、视图有哪些特点？<br>3、视图的使用场景有哪些？<br>4、视图的优点<br>5、视图的缺点<br>6、什么是游标？</p>
+<p>存储过程与函数<br>1、什么是存储过程？有哪些优缺点？<br>存储过程是一个预编译的代码块，执行效率比较高<br>存储过程在服务器端运行，减少客户端的压力<br>允许模块化程序设计，只需要创建一次过程，以后在程序中就可以调用该过程任意次，类似方法的复用<br>一个存储过程替代大量T_SQL语句 ，可以降低网络通信量，提高通信速率<br>可以一定程度上确保数据安全</p>
+<p>调试麻烦（没有像开发程序那样容易）<br>可移植性不灵活（因为存储过程依赖于具体的数据库）</p>
+<p>触发器<br>1、什么是触发器？触发器的使用场景有哪些？<br>2、MySQL中都有哪些触发器？</p>
+<p>常用SQL语句<br>1、SQL语句主要分为哪几类<br>2、超键、候选键、主键、外键分别是什么？<br>3、SQL 约束有哪几种？<br>4、六种关联查询<br>5、什么是子查询<br>6、子查询的三种情况<br>7、mysql中 in 和 exists 区别<br>8、varchar与char的区别<br>9、varchar(50)中50的涵义<br>10、int(20)中20的涵义<br>11、mysql为什么这么设计<br>12、mysql中int(10)和char(10)以及varchar(10)的区别<br>13、FLOAT和DOUBLE的区别是什么？<br>14、drop、delete与truncate的区别<br>15、UNION与UNION ALL的区别？</p>
+<p>SQL优化<br>1、如何定位及优化SQL语句的性能问题？创建的索引有没有被使用到?或者说怎么才可以知道这条语句运行很慢的原因？<br>  通过执行计划可以了解查询方式、索引使用情况、需要扫描的数据量以及是否需要临时表或排序操作等信息。<br>  select_type子查询的查询类型 table type访问类型<br>2、SQL的生命周期？<br>3、大表数据查询，怎么优化<br>4、超大分页怎么处理？<br>5、mysql 分页<br>6、慢查询日志<br>7、关心过业务系统里面的sql耗时吗？统计过慢查询吗？对慢查询都怎么优化过？<br>8、为什么要尽量设定一个主键？<br>9、主键使用自增ID还是UUID？<br>10、字段为什么要求定义为not null？<br>11、如果要存储用户的密码散列，应该使用什么字段进行存储？<br>12、优化查询过程中的数据访问<br>13、优化长难的查询语句<br>14、优化特定类型的查询语句<br>15、优化关联查询<br>16、优化子查询<br>17、优化LIMIT分页<br>18、优化UNION查询<br>19、优化WHERE子句</p>
+<p>数据库优化<br>1、为什么要优化<br>2、数据库结构优化<br>3、MySQL数据库cpu飙升到500%的话他怎么处理？<br>4、大表怎么优化？某个表有近千万数据，CRUD比较慢，如何优化？分库分表了是怎么做的？分表分库了有什么问题？有用到中间件么？他们的原理知道么？<br>垂直分表<br>适用场景<br>缺点<br>水平分表：<br>适用场景<br>水平切分的缺点<br>5、MySQL的复制原理以及流程<br>6、读写分离有哪些解决方案？<br><a href="https://www.cnblogs.com/mkl34367803/p/10703913.html" target="_blank" rel="noopener">https://www.cnblogs.com/mkl34367803/p/10703913.html</a><br>方案1：应用程序根据业务逻辑来判断，增删改等写操作命令发给主库，查询命令发给备库。<br>特点：&lt;1&gt;数据库和应用程序强耦合，数据库如果有变化还好影响主库。&lt;2&gt;应用程序复杂化。</p>
+<p>方案2：利用中间件来做代理，负责对数据库的请求识别出读还是写，并分发到不同的数据库中。<br>特点：&lt;1&gt; 数据库和应用程序弱耦合。&lt;2&gt; 代理存在性能瓶颈和可靠性风险增加，相对可控。</p>
+<p>7、备份计划，mysqldump以及xtranbackup的实现原理<br>8、数据表损坏的修复方式有哪些？</p>
+<p>HTTPS工作原理</p>
+<p>vector 参数</p>
+<p>c++ 内存泄漏及其处理<br>  申请的空间未释放<br>  浅拷贝多次释放<br>  一是在堆里创建了对象占用了内存，但是没有显示地释放对象占用的内存；<br>  二是在类的构造函数中动态的分配了内存，但是在析构函数中没有释放内存或者没有正确的释放内存<br>  在释放对象数组时在delete中没有使用方括号<br>  指向对象的指针数组不等同于对象数组</p>
+<p>  对象数组是指：数组中存放的是对象，只需要delete []p，即可调用对象数组中的每个对象的析构函数释放空间</p>
+<p>  指向对象的指针数组是指：数组中存放的是指向对象的指针，不仅要释放每个对象的空间，还要释放每个指针的空间，delete []p只是释放了每个指针，但是并没有释放对象的空间，正确的做法，是通过一个循环，将每个对象释放了，然后再把指针释放了。</p>
+<p>  缺少重载赋值运算符</p>
+<p>  没有将基类的析构函数定义为虚函数</p>
+<p>  造成野指针的原因：</p>
+<p>  指针变量没有被初始化（如果值不定，可以初始化为NULL）<br>  指针被free或者delete后，没有置为NULL, free和delete只是把指针所指向的内存给释放掉，并没有把指针本身干掉，此时指针指向的是“垃圾”内存。释放后的指针应该被置为NULL.<br>  指针操作超越了变量的作用范围，比如返回指向栈内存的指针就是野指针。</p>
+<p>4.使用C/C++语言开发的软件在运行时，出现内存泄漏。可以使用以下两种方式，进行检查排除:<br>  ⑴ 使用工具软件BoundsChecker，BoundsChecker是一个运行时错误检测工具，它主要定位程序运行时期发生的各种错误。<br>  ⑵ 调试运行DEBUG版程序，运用以下技术：CRT(C run-time libraries)、运行时函数调用堆栈、内存泄漏时提示的内存分配序号(集成开发环境OUTPUT窗口)，综合分析内存泄漏的原因，排除内存泄漏。</p>
+<p>  解决内存泄漏最有效的办法就是使用智能指针（Smart Pointer）。使用智能指针就不用担心这个问题了，因为智能指针可以自动删除分配的内存。智能指针和普通指针类似，只是不需要手动释放指针，而是通过智能指针自己管理内存的释放，这样就不用担心内存泄漏的问题了。</p>
+<p>  shared_ptr共享的智能指针：</p>
+<p>shared_ptr使用引用计数，每一个shared_ptr的拷贝都指向相同的内存。在最后一个shared_ptr析构的时候，内存才会被释放。</p>
+<p>注意事项：<br>1.不要用一个原始指针初始化多个shared_ptr。<br>2.不要再函数实参中创建shared_ptr，在调用函数之前先定义以及初始化它。<br>3.不要将this指针作为shared_ptr返回出来。<br>4.要避免循环引用。</p>
+<p>unique_ptr独占的智能指针：<br>&lt;1&gt;Unique_ptr是一个独占的智能指针，他不允许其他的智能指针共享其内部的指针，不允许通过赋值将一个unique_ptr赋值给另外一个 unique_ptr。</p>
+<p>unique_ptr不允许复制，但可以通过函数返回给其他的unique_ptr，还可以通过std::move来转移到其他的unique_ptr，这样它本身就不再 拥有原来指针的所有权了。</p>
+<p>一条SQL语句执行得很慢，要分两种情况：<br>大多数情况是正常，偶尔很慢<br>  数据库在处理数据忙时候，更新或新增数据都会暂时记录到redo log日志，等空闲时把数据同步到磁盘。假设数据库一直很忙，更新又频繁，redo log被写满，就不得不暂停其它操作把数据同步到磁盘，就有可能导致我们的SQL语句执行的很慢<br>  执行时遇到表锁行锁，别人操作数据库用到表或者行数据加锁了，只能慢慢等待别人释放锁</p>
+<p>  这条SQL语句一直很慢<br>  <a href="https://www.cnblogs.com/myseries/p/10719074.html" target="_blank" rel="noopener">https://www.cnblogs.com/myseries/p/10719074.html</a><br>  1、大多数情况下很正常，偶尔很慢，则有如下原因<br>  (1)、数据库在刷新脏页，例如 redo log 写满了需要同步到磁盘。<br>  (2)、执行的时候，遇到锁，如表锁、行锁。<br>  2、这条 SQL 语句一直执行的很慢，则有如下原因。<br>  (1)、没有用上索引：例如该字段没有索引；由于对字段进行运算、函数操作导致无法用索引。<br>  (2)、数据库选错了索引。</p>
+<p>接口安全性设计<br>  Token授权机制<br>  时间戳超时机制<br>  签名机制<br>  拒绝重复调用</p>
+<p>  完全开放的接口<br>  接口参数加密<br>  接口参数加密+接口时效性验证<br>  接口参数加密+时效性验证+私钥<br>  接口参数加密+时效性验证+私钥+Https</p>
+<p>网络编程与TCP<br><a href="https://blog.csdn.net/qq_28584889/article/details/88751304" target="_blank" rel="noopener">https://blog.csdn.net/qq_28584889/article/details/88751304</a></p>
+<p>select for update 是为了在查询时,对这条数据进行加锁,避免其他用户以该表进行插入,修改或删除等操作,造成表的不一致性.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/14/%E9%9D%A2%E8%AF%95-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="prev" title="面试-计算机网络">
+      <i class="fa fa-chevron-left"></i> 面试-计算机网络
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/15/%E9%9D%A2%E7%BB%8F-linux%E5%91%BD%E4%BB%A4/" rel="next" title="面经-linux命令">
+      面经-linux命令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hugh Men</p>
+  <div class="site-description" itemprop="description">大丈夫当带三尺剑，立不世之功</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hugh Men</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

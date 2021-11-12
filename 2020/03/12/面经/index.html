@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"menh.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="C++五大储存区  程序代码区： 存放函数体的二进制代码2. extern关键字的作用extern关键字可以用来声明变量和函数作为外部变量或者函数供其它文件使用。extern “C”的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern “C”后，会指示编译器这部分代码按C语言的进行编译，而不是C++的。 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;banmei-bra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经">
+<meta property="og:url" content="https://menh.github.io/2020/03/12/%E9%9D%A2%E7%BB%8F/index.html">
+<meta property="og:site_name" content="Hugh">
+<meta property="og:description" content="C++五大储存区  程序代码区： 存放函数体的二进制代码2. extern关键字的作用extern关键字可以用来声明变量和函数作为外部变量或者函数供其它文件使用。extern “C”的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern “C”后，会指示编译器这部分代码按C语言的进行编译，而不是C++的。 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;banmei-bra">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-12T15:46:22.000Z">
+<meta property="article:modified_time" content="2020-03-19T10:24:02.915Z">
+<meta property="article:author" content="Hugh Men">
+<meta property="article:tag" content="‘CS’">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://menh.github.io/2020/03/12/%E9%9D%A2%E7%BB%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>面经 | Hugh</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hugh</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">门泊东吴万里船</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/03/12/%E9%9D%A2%E7%BB%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hugh Men">
+      <meta itemprop="description" content="大丈夫当带三尺剑，立不世之功">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面经
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-12 23:46:22" itemprop="dateCreated datePublished" datetime="2020-03-12T23:46:22+08:00">2020-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-19 18:24:02" itemprop="dateModified" datetime="2020-03-19T18:24:02+08:00">2020-03-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol>
+<li>C++五大储存区</li>
+</ol>
+<p>程序代码区： 存放函数体的二进制代码<br>2. extern关键字的作用<br>extern关键字可以用来声明变量和函数作为外部变量或者函数供其它文件使用。<br>extern “C”的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern “C”后，会指示编译器这部分代码按C语言的进行编译，而不是C++的。</p>
+<p><a href="https://www.cnblogs.com/banmei-brandy/p/11338314.html" target="_blank" rel="noopener">https://www.cnblogs.com/banmei-brandy/p/11338314.html</a></p>
+<p>extern 函数声明 定义</p>
+<ol start="3">
+<li><p>static关键字作用<br>（1）函数体内static变量的作用范围为该函数体，不同于auto变量，该变量的内存只被分配一次，因此其值在下次调用时仍维持上次的值；<br>（2）在模块内的static全局变量可以被模块内所用函数访问，但不能被模块外其它函数访问；(在其他模块用需要使用using namespace)；<br>（3）在模块内的static函数只可被这一模块内的其它函数调用，这个函数的使用范围被限制在声明它的模块内；<br>（4）在类中的static成员变量属于整个类所拥有，对类的所有对象只有一份拷贝；<br>（5）在类中的static成员函数属于整个类所拥有，这个函数不接收this指针，因而只能访问类的static成员变量。</p>
+</li>
+<li><p>volatile的作用<br>volatile关键字是防止在共享的空间发生读取的错误。只保证其可见性，不保证原子性；使用volatile指每次从内存中读取数据，而不是从编译器优化后的缓存中读取数据，简单来讲就是防止编译器优化。</p>
+</li>
+<li><p>const 作用</p>
+</li>
+</ol>
+<p>只读不可写</p>
+<ol start="6">
+<li><p>new和malloc的区别</p>
+</li>
+<li><p>sizeof的运算结果，</p>
+</li>
+</ol>
+<p>sizeof运算符的结果部分地依赖于其作用的类型：</p>
+<ul>
+<li>对char或者类型为char的表达式执行sizeof运算，结果得1</li>
+<li>对引用类型执行sizeof运算符得到被引用对象所占空间的大小</li>
+<li>对指针执行sizeof运算得到指针本身所占空间的大小</li>
+<li>对解引用指针执行sizeof运算得到指针指向的对象所占空间的大小，指针不需有效</li>
+<li>对数组执行sizeof运算得到整个数组所占空间的大小，等价于对数组中所有的元素各执行一次sizeof运算符并将所得结果求和。注意：sizeof运算不会吧数组转换为指针来处理</li>
+<li>对string对象或vector对象执行sizeof运算只返回该类型固定部分的大小，不会计算对象中的元素占用了多少空间。<br>　 因为执行sizeof运算能得到整个数组的大小，所以可以用数组的大小除以单个元素的带下得到数组中元素的个数。<br>因为sizeof的返回值是一个常量表达式，所以可以用sizeof的结果声明数组的维度。</li>
+</ul>
+<ol start="8">
+<li><p>C++多态性与虚函数表</p>
+<ol>
+<li>虚函数表是针对类还是针对对象的？<br>虚函数表是针对类的，一个类的所有对象的虚函数表都一样</li>
+<li>虚指针(vptr)：每个含有虚方法（虚函数）对象里有虚表指针，指向虚表。<br>虚函数表：虚函数表是顺序存放虚函数地址的，虚表是顺序表，表里存放了虚函数的地址。</li>
+<li>虚函数和纯虚函数<br>用virtual关键字申明的函数叫做虚函数，虚函数肯定是类的成员函数。<br>纯虚函数是虚函数再加上 = 0；</li>
+<li>抽象类是指包括至少一个纯虚函数的类。</li>
+<li>虚析构函数:只有当一个类被定义为基类的时候，才会把析构函数写成虚析构函数。<br>为什么一个类为基类，析构函数就需要写成虚析构？<br>假设现在有一个基类指针，指向派生类。此时释放基类指针，如果基类没有虚析构函数，此时只会看指针的数据类型，而不会看指针指向的数据类型，所以此时会发生内存泄露。</li>
+<li>构造函数不能声明为虚函数的原因 :<ol>
+<li>构造一个对象的时候，必须知道对象的实际类型，而虚函数行为是在运行期间确定实际类型的。</li>
+<li>虚函数的执行依赖于虚函数表。而虚函数表在构造函数中进行初始化工作，即初始化vptr，让他指向正确的虚函数表。而在构造对象期间，虚函数表还没有被初 始化，将无法进行。</li>
+</ol>
+</li>
+<li>不要在构造函数中调用虚函数的原因：<ol>
+<li>在概念上，构造函数的工作是为对象进行初始化。在构造函数完成之前，被构造的对象被认为“未完全生成”。当创建某个派生类的对象时，如果在它的基类的构造函数中调用虚函数，那么此时派生类的构造函数并未执行，所调用的函数可能操作还没有被初始化的成员，<br>先调用父类构造，父类都没创建完，子类没有</li>
+<li>包含虚函数的类对象的虚指针被安排在对象的起始地址处，并且虚函数表（vtable）的地址是由构造函数写入虚指针的。所以，一个类的构造函数在执行时，并不能保证该函数所能访问到的虚指针就是当前被构造对象最后所拥有的虚指针，因为后面派生类的构造函数会对当前被构造对象的虚指针进行重写，因此无法完成动态联编。<br>不要在析构函数中调用虚函数的原因：<br>在析构函数中调用虚函数，函数的入口地址也是在编译时静态决定的。<br>就是说先调用子类的析构函数，子类已经没了，再调用父类的析构函数，子类都没了，虚函数还有什么用，也已经没了</li>
+</ol>
+</li>
+<li>析构函数不能抛出异常<br>如果析构函数抛出异常，则异常点之后的程序不会执行，如果析构函数在异常点之后执行了某些必要的动作比如释放某些资源，则这些动作不会执行，会造成诸如资源泄漏的问题。<br>通常异常发生时，c++的机制会调用已经构造对象的析构函数来释放资源，此时若析构函数本身也抛出异常，则前一个异常尚未处理，又有新的异常，会造成程序崩溃的问题。<br>不要在析构函数中抛出异常！</li>
+<li>构造函数不能抛出异常<br>构造函数中抛出异常，会导致析构函数不能被调用，但对象本身已申请到的内存资源会被系统释放<br>构造函数中尽量不要抛出异常，能避免的就避免，如果必须，要考虑不要内存泄露！</li>
+</ol>
+</li>
+<li><p>指针和引用的区别<br>相同点：</p>
+<ol>
+<li>指针和引用都可以优化传参效率</li>
+<li>都是地址的概念；指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名。<br>引用和指针的不相同点<br>不同点：</li>
+<li>指针占内存空间，引用不占内存空间</li>
+<li>指针可以为空，但是引用不能为空</li>
+<li>指针可以不初始化，但是引用必须初始化</li>
+<li>指针可以有多级，但是引用只能是一级<code>（int **p合法但是int &amp;&amp;a是不合法的）</code></li>
+<li>指针的值在初始化后可以改变，即指向其它的存储单元，而引用在进行初始化后就不会再改变了，从一而终。</li>
+<li>指针是一种变量，而引用只是引用。</li>
+</ol>
+</li>
+<li><p>内联函数的优缺点<br>优点：</p>
+<ol>
+<li>内联函数发生在程序的编译期间，程序执行又比较简短的，大大增大代码执行效率。<br>缺点：</li>
+<li>如果函数的代码较长，使用内联将消耗过多内存</li>
+<li>内联函数以复制为代价，活动产函数开销</li>
+<li>如果函数体内有循环，那么执行函数代码时间比调用开销大</li>
+</ol>
+</li>
+<li><p>STL set、map实现为什么要以红黑树为底层实现机制？</p>
+<p>为什么set、map的实现要采用红黑树？</p>
+</li>
+<li><p>STL标准库，基础中的要点</p>
+<p>• map和set是基于什么实现的？红黑树的特点。<br>红黑树是一种特殊的平衡二叉搜索树，<br>1.每个节点只能是红色或者黑色。<br>2.根节点必须是黑色。<br>3.红色的节点，它的叶节点只能是黑色。<br>4.从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。</p>
+<p>• vector和list在储存上的区别。多维数组在储存上是连续的吗？<br>是<br> 底层数据结构为数组 ，支持快速随机访问<br> 底层数据结构为双向链表，支持快速增删<br>• queue和stack的实现，是数组还是链表？<br> deque是一个双端队列<br> 底层一般用list或deque实现，封闭头部即可，不用vector的原因应该是容量大小有限制</p>
+<p>•  map 和 set<br>set 底层数据结构为红黑树，有序，不重复<br>map 底层数据结构为红黑树，有序，不重复<br>• map中的元素是自定义结构体，这个结构体有什么要求？（需要重载operator&lt;）</p>
+</li>
+<li><p>必须在构造函数初始化式里进行初始化的数据成员<br>常量成员，const修饰的成员变量，因为常量只能初始化不能赋值，所以也要写在初始化列表里面；<br>引用类型，引用必须在定义的时候初始化，并且不能重新赋值，所以也要写在初始化列表里面；<br>没有默认构造函数的类类型，因为使用初始化列表可以不必调用默认构造函数来初始化，而是直接调用拷贝构造函数初始化</p>
+</li>
+<li><p>C++ STL 中 remove 和 erase 的区别<br>erase一般是要释放资源，真正删除元素的，<br>而remove主要用在vector中，用于将不符合要求的元素移到容器尾部，而并不删除不符合要求的元素</p>
+</li>
+<li><p>c++ 智能指针 <a href="https://www.cnblogs.com/water-bear/p/12095252.html" target="_blank" rel="noopener">https://www.cnblogs.com/water-bear/p/12095252.html</a></p>
+</li>
+</ol>
+<p>右值引用的目的主要是为了是减少内存拷贝，优化性能。</p>
+<ol start="16">
+<li>数据库的三大范式<br>第一范式就是属性不可分割，每个字段都应该是不可再拆分的。比如一个字段是姓名（NAME），在国内的话通常理解都是姓名是一个不可再拆分的单位，这时候就符合第一范式；但是在国外的话还要分为FIRST NAME和LAST NAME，这时候姓名这个字段就是还可以拆分为更小的单位的字段，就不符合第一范式了。</li>
+</ol>
+<p>第二范式就是要求表中要有主键，表中其他其他字段都依赖于主键，因此第二范式只要记住主键约束就好了。比如说有一个表是学生表，学生表中有一个值唯一的字段学号，那么学生表中的其他所有字段都可以根据这个学号字段去获取，依赖主键的意思也就是相关的意思，因为学号的值是唯一的，因此就不会造成存储的信息对不上的问题，即学生001的姓名不会存到学生002那里去。</p>
+<p>第三范式就是要求表中不能有其他表中存在的、存储相同信息的字段，通常实现是在通过外键去建立关联，因此第三范式只要记住外键约束就好了。比如说有一个表是学生表，学生表中有学号，姓名等字段，那如果要把他的系编号，系主任，系主任也存到这个学生表中，那就会造成数据大量的冗余，一是这些信息在系信息表中已存在，二是系中有1000个学生的话这些信息就要存1000遍。因此第三范式的做法是在学生表中增加一个系编号的字段（外键），与系信息表做关联。</p>
+<ol start="17">
+<li>程序运行过程</li>
+</ol>
+<p>进程为程序的执行提供了一个虚拟执行环境，叫做进程空间。应用程序仿佛运行在一个独立的虚拟机器上，独占CPU和内存空间，通过标准接口（系统调用）来访问系统资源。<br>进程概念体现了容器的核心思想，即为应用程序的执行提供独立的空间<br>让它不仅支持CPU和内存的隔离，还要支持其它资源的隔离<br>通过Hypervisor层 —— 一种运行在基础物理服务器和操作系统之间的中间软件层,可允许多个操作系统和应用共享硬件。<br>这就是Linux内核的命名空间功能进行计算资源的隔离</p>
+<p>内联函数和宏很类似，而区别在于，宏是由预处理器对宏进行替代，而内联函数是通过编译器控制来实现的。而且内联函数是真正的函数，只是在需要用到的时候，内联函数像宏一样的展开，所以取消了函数的参数压栈，减少了调用的开销。你可以象调用函数一样来调用内联函数，而不必担心会产生于处理宏的一些问题。<br>当然，内联函数也有一定的局限性。就是函数中的执行代码不能太多了，如果，内联函数的函数体过大，一般的编译器会放弃内联方式，而采用普通的方式调用函数。这样，内联函数就和普通函数执行效率一样了。</p>
+<p>&lt;&gt;表示从系统目录下开始搜索，然后再搜索PATH环境变量所列出的目录，不搜索当前目录<br>“”表示先从当前目录搜索，然后是系统目录和PATH环境变量所列出的目录下搜索</p>
+<p>什么是迭代器失效（vector扩容）。<br>  迭代器失效就是因为扩容，删除元素等缘故，导致原先容器的空间变化，进而导致迭代器（begin()和end()）发生了变化，从而失效</p>
+<p>  当插入（push_back）一个元素后，end操作返回的迭代器肯定失效，因为vector只允许从尾插。</p>
+<p>  List/set/map迭代器的失效情况：<br>  删除时，指向该删除节点的迭代器失效,<br>  其它任何增加、删除元素的操作都不会使迭代器失效。</p>
+<p>c++ 编译过程<br>  预编译  宏展开<br>  编译  单独编译每个源文件<br>  链接 可执行文件</p>
+<p>对象内存布局详解<br><a href="https://blog.csdn.net/ljianhui/article/details/46408645" target="_blank" rel="noopener">https://blog.csdn.net/ljianhui/article/details/46408645</a></p>
+<p>c++ 对象大小计算<br>  sizeof计算类的大小时，只计算（非static的）数据成员变量即可，不用考虑那些成员函数</p>
+<p>  看出空类的内存所占大小为1字节而非0，这是因为c++中，规定任何不同的对象不能拥有相同的内存地址。 </p>
+<pre><code>也就是说，如果空类不占大小的话，那么同一类定义出多个对象后就会无法分辨出地址，且在C++中规定了任何不同的对象不能拥有相同的内存地址，所以编译器给了空类一个字节来唯一标识这个类。</code></pre><p>内存对齐的原因</p>
+<p>1.平台原因(移植原因)：不是所有的硬件平台都能访问任意地址上的任意数据的；某些硬件平台只能在某些地址处取某些特定类型的数据，否则抛出硬件异常。<br>2.性能原因：数据结构(尤其是栈)应该尽可能地在自然边界上对齐。原因在于，为了访问未对齐的内存，处理器需要作两次内存访问；而对齐的内存访问仅需要一次访问。</p>
+<p>三五法则</p>
+<ol>
+<li>需要析构函数的类也需要拷贝构造函数和拷贝赋值函数。</li>
+<li>需要拷贝操作的类也需要赋值操作，反之亦然。</li>
+<li>析构函数不能是删除的</li>
+<li>如果一个类有删除的或不可访问的析构函数，那么其默认和拷贝构造函数会被定义为删除的。</li>
+<li>如果一个类有const或引用成员，则不能使用合成的拷贝赋值操作。</li>
+</ol>
+<p>explicit (避免隐式转换)<br><a href="https://www.cnblogs.com/rednodel/p/9299251.html" target="_blank" rel="noopener">https://www.cnblogs.com/rednodel/p/9299251.html</a></p>
+<p>类型萃取<br><a href="https://www.cnblogs.com/qq329914874/p/6729481.html" target="_blank" rel="noopener">https://www.cnblogs.com/qq329914874/p/6729481.html</a></p>
+<p>类可以实现在实现写在头文件<br>1.如果定义在类的内部，语法上是正确的；但是如果你要修改类的实现；由于实现在头文件里，导致项目中所有包含了该头文件的cpp文件都需要重新编译；如果实现在单独的cpp文件里，修改实现，只会重新编译一个cpp文件。<br>2.如果定义在头文件里，在类的外部；在多个文件包含该头文件时会在链接时产生重定义。</p>
+<p>为什么宏喜欢用do while<br>使用do{…}while(0)构造后的宏定义不会受到大括号、分号等的影响，总是会按你期望的方式调用运行。</p>
+<p>c++ 模版是怎么实现的<br><a href="https://blog.csdn.net/lianhunqianr1/article/details/79966911" target="_blank" rel="noopener">https://blog.csdn.net/lianhunqianr1/article/details/79966911</a></p>
+<ol>
+<li><p>函数模板的签名包括模板参数，返回值，函数名，函数参数,  cv-qualifier；</p>
+</li>
+<li><p>函数模板编译顺序大致：名称查找(可能涉及参数依赖查找)-&gt;实参推导-&gt;模板实参替换(实例化,可能涉及 SFINAE)-&gt;函数重载决议-&gt;编译；</p>
+</li>
+<li><p>函数模板可以在实例化时候进行参数推导，必须知道每个模板的实参，但不必指定每个模板的实参。编译器会从函数实参推导缺失的模板实参。这发生在尝试调用函数、取函数模板地址时，和某些其他语境中；</p>
+</li>
+<li><p>函数模板在进行实例化后(template argument deduction/substitution)会进行函数重载解析（overloading resolution, 此时的函数签名不包括返回值；</p>
+</li>
+<li><p>函数模板实例化过程中，参数推导不匹配所有的模板或者同时存在多个模板实例满足，或者函数重载决议有歧义等，实例化失败；</p>
+</li>
+<li><p>为了编译函数模板调用，编译器必须在非模板重载、模板重载和模板重载的特化间决定一个无歧义最佳的模板；</p>
+<p>SFINAE -Substitution failure is not an error ；<br>要理解这句话的关键点是failure和error在模板实例化中意义，模板实例化时候，编译器会用模板实参或者通过模板实参推导出参数类型带入可能的模板集（模板备选集合）中一个一个匹配，找到最优匹配的模板定义，<br>模板特化<br>模板实参推导</p>
+</li>
+</ol>
+<p>C++ 11 了解多少<br>  nullptr 关键字，专门用来区分空指针、0。<br>  auto 和 decltype 这两个关键字实现了类型推导<br>  序列for循环 变长參数的模板 更加优雅的初始化方法</p>
+<p>移动语义和完美转发介绍一下？<br>移动语义(std::move)和完美转发(std::forward)</p>
+<p>完美转发怎么实现的？什么原理？</p>
+<p>线程有哪些独立的资源？<br>  栈 寄存器</p>
+<p>线程的状态都有哪些？<br>  新建 就绪 运行 终止 阻塞<br>是否了解协程？讲一讲协程的原理<br>  进程 拥有自己独立的堆和栈，既不共享堆，亦不共享栈，进程由操作系统调度。<br>  线程 拥有自己独立的栈和共享的堆，共享堆，不共享栈，线程亦由操作系统调度。<br>  协程 和线程一样共享堆，不共享栈，协程由程序员在协程的代码里显示调度。<br>  <a href="https://www.jianshu.com/p/8dacf1e8cb7c" target="_blank" rel="noopener">https://www.jianshu.com/p/8dacf1e8cb7c</a></p>
+<p> 无锁编程接触过吗？介绍一下cas</p>
+<p> linux 的虚拟内存是什么？</p>
+<p> 分段和分页有什么区别？</p>
+<p> 如何检测内存泄露？不使用 valgrind 类似的工具</p>
+<p> 如何避免内存泄漏？</p>
+<p>C++ 11 智能指针用过吗？需要注意哪些？</p>
+<p>为什么要 2 倍扩容？</p>
+<p>假如让你写一个测试程序用来测试vector，你会从哪些角度去考虑？</p>
+<p>C++ stl 的内存管理是怎么做的？</p>
+<p> 有没有写过线程池？如何实现一个高性能的线程池？你能想到哪些方面？</p>
+<p> 继承和组合的区别<br>  继承是代码复用的一种方式<br>  组合体现的是整体和部分，强调的是has-a的关系。<br>  继承与组合的优缺点</p>
+<p>  继承的优缺点</p>
+<p>  优点：</p>
+<p>  支持扩展，通过继承父类实现，但会使系统结构较复杂<br>  易于修改被复用的代码<br>  缺点：</p>
+<p>  代码白盒复用，父类的实现细节暴露给子类，破坏了封装性<br>  当父类的实现代码修改时，可能使得子类也不得不修改，增加维护难度。<br>  子类缺乏独立性，依赖于父类，耦合度较高<br>  不支持动态拓展，在编译期就决定了父类<br>  组合的优缺点</p>
+<p>  优点：</p>
+<p>  代码黑盒复用，被包括的对象内部实现细节对外不可见，封装性好。<br>  整体类与局部类之间松耦合，相互独立。<br>  支持扩展<br>  每个类只专注于一项任务<br>  支持动态扩展，可在运行时根据具体对象选择不同类型的组合对象(扩展性比继承好)</p>
+<p>大端模式，是指数据的高字节保存在内存的低地址中，而数据的低字节保存在内存的高地址中<br>short x；<br>char x0;<br>x=0x1122;<br>x0=((char*)&amp;x)[0]; //低地址单元<br>if(x0==0x11)printf(“大端\n”);<br>else printf(“小端\n”);</p>
+<p>memcpy和memmove的区别</p>
+<p>怎么在海量数据中找出重复次数最多的一个<br><a href="https://blog.csdn.net/u010601183/article/details/56481868/" target="_blank" rel="noopener">https://blog.csdn.net/u010601183/article/details/56481868/</a></p>
+<p>堆栈溢出的原因</p>
+<p>1.函数调用层次太深。函数递归调用时，系统要在栈中不断保存函数调用时的现场和产生的变量，如果递归调用太深，就会造成栈溢出，这时递归无法返回。再有，当函数调用层次过深时也可能导致栈无法容纳这些调用的返回地址而造成栈溢出。<br>2.动态申请空间使用之后没有释放。由于C语言中没有垃圾资源自动回收机制，因此，需要程序主动释放已经不再使用的动态地址空间。申请的动态空间使用的是堆空间，动态空间使用不会造成堆溢出。<br>3.数组访问越界。C语言没有提供数组下标越界检查，如果在程序中出现数组下标访问超出数组范围，在运行过程中可能会内存访问错误。<br>4.指针非法访问。指针保存了一个非法的地址，通过这样的指针访问所指向的地址时会产生内存访问错误。</p>
+<p>左值和右值<br>lvalue（locator value）代表一个在内存中占有确定位置的对象（换句话说就是有一个地址）。<br>rvalue通过排他性来定义，每个表达式不是lvalue就是rvalue。因此从上面的lvalue的定义，rvalue是在不在内存中占有确定位置的表达式。<br><a href="https://www.cnblogs.com/likaiming/p/9045642.html" target="_blank" rel="noopener">https://www.cnblogs.com/likaiming/p/9045642.html</a></p>
+<p>模版<br><a href="https://www.cnblogs.com/xuelisheng/p/9329903.html" target="_blank" rel="noopener">https://www.cnblogs.com/xuelisheng/p/9329903.html</a></p>
+<p>引用计数增加主要有以下场景：</p>
+<ol>
+<li>对象被创建时：a = “ABC”；</li>
+<li>另外的别人被创建时：b = a；</li>
+<li>被作为参数传递给函数时：foo(a)；</li>
+<li>作为容器对象（list，元组，字典等）的一个元素时：x = [1,a,’33’]。<br>引用计数减少主要有以下场景：</li>
+<li>一个本地引用离开了它的作用域时，比如上面的foo(a)函数结束时，a指向的对象引用减1；</li>
+<li>对象的引用被显式的销毁时：del a 或者 del b；</li>
+<li>对象的引用被赋值给其他对象时：a = 789；</li>
+<li>对象从一个容器对象（例如list）中移除时：L.remove(a)；</li>
+<li>容器对象本身被销毁：del L，或者容器对象本身离开了作用域。</li>
+</ol>
+<p>select epoll</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/11/CPP-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="prev" title="CPP-内存管理">
+      <i class="fa fa-chevron-left"></i> CPP-内存管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/14/%E9%9D%A2%E8%AF%95-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="next" title="面试-计算机网络">
+      面试-计算机网络 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hugh Men</p>
+  <div class="site-description" itemprop="description">大丈夫当带三尺剑，立不世之功</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hugh Men</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

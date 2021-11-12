@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"menh.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="将数据页从磁盘读入内存中涉及随机IO访问，这也是数据库里面成本最高的操作之一，而利用写缓存(Change Buffer)可以减少IO操作,从而提升数据库性能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DB-Mysql数据库写提速">
+<meta property="og:url" content="https://menh.github.io/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%99%E6%8F%90%E9%80%9F/index.html">
+<meta property="og:site_name" content="Hugh">
+<meta property="og:description" content="将数据页从磁盘读入内存中涉及随机IO访问，这也是数据库里面成本最高的操作之一，而利用写缓存(Change Buffer)可以减少IO操作,从而提升数据库性能。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://menh.github.io/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%99%E6%8F%90%E9%80%9F/InnoDB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
+<meta property="og:image" content="https://menh.github.io/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%99%E6%8F%90%E9%80%9F/BufferPool%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
+<meta property="og:image" content="https://menh.github.io/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%99%E6%8F%90%E9%80%9F/insert_value.png">
+<meta property="article:published_time" content="2020-02-27T11:35:15.000Z">
+<meta property="article:modified_time" content="2020-03-05T14:39:37.115Z">
+<meta property="article:author" content="Hugh Men">
+<meta property="article:tag" content="‘CS’">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://menh.github.io/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%99%E6%8F%90%E9%80%9F/InnoDB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
+
+<link rel="canonical" href="https://menh.github.io/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%99%E6%8F%90%E9%80%9F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>DB-Mysql数据库写提速 | Hugh</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hugh</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">门泊东吴万里船</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%99%E6%8F%90%E9%80%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hugh Men">
+      <meta itemprop="description" content="大丈夫当带三尺剑，立不世之功">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DB-Mysql数据库写提速
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-27 19:35:15" itemprop="dateCreated datePublished" datetime="2020-02-27T19:35:15+08:00">2020-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-05 22:39:37" itemprop="dateModified" datetime="2020-03-05T22:39:37+08:00">2020-03-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>将数据页从磁盘读入内存中涉及随机IO访问，这也是数据库里面成本最高的操作之一，而利用写缓存(Change Buffer)可以减少IO操作,从而提升数据库性能。</p>
+<a id="more"></a>
+
+<h3 id="总结-写缓存就是将所要修改的数据暂存在一个缓存区，在恰当的时候再写入磁盘，减少IO操作"><a href="#总结-写缓存就是将所要修改的数据暂存在一个缓存区，在恰当的时候再写入磁盘，减少IO操作" class="headerlink" title="总结: 写缓存就是将所要修改的数据暂存在一个缓存区，在恰当的时候再写入磁盘，减少IO操作"></a>总结: 写缓存就是将所要修改的数据暂存在一个缓存区，在恰当的时候再写入磁盘，减少IO操作</h3><h4 id="写缓存简介"><a href="#写缓存简介" class="headerlink" title="写缓存简介"></a>写缓存简介</h4><p>写缓存(Change Buffer)是一种特殊的数据结构，用于在对数据变更时，如果数据所在的数据页没有在Buffer pool中的话，在不影响数据一致性的前提下，InnoDB引擎会将对数据的操作缓存在Change Buffer中,这样就省去了从磁盘中读入这个数据页。</p>
+<h4 id="InnoDB架构图"><a href="#InnoDB架构图" class="headerlink" title="InnoDB架构图"></a>InnoDB架构图</h4><p>关于MySQL写缓存（Change Buffer),先来看看 InnoDB 的技术架构图：<br><img src="InnoDB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg" alt="InnoDB架构图"></p>
+<h4 id="写缓存出发"><a href="#写缓存出发" class="headerlink" title="写缓存出发"></a>写缓存出发</h4><p>Change Buffer是Buffer Pool中的一部分，虽然Change Buffer名字叫 Buffer，但是它也是可以持久化的，在右边的System Tablespace中可以看到持久化Change Buffer的空间。触发写缓存（Change Buffer）持久化操作有以下几种情况:</p>
+<ol>
+<li>数据库空闲时，后台有线程定时持久化</li>
+<li>数据库缓冲池不够用时</li>
+<li>数据库正常关闭时</li>
+<li>redo log 写满时</li>
+</ol>
+<h4 id="Change-Buffer-的架构图"><a href="#Change-Buffer-的架构图" class="headerlink" title="Change Buffer 的架构图"></a>Change Buffer 的架构图</h4><p><img src="BufferPool%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg" alt="BufferPool架构图"><br>从图中看出修改的二级页面不在缓冲池的话，会将更新缓存到Change buffer</p>
+<h4 id="merge数据"><a href="#merge数据" class="headerlink" title="merge数据"></a>merge数据</h4><p>图中详细的描述了 Change Buffer 的功能，Change Buffer中的数据最终还是会刷回到数据所在的原始数据页中，Change Buffer数据应用到原始数据页，得到新的数据页的过程称之为merge。merge过程中只会将Change Buffer中与原始数据页有关的数据应用到原始数据页，以下三种情况会发生merge 操作：</p>
+<ol>
+<li>原始数据页加载到Buffer Pool时。</li>
+<li>系统后台定时触发 merge 操作。</li>
+<li>MySQL 数据库正常关闭时。</li>
+</ol>
+<h4 id="Change-Buffer的相关设置"><a href="#Change-Buffer的相关设置" class="headerlink" title="Change Buffer的相关设置"></a>Change Buffer的相关设置</h4><p>上面就是写缓存（Change Buffer）的相关知识，写缓存（Change Buffer）我们也是可以使用命令参数来控制，MySQL 数据库提供了两个对写缓存（Change Buffer）的参数。</p>
+<ol>
+<li>innodb_change_buffer_max_size<br>innodb_change_buffer_max_size 表示 Change Buffer 最大大小占 Buffer Pool 的百分比，默认为 25%。最大可以设置为 50%。</li>
+<li>innodb_change_buffering<br>innodb_change_buffering 参数用来控制对哪些操作启用 Change Buffer 功能，默认是：all。</li>
+</ol>
+<h4 id="写缓存应用实例"><a href="#写缓存应用实例" class="headerlink" title="写缓存应用实例"></a>写缓存应用实例</h4><p>我们就用一个案例来说明一下 Change Buffer ，首先我们向数据库中插入两条数据：<br>‘’’ MySQL<br>mysql&gt; insert into t(id,k) values(id1,k1),(id2,k2);<br>‘’’</p>
+<p>结合下面这张图来分析这两条插入语句<br><img src="insert_value.png" alt="插入数据过程"></p>
+<p>假设当前是 K索引树的状态，K1 所在的数据页 page1 在 Buffer Pool 中，k2 所在的数据页不在 Buffer Pool 中，来看看这两条语句的执行流程：</p>
+<ol>
+<li>对于 k1 这条数据，Page 1 在内存中，所以直接更新内存，不会使用到 Change Buffer；</li>
+<li>k2 对应的数据页 Page 2 没有在内存中，就在内存的 change buffer 区域，记录下“我要往 Page 2 插入一行”这个信息，这个地方及其关键，并没有从磁盘中将 page2 加载到内存。</li>
+<li>将上述两个动作记入 redo log 中（图中 3 和 4）。</li>
+<li>后台线程会定时将 page1 和 Change Buffer 中的数据持久化</li>
+</ol>
+<p>主要地方在于步骤二，这就是写缓存（Change Buffer）提高性能的地方，虽然 page2 并没有在内存中，但是并没有妨碍我们往数据库 page2 中插入数据，这就是写缓存（Change Buffer）的巧妙之处，也是写缓存（Change Buffer）提高 MySQL的地方。</p>
+<h4 id="Change-Buffer-适用场景"><a href="#Change-Buffer-适用场景" class="headerlink" title="Change Buffer 适用场景"></a>Change Buffer 适用场景</h4><p>Change Buffer 并不是适用于所有场景，以下两种情况不适合开启 Change Buffer ：</p>
+<ol>
+<li><p>数据库都是唯一索引<br>如果数据库都是唯一索引，那么在每次操作的时候都需要判断索引是否有冲突，势必要将数据加载到缓存中对比，因此也用不到 Change Buffer。</p>
+</li>
+<li><p>写入一个数据后，会立刻读取它<br>写入一个数据后，会立刻读取它，那么即使满足了条件，将更新先记录在 change buffer，但之后由于马上要访问这个数据页，会立即触发 merge 过程。这样随机访问 IO 的次数不会减少，反而增加了 change buffer 的维护代价。所以，对于这种业务模式来说，change buffer 反而起到了副作用。</p>
+</li>
+</ol>
+<p>以下几种情况开启 Change Buffer，会使得 MySQL 数据库明显提升：</p>
+<ol>
+<li>数据库大部分是非唯一索引</li>
+<li>业务是写多读少</li>
+<li>写入数据之后并不会立即读取它</li>
+</ol>
+<p>作者：平头哥的技术博文<br>链接：<a href="https://juejin.im/post/5e538d7ff265da5715630e8d" target="_blank" rel="noopener">https://juejin.im/post/5e538d7ff265da5715630e8d</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><a href="https://juejin.im/post/5e538d7ff265da5715630e8d?utm_source=gold_browser_extension" target="_blank" rel="noopener">https://juejin.im/post/5e538d7ff265da5715630e8d?utm_source=gold_browser_extension</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/27/DB-Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/" rel="prev" title="DB-数据库索引">
+      <i class="fa fa-chevron-left"></i> DB-数据库索引
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/27/%E9%9F%B3-Supermarket-Flowers/" rel="next" title="音-Supermarket-Flowers">
+      音-Supermarket-Flowers <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结-写缓存就是将所要修改的数据暂存在一个缓存区，在恰当的时候再写入磁盘，减少IO操作"><span class="nav-number">1.</span> <span class="nav-text">总结: 写缓存就是将所要修改的数据暂存在一个缓存区，在恰当的时候再写入磁盘，减少IO操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#写缓存简介"><span class="nav-number">1.1.</span> <span class="nav-text">写缓存简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB架构图"><span class="nav-number">1.2.</span> <span class="nav-text">InnoDB架构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写缓存出发"><span class="nav-number">1.3.</span> <span class="nav-text">写缓存出发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Buffer-的架构图"><span class="nav-number">1.4.</span> <span class="nav-text">Change Buffer 的架构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#merge数据"><span class="nav-number">1.5.</span> <span class="nav-text">merge数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Buffer的相关设置"><span class="nav-number">1.6.</span> <span class="nav-text">Change Buffer的相关设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写缓存应用实例"><span class="nav-number">1.7.</span> <span class="nav-text">写缓存应用实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Buffer-适用场景"><span class="nav-number">1.8.</span> <span class="nav-text">Change Buffer 适用场景</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hugh Men</p>
+  <div class="site-description" itemprop="description">大丈夫当带三尺剑，立不世之功</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hugh Men</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
