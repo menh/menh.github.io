@@ -174,80 +174,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/25/ML-softmax/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hugh Men">
-      <meta itemprop="description" content="大丈夫当带三尺剑，立不世之功">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hugh">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/25/ML-softmax/" class="post-title-link" itemprop="url">ML-softmax 理解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-25 21:41:53" itemprop="dateCreated datePublished" datetime="2020-02-25T21:41:53+08:00">2020-02-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-27 14:05:07" itemprop="dateModified" datetime="2020-02-27T14:05:07+08:00">2020-02-27</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="softmax-含义"><a href="#softmax-含义" class="headerlink" title="softmax 含义"></a>softmax 含义</h4><p>softmax把一些输入映射为0-1之间的实数，并且归一化保证和为1，因此多分类的概率之和也刚好为1。</p>
-<p>首先简单理解softmax的含义。顾名思义，softmax由两个单词组成，其中一个是max。对于max我们都很熟悉，比如有两个变量a,b。如果a&gt;b，则max为a，反之为b。<br>另外一个单词为soft。max存在的一个问题是什么呢？如果将max看成一个分类问题，就是非黑即白，最后的输出是一个确定的变量。更多的时候，我们希望输出的是取到某个分类的概率，或者说，我们希望分值大的那一项被经常取到，而分值较小的那一项也有一定的概率偶尔被取到，所以我们就应用到了soft的概念，即最后的输出是每个分类被取到的概率。</p>
-<h4 id="softmax-计算"><a href="#softmax-计算" class="headerlink" title="softmax 计算"></a>softmax 计算</h4><p>计算过程如下图<br><img src="softmax.jpg" alt="softmx"></p>
-<p>假设有一个数组V，$ V_i $表示V中的第i个元素，那么这个元素的softmax值为:<br>$$ s_i = \frac{e^i}{\sum_{j = 1} ^{i}e^j} $$<br>该元素的softmax值，就是该元素的指数与所有元素指数和的比值。</p>
-<p>这个定义可以说很简单，也很直观。那为什么要定义成这个形式呢？原因主要如下。</p>
-<p>1.softmax设计的初衷，是希望特征对概率的影响是乘性的。<br>2.多类分类问题的目标函数常常选为cross-entropy。即 $ L = - \sum_{k} t_k \cdot \ln P(y = k)$，其中目标类的 $ t_k $为1，其余类的$ t_k $为0。</p>
-<h4 id="softmax求导"><a href="#softmax求导" class="headerlink" title="softmax求导"></a>softmax求导</h4><p>在多分类问题中，我们经常使用交叉熵作为损失函数<br>$$ Loss = - \sum{t_i} \ln{y_i} $$<br>其中，$ t_i $表示真实值，$ y_i $表示求出的softmax值。<br>当预测第i个时，可以认为$ t_i = 1 $。此时损失函数变成了:<br>$$ Loss_i = −\ln {y_i} $$</p>
-<p>接下来对$ Loss $求导。根据定义：<br>$$ y_i = \frac{e^i} {\sum_j e_j} $$</p>
-<p>我们已经将数值映射到了0-1之间，并且和为1，则有：<br>$$ \frac{e^i} {\sum_j e^j} = 1 - \frac{ \sum_{j \neq i} e^j} { \sum_j e^j} $$</p>
-<p>求导</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/25/tf2-fashion-mnist-%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -894,6 +820,82 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://menh.github.io/2020/02/20/SLAM-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hugh Men">
+      <meta itemprop="description" content="大丈夫当带三尺剑，立不世之功">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/20/SLAM-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">SLAM-学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-20 22:29:06" itemprop="dateCreated datePublished" datetime="2020-02-20T22:29:06+08:00">2020-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-24 22:27:24" itemprop="dateModified" datetime="2020-02-24T22:27:24+08:00">2020-02-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>第三讲 三维空间刚体运动<br>3.1 点，向量和坐标系，旋转矩阵</p>
+<ul>
+<li>表示</li>
+<li>运算(加减, 内积, 外积)</li>
+</ul>
+<p>第三讲 三维空间的刚体运动</p>
+<ul>
+<li><p>两个不同的坐标系变化  T = 旋转 + 平移</p>
+<p>旋转<br>设某坐标系D1(e1, e2, e3)发生一次旋转，变成了D2(e1’, e2’, e3’)</p>
+<p>旋转矩阵： 1. R是一个正交矩阵 2. R的行列式为+1</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -963,7 +965,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
